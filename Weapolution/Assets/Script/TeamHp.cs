@@ -4,21 +4,23 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TeamHp : MonoBehaviour {
-
+    StageManager stageManager;
 
     public GameObject TeamHpLine;
     public Player PlayerScript;
     public Crafter CrafterScript;
     PuaseOnCanvas PuaseScript;
     public Image HpBoarder;
+
+
     bool changeColor01;
     bool changeColor02;
     static public float teamHp = 1; //滿血是1
-    int inFuctionTime = 0; 
+    int inFuctionTime = 0;
 
     void Awake () {
         teamHp = 1;
-
+        stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
     }
     void Start()
      {
@@ -29,6 +31,7 @@ public class TeamHp : MonoBehaviour {
         HpBoarder = GameObject.Find("bloodImage").GetComponent<Image>();
         changeColor01 = false;
         changeColor02 = false;
+
     }
 
     private void Update()
@@ -75,7 +78,13 @@ public class TeamHp : MonoBehaviour {
             PlayerScript.Gameover();
             CrafterScript.Gameover();      
             inFuctionTime++;
+            StartCoroutine(stageManager.SlowDown(2.2f,false));
         }
     }
-    
+
+    public void CloseHpUi() {
+        HpBoarder.enabled = false;
+        this.GetComponent<Image>().enabled = false;
+    }
+
 }

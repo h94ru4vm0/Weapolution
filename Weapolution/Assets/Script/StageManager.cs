@@ -5,14 +5,16 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour {
 
+
     public static bool timeUp;
-    public static int currentStage = 0;
+    public static  int currentStage = 0;
 
 
-    bool inMenuState,inTransState, stageOver, slowDownOver;
+    bool inMenuState, inTransState, stageOver;
     float slowTime;
     string whichPlayerControl;
     Dialog dialog;
+    TeamHp teamHP;
     //GameObject dialog;
     SceneTransRender transRender;
 
@@ -20,8 +22,10 @@ public class StageManager : MonoBehaviour {
 
     private void Awake()
     {
+        //if (stageManager == null) stageManager = this;
         transRender = Camera.main.GetComponent<SceneTransRender>();
         dialog = GameObject.Find("Dialog").GetComponent<Dialog>();
+        teamHP = GameObject.Find("TeamHp").GetComponent<TeamHp>();
         dialog.gameObject.SetActive(false);
     }
 
@@ -68,14 +72,8 @@ public class StageManager : MonoBehaviour {
 
     }
 
-    void OnSlowMode() {
-        slowTime += Time.unscaledDeltaTime;
-        if (slowTime > 0.5f) slowDownOver = true;
-    }
-
-
-
     public void SetCurStageOver(bool _isWin) {
+        if (stageOver) return;
         stageOver = true;
         timeUp = true;
         dialog.gameObject.SetActive(true);
@@ -86,13 +84,22 @@ public class StageManager : MonoBehaviour {
 
     public void SetToTransState() {
         //inTransState = true;
+        dialog.gameObject.SetActive(false);
+        teamHP.CloseHpUi();
         transRender.SetTransRenderOn(SceneTransRender.shaderType.glitch);
     }
 
-    public static IEnumerator SlowDown(float slowTime) {
-        Time.timeScale = 0.5f;
-        yield return new WaitForSeconds(slowTime);
+    public IEnumerator SlowDown(float slowTime, bool _isWin) {
+        Time.timeScale = 0.2f;
+        GameObject.Find("map").GetComponent<AudioSource>().pitch = 0.35f;
+
+        yield return new WaitForSecondsRealtime(slowTime);
         Time.timeScale = 1.0f;
+        GameObject.Find("map").GetComponent<AudioSource>().pitch = 1.0f;
+        yield return null;
+        SetCurStageOver(_isWin);
     }
+
+
 
 }

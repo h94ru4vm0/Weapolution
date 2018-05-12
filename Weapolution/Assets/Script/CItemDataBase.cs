@@ -22,7 +22,7 @@ public class CItemDataBase {
 
     public static void SetItemDataBase()
     {
-        dataText = (TextAsset)Resources.Load("TextCsv/CraftDataBase");
+        dataText = (TextAsset)Resources.Load("TextCsv/CraftDataBase" );//+ StageManager.currentStage
         string[] st = dataText.text.Split('\n');
         List<string[]> data = new List<string[]>();
         Debug.Log("st.Length" + st.Length);
