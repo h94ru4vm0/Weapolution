@@ -20,9 +20,9 @@ public class CItemDataBase {
     public CItemDataBase() {
     }
 
-    public static void SetItemDataBase()
+    public static void SetItemDataBase(string stage)
     {
-        dataText = (TextAsset)Resources.Load("TextCsv/CraftDataBase" );//+ StageManager.currentStage
+        dataText = (TextAsset)Resources.Load("TextCsv/CraftDataBase" + stage);//+ StageManager.currentStage
         string[] st = dataText.text.Split('\n');
         List<string[]> data = new List<string[]>();
         Debug.Log("st.Length" + st.Length);

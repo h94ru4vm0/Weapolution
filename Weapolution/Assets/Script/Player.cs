@@ -561,8 +561,7 @@ public class Player : MonoBehaviour {
     }
     public void ShootProjectile()
     {
-        
-        Debug.Log(projectileSystem.transform.GetChild(projectile_num).gameObject);
+        Debug.Log(projectileSystem.transform.GetChild(projectile_num).gameObject.name);
         projectileSystem.transform.GetChild(projectile_num).gameObject.SetActive(true);
         projectileSystem.transform.GetChild(projectile_num).GetComponent<Projectile>().SetProjectileImg(face_way);
         projectile_num++;

@@ -10,7 +10,7 @@ public class Portal : MonoBehaviour {
     // Use this for initialization
     void Start () {
         player = GameObject.Find("character2");
-        animator = player.GetComponent<Animator>();
+
     }
 	
 	// Update is called once per frame

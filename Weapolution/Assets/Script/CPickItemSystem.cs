@@ -16,7 +16,7 @@ public class CPickItemSystem : MonoBehaviour {
     public Vector3[] locations;
     public string stage;
     void Awake () {
-        CItemDataBase.SetItemDataBase();
+        CItemDataBase.SetItemDataBase(stage);
         CItemDataBase.SetSpriteList(stage);
         Transform tempFree = transform.GetChild(0);
         //Transform tempUsed = transform.GetChild(1);
@@ -40,12 +40,12 @@ public class CPickItemSystem : MonoBehaviour {
     {
         //SpawnInUsed(new Vector3(-7, 0, 0), 5);
         //SpawnInUsed(new Vector3(-10, -6, 0), 5);
-        //SpawnInUsed(new Vector3(-7, 3, 0), 5);
-        //SpawnInUsed(new Vector3(-5, 3, 0), 6);
-        //SpawnInUsed(new Vector3(-4, 3, 0), 9);
-        //SpawnInUsed(new Vector3(-2, -6, 0), 7);
-        //SpawnInUsed(new Vector3(0, -6, 0), 8);
-        //SpawnInUsed(new Vector3(3, -6, 0), 7);
+        SpawnInUsed(new Vector3(-7, 3, 0), 5);
+        SpawnInUsed(new Vector3(-5, 3, 0), 6);
+        SpawnInUsed(new Vector3(-4, 3, 0), 9);
+        SpawnInUsed(new Vector3(-2, -6, 0), 7);
+        SpawnInUsed(new Vector3(0, -6, 0), 8);
+        SpawnInUsed(new Vector3(3, -6, 0), 4);
         //SpawnInUsed(new Vector3(-5, 0, 0), 5);
         //SpawnInUsed(new Vector3(-5, 0.7f, 0), 5);
         // SpawnInUsed(new Vector3(-3, 0.3f, 0), 5);
