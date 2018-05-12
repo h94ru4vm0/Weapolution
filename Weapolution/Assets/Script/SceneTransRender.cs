@@ -59,11 +59,13 @@ public class SceneTransRender : MonoBehaviour {
         {
             
             if (switchON) {
+
                 switch (currentType) {
                     case shaderType.glitch:
                         OnGlitch();
                         break;
                 }
+
                 totalTime += Time.unscaledDeltaTime;
                 Graphics.Blit(sourceTexture, destTexture, material);
             }
@@ -103,7 +105,7 @@ public class SceneTransRender : MonoBehaviour {
             inGlitchMoveTime = 0.0f;
             glitchMoveTime = Random.Range(1.0f - 0.6f*gapTimeOffset , 2.0f - gapTimeOffset);
             glitchY = Random.Range(0.0f, 150.0f) * Random.Range(50.0f, 200.0f);
-            glitchHeight = Random.Range(0.1f, 0.3f);
+            glitchHeight = Random.Range(0.05f, 0.15f);
             glitchColumnGap = Random.Range(0.2f, 0.35f);
             glitchOffsetX = Random.Range(-0.3f, 0.3f);
             material.SetFloat("_glitchY", glitchY);

@@ -111,7 +111,7 @@ public class Player : MonoBehaviour {
         projectileSystem = GameObject.Find("ProjectileSystem");
         projectile_num = 0;
 
-        charaVoice = transform.Find("CharacterAudioSource").GetComponent<EffectMusic>();
+        charaVoice = GameObject.Find("EffectAudioSource").GetComponent<EffectMusic>();
 
         p1moveAble = true;
         p2moveAble = true;
