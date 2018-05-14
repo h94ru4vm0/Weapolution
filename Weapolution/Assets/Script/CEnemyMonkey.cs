@@ -109,6 +109,7 @@ public class CEnemyMonkey : CEnemy {
     {
         isForceState = false;
         inState_time = 2.0f; //故意設定時間，才可以丟完的時候換其他狀態
+        EnemySystem.playSound(1,0.1f);
     }
 
     public override void Trace()

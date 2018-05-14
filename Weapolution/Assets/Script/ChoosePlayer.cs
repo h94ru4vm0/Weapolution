@@ -18,6 +18,7 @@ public class ChoosePlayer : MonoBehaviour {
     bool p1Ready = false;
     bool p2Ready = false;
     TargetSelect TargetSelectScript;
+    SelectStage SelectStageScript;
     // Use this for initialization
     void Start () {
         buda_joystick1 = GameObject.Find("buda_joystick1").GetComponent<SpriteRenderer>();
@@ -30,6 +31,7 @@ public class ChoosePlayer : MonoBehaviour {
         budaHands.SetActive(false);
         hakaHands.SetActive(false);
         TargetSelectScript = transform.GetComponent<TargetSelect>();
+        SelectStageScript = GameObject.Find("SelectStage").GetComponent<SelectStage>();
     }
 	
 	// Update is called once per frame
@@ -57,7 +59,12 @@ public class ChoosePlayer : MonoBehaviour {
         if (AttackerSucces && CrafterSucces)
         {
             Player.isMapped = true;
-            scene.SendMessage("ChangeScene");
+            //scene.SendMessage("ChangeScene");
+            SelectStageScript.isChoosed = true;
+        }
+        if (Input.GetMouseButtonDown(0)){
+            SelectStageScript.isChoosed = true;
+            Debug.Log("eeeee");
         }
     }
     

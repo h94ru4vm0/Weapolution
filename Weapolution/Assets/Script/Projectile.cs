@@ -36,7 +36,6 @@ public class Projectile : MonoBehaviour {
         }
         else if (Player.weapon.id == 9)
         {
-
             projectile_img.sprite = ProjectileSprite[1];
         }
         //Debug.Log("setflight" + _flight_way);

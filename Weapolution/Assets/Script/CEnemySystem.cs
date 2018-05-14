@@ -11,6 +11,7 @@ public class CEnemySystem : MonoBehaviour {
     public float spawnLocY;
     //public Vector2 InsidefieldMinLimit, InsidefieldMaxLimit;
     public GameObject Inplayer, Outplayer;
+    MonsterVoice audioSource;
     //public List<Transform> InEnemys, OutEnemys;
     //public GameObject forge;
     CEnemy boss;
@@ -24,10 +25,12 @@ public class CEnemySystem : MonoBehaviour {
         Outplayer = GameObject.Find("character2");
         freeEnemyIn = transform.GetChild(0).Find("InsideFree");
         UsedEnemyIn = transform.GetChild(0).Find("InsideUsed");
+        audioSource = GameObject.Find("MonsterAudio").GetComponent<MonsterVoice>();
         //pickItemSystem = GameObject.Find("PickItemSystem").GetComponent<CPickItemSystem>();
     }
     private void Start()
     {
+
         CEnemy enemy;
         //boss獨立給玩家參照
         boss = transform.GetChild(0).GetChild(2).GetComponent<CEnemy>();
@@ -136,5 +139,8 @@ public class CEnemySystem : MonoBehaviour {
 
     public int GetDeathNumber() {
         return deathNumber;
+    }
+    public void playSound(int id,float volume) {
+        audioSource.SetAudio(id, volume);
     }
 }

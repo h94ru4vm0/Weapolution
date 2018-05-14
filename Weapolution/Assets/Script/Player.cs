@@ -65,7 +65,7 @@ public class Player : MonoBehaviour {
     AnimatorStateInfo stateinfo;
     SpriteRenderer img;
 
-    EffectMusic charaVoice;
+    CharacterVoice EffectAudio;
     int inFuntionTime = 0;
 
     CPickWeapon pickWeaponScript;
@@ -111,7 +111,7 @@ public class Player : MonoBehaviour {
         projectileSystem = GameObject.Find("ProjectileSystem");
         projectile_num = 0;
 
-        charaVoice = GameObject.Find("EffectAudioSource").GetComponent<EffectMusic>();
+        EffectAudio = GameObject.Find("CharacterAudio").GetComponent<CharacterVoice>();
 
         p1moveAble = true;
         p2moveAble = true;
@@ -498,26 +498,14 @@ public class Player : MonoBehaviour {
         {
             p1Ap += Time.deltaTime/2.0f;
         }
-        //else if (p2Ap <= 1) //時間回復AP
-        //{
-        //    p2Ap += Time.deltaTime / 2.0f;
-        //}
         else if (p1Ap <= 0) //AP為0
         {
             p1Ap = 0;         
         }
-        //else if (p2Ap <= 0) //AP為0
-        //{
-        //    p2Ap = 0;
-        //}
         else if (p1Ap >=1) //AP為1
         {
             p1Ap = 1;
         }
-        //else if (p2Ap >= 1) //AP為1
-        //{
-        //    p2Ap = 1;
-        //}
     }
     public void Gameover()
     {
@@ -536,7 +524,6 @@ public class Player : MonoBehaviour {
  
 
     public void Attack() {
-        Debug.Log( charaVoice);
         //animation_type = 0;
         if (weapon.ani_type < 0) {//空手
             animation_type = 0;
@@ -554,8 +541,14 @@ public class Player : MonoBehaviour {
                 if (!p1charaType) p1moveAble = false;
                 else p2moveAble = false;
             }
+            else if (weapon.ani_type == 2) //放陷阱
+            {
+                animator.SetInteger("weapon_type", 2);
+                if (!p1charaType) p1moveAble = false;
+                else p2moveAble = false;
+            }
             animator.SetBool("is_attack", true);
-            charaVoice.SetAudio(weapon.audio_source);            
+            EffectAudio.SetAudio(weapon.audio_source);            
             inFuntionTime++;
         }   
     }
@@ -600,7 +593,7 @@ public class Player : MonoBehaviour {
         {
             TeamHp.teamHp -= 0.05f;
             inFuntionTime++;
-            charaVoice.SetAudio(1);
+            EffectAudio.SetAudio(1);
         }
         if (beingHurt_time - Time.time > unbeatable_time )
         {
@@ -662,7 +655,8 @@ public class Player : MonoBehaviour {
             if (weapon.ani_type < 0) return;
             Debug.Log("hit enemy");
             collision.transform.GetComponent<CEnemy>().SetHurtValue(weapon.attack, face_way);
-            if(test)tutorialRequest.DoneHitEnemy();
+            GameObject.Find("MonsterAudio").GetComponent<MonsterVoice>().SetAudio(0 ,1f);
+            if (test)tutorialRequest.DoneHitEnemy();
             //collision.transform.GetComponent<CEnemy>().SetState(4, true);
             //attackDetect();
         }

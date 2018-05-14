@@ -285,6 +285,7 @@ public class CEnemy : MonoBehaviour {
         hurtValue = _value;
         SetState(4,true);
         hitDir = _HitDir;
+        
     }
 
     public virtual void GetHurt()

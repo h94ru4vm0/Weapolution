@@ -17,7 +17,7 @@ public class StageManager : MonoBehaviour {
     TeamHp teamHP;
     //GameObject dialog;
     SceneTransRender transRender;
-    AudioSource BGM, EffectSound;
+    AudioSource BGM, CharacterSound,MonsterSound;
     
 
     private void Awake()
@@ -28,7 +28,8 @@ public class StageManager : MonoBehaviour {
         teamHP = GameObject.Find("TeamHp").GetComponent<TeamHp>();
         dialog.gameObject.SetActive(false);
         BGM = GameObject.Find("map").GetComponent<AudioSource>();
-        EffectSound = transform.Find("EffectAudioSource").GetComponent<AudioSource>();
+        MonsterSound = GameObject.Find("MonsterAudio").GetComponent<AudioSource>();
+        CharacterSound = GameObject.Find("CharacterAudio").GetComponent<AudioSource>();
     }
 
     // Use this for initialization
@@ -101,11 +102,13 @@ public class StageManager : MonoBehaviour {
     public IEnumerator SlowDown(float slowTime, bool _isWin) {
         Time.timeScale = 0.2f;
         BGM.pitch = 0.35f;
-        EffectSound.pitch = 0.35f;
+        MonsterSound.pitch = 0.35f;
+        CharacterSound.pitch = 0.35f;
         yield return new WaitForSecondsRealtime(slowTime);
         Time.timeScale = 1.0f;
         BGM.pitch = 1.0f;
-        EffectSound.pitch = 1.0f;
+        MonsterSound.pitch = 1.0f;
+        CharacterSound.pitch = 0.35f;
         yield return null;
         SetCurStageOver(_isWin);
     }

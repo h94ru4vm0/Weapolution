@@ -62,6 +62,8 @@ public class Crafter : MonoBehaviour {
         if (Player.p2charaType) Player.p2moveAble = false;
         else Player.p1moveAble = false;
         TeamHp.teamHp -= 0.05f;
+        GameObject.Find("MonsterAudio").GetComponent<MonsterVoice>().SetAudio(2,1f);
+        GameObject.Find("CharacterAudio").GetComponent<CharacterVoice>().SetAudio(1);
     }
     public void OverBeHurt()
     {
