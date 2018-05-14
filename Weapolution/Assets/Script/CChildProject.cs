@@ -21,9 +21,7 @@ public class CChildProject : MonoBehaviour {
             case 0:
                 bananaFly = true;
                 break;
-            case 1:
-                break;
-            case 2:
+            default:
                 break;
         }
     }

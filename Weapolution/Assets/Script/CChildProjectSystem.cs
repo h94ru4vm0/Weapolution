@@ -9,6 +9,7 @@ public class CChildProjectSystem : MonoBehaviour {
         banana = 0,
         thunder = 1,
         web = 2,
+        mouseTape = 3,
     }
 
     public typeForm type;

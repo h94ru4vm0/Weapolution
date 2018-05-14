@@ -69,8 +69,18 @@ public class EnemySpider : CEnemy
     }
 
     void Weave() {
+
         if (state_time < 0.1f) {
             state_time = 1.0f;
+            Vector2 selfPos2d = new Vector2(new_pos.x, new_pos.y);
+            LayerMask webLayer = 1 << LayerMask.NameToLayer("Obstacle") | 1 << LayerMask.NameToLayer("ObstacleForOut") |
+                                    1 << LayerMask.NameToLayer("DamageToPlayer");
+            Collider2D detectWeb = Physics2D.OverlapCircle(selfPos2d, 1.0f, webLayer);
+            if (detectWeb != null) {
+                isForceState = false;
+                inState_time = 1.5f;
+                return;
+            }
         } 
         inState_time += Time.deltaTime;
     }
