@@ -8,6 +8,7 @@ public class CChildProjectSystem : MonoBehaviour {
     public enum typeForm {
         banana = 0,
         thunder = 1,
+        web = 2,
     }
 
     public typeForm type;

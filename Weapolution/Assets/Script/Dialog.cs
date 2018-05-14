@@ -9,7 +9,7 @@ public class Dialog : MonoBehaviour {
     int dialogLine;
     string[] currentDialog;
     Text content;
-    Action callTrans;
+    Action callTrans, callStartTrans;
 
     public string[] winDialog;
     public string[] loseDialog;
@@ -32,21 +32,23 @@ public class Dialog : MonoBehaviour {
             {
                 dialogLine++;
                 content.text = currentDialog[dialogLine];
+                if(dialogLine == currentDialog.Length - 2) callTrans();
             }
             else {
-                dialogLine = 0;
-                callTrans();
+                callStartTrans();
+                //dialogLine = 0;
             }
 
         }
     }
 
-    public void SetDialogOn(bool _isWin, Action callback) {
+    public void SetDialogOn(bool _isWin, Action _callTrans, Action _callStartTrans) {
         if (_isWin) currentDialog = winDialog;
         else currentDialog = loseDialog;
         dialogLine = 0;
         content.text = currentDialog[dialogLine];
-        callTrans = callback;
+        callTrans = _callTrans;
+        callStartTrans = _callStartTrans;
     }
 
 }

@@ -23,6 +23,8 @@ public class CChildProject : MonoBehaviour {
                 break;
             case 1:
                 break;
+            case 2:
+                break;
         }
     }
 

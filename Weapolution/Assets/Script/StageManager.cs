@@ -79,16 +79,23 @@ public class StageManager : MonoBehaviour {
         stageOver = true;
         timeUp = true;
         dialog.gameObject.SetActive(true);
-        dialog.SetDialogOn(_isWin, SetToTransState);
+        dialog.SetDialogOn(_isWin, SetToTransState, StartToTrans);
         //transRender.SetTransRenderOn(SceneTransRender.shaderType.glitch);
         
     }
 
+
     public void SetToTransState() {
         //inTransState = true;
+        //dialog.gameObject.SetActive(false);
+        //teamHP.CloseHpUi();
+        transRender.SetTransRenderOn(SceneTransRender.shaderType.glitch);
+    }
+
+    public void StartToTrans() {
         dialog.gameObject.SetActive(false);
         teamHP.CloseHpUi();
-        transRender.SetTransRenderOn(SceneTransRender.shaderType.glitch);
+        transRender.SetStartTrans();
     }
 
     public IEnumerator SlowDown(float slowTime, bool _isWin) {
