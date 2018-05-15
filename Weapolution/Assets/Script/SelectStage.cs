@@ -6,6 +6,7 @@ public class SelectStage : MonoBehaviour {
     public bool isChoosed = false;
     bool PicisMoved = false;
     bool isControl = false;
+    bool startChange;
     GameObject Camera;
     public float p1_L_JoyX = 0.0f;
     public float p1_L_JoyY = 0.0f;
@@ -25,7 +26,7 @@ public class SelectStage : MonoBehaviour {
     bool isMoving = false;
     bool p1MoveOnlyOnce = false;
     bool p2MoveOnlyOnce = false;
-    StageManager StageManager;
+    StageManager stageManager;
 
     // Use this for initialization
     void Awake () {
@@ -40,7 +41,7 @@ public class SelectStage : MonoBehaviour {
         CenterNum = stageNum;
         LeftNum = 1;
         RightNum = 2;
-        StageManager = GameObject.Find("MappingPvE_BG").GetComponent<StageManager>();
+        stageManager = GameObject.Find("MappingPvE_BG").GetComponent<StageManager>();
     }
 
     // Update is called once per frame
@@ -288,15 +289,29 @@ public class SelectStage : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            StageManager.ChangeScene(stageNum);
+            if (!startChange) {
+                startChange = true;
+                StageManager.currentStage++;
+                stageManager.ChangeSceneBlackOut();
+            }
         }
         else if (Input.GetButtonDown("p1ButtonA"))
         {
-            StageManager.ChangeScene(stageNum);
+            if (!startChange)
+            {
+                startChange = true;
+                StageManager.currentStage++;
+                stageManager.ChangeSceneBlackOut();
+            }
         }
         else if (Input.GetButtonDown("p2ButtonA"))
         {
-            StageManager.ChangeScene(stageNum);
+            if (!startChange)
+            {
+                startChange = true;
+                StageManager.currentStage++;
+                stageManager.ChangeSceneBlackOut();
+            }
         }
     }
 }

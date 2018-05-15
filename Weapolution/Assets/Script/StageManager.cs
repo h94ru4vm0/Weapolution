@@ -7,10 +7,11 @@ public class StageManager : MonoBehaviour {
 
 
     public static bool timeUp;
-    public static  int currentStage = 0;
+    public static  int currentStage = 1;
 
 
-    bool inMenuState, inTransState, stageOver;
+    bool inMenuState, inTransState, stageBegin, stageOver;
+    bool inChanging;
     float slowTime;
     string whichPlayerControl;
     Dialog dialog;
@@ -18,18 +19,27 @@ public class StageManager : MonoBehaviour {
     //GameObject dialog;
     SceneTransRender transRender;
     AudioSource BGM, CharacterSound,MonsterSound;
+    Animator animator;
     
 
     private void Awake()
     {
         //if (stageManager == null) stageManager = this;
-        transRender = Camera.main.GetComponent<SceneTransRender>();
-        dialog = GameObject.Find("Dialog").GetComponent<Dialog>();
-        teamHP = GameObject.Find("TeamHp").GetComponent<TeamHp>();
-        dialog.gameObject.SetActive(false);
-        BGM = GameObject.Find("map").GetComponent<AudioSource>();
-        MonsterSound = GameObject.Find("MonsterAudio").GetComponent<AudioSource>();
-        CharacterSound = GameObject.Find("CharacterAudio").GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
+        if (currentStage > -1)
+        {
+            transRender = Camera.main.GetComponent<SceneTransRender>();
+            transRender.stageManager = this;
+            BGM = GameObject.Find("map").GetComponent<AudioSource>();
+            MonsterSound = GameObject.Find("MonsterAudio").GetComponent<AudioSource>();
+            CharacterSound = GameObject.Find("CharacterAudio").GetComponent<AudioSource>();
+            if (currentStage > 0) {
+                dialog = GameObject.Find("Dialog").GetComponent<Dialog>();
+                teamHP = GameObject.Find("TeamHp").GetComponent<TeamHp>();
+                dialog.gameObject.SetActive(false);
+            }
+
+        }
     }
 
     // Use this for initialization
@@ -39,10 +49,29 @@ public class StageManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        GetInput();
-        if (Input.GetKeyDown(KeyCode.Space)) SetCurStageOver(true);
+        //if (currentStage < 0) return;
+        if (!stageBegin)
+        {
+            if (!timeUp) {
+                timeUp = true;
+            }
+            if (!inChanging) {
+                inChanging = true;
+                if (currentStage < 1) animator.Play("BlackIn");
+                else transRender.SetIsGoIn(true);
+            } 
+        }
+        else {
+            GetInput();
+            //if (Input.GetKeyDown(KeyCode.Space)) SetCurStageOver(true);
+        }
+
 	}
 
+    public void ToStageBegin() {
+        stageBegin = true;
+        timeUp = false;
+    }
 
     void ShowMenu() {
         
@@ -76,9 +105,9 @@ public class StageManager : MonoBehaviour {
 
     }
 
-    public static void ChangeScene(int stageNum)
+    public void ChangeSceneBlackOut()
     {
-        SceneManager.LoadScene(stageNum);
+        animator.Play("BlackOut");
     }
 
     public void SetCurStageOver(bool _isWin) {
@@ -88,7 +117,6 @@ public class StageManager : MonoBehaviour {
         dialog.gameObject.SetActive(true);
         dialog.SetDialogOn(_isWin, SetToTransState, StartToTrans);
         //transRender.SetTransRenderOn(SceneTransRender.shaderType.glitch);
-        
     }
 
 
@@ -96,14 +124,16 @@ public class StageManager : MonoBehaviour {
         //inTransState = true;
         //dialog.gameObject.SetActive(false);
         //teamHP.CloseHpUi();
+        transRender.SetIsGoIn(false);
         transRender.SetTransRenderOn(SceneTransRender.shaderType.glitch);
     }
+
 
     public void StartToTrans() {
         dialog.gameObject.SetActive(false);
         teamHP.CloseHpUi();
         transRender.SetStartTrans();
-        StartCoroutine(change());
+        StartCoroutine(OnChangingScene(1.0f));  //白屏後切場景
     }
 
     public IEnumerator SlowDown(float slowTime, bool _isWin) {
@@ -120,9 +150,10 @@ public class StageManager : MonoBehaviour {
         SetCurStageOver(_isWin);
     }
 
-    IEnumerator change() {
-        yield return new WaitForSeconds(1.0f);
-        StageManager.ChangeScene(4);
+    public IEnumerator OnChangingScene(float time) {
+        yield return new WaitForSeconds(time);
+        Debug.Log("currentsdadasdasda" + currentStage);
+        SceneManager.LoadScene(currentStage);
     }
 
 }
