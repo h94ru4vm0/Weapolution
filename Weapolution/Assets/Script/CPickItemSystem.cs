@@ -87,7 +87,14 @@ public class CPickItemSystem : MonoBehaviour {
         for (int i = 0; i < typeOppunity.Length; i++) {
             if (opturity <= typeOppunity[i])
             {
-                if (typeCollectNum[i] < 5 && CheckPickCollectLoc()) SpawnPickCollect(locations[locationID], i, 1);
+                if (i < 1)
+                {
+                    if (typeCollectNum[i] < 5 && CheckPickCollectLoc()) SpawnPickCollect(locations[locationID], i, 1);
+                }
+                else {
+                    if (typeCollectNum[i] < 3 && CheckPickCollectLoc()) SpawnPickCollect(locations[locationID], i, 2);
+                }
+                
             }
         }
         //else if (opturity <= 1.0f)
