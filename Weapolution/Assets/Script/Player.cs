@@ -37,6 +37,8 @@ public class Player : MonoBehaviour {
     float p1Ap;
     public bool p1_die = false;
     public bool p2_die = false;
+    bool p1Ap_enough;
+    bool p2Ap_enough;
 
     public float L_JoyX = 0.0f;
     public float L_JoyY = 0.0f;
@@ -113,6 +115,10 @@ public class Player : MonoBehaviour {
 
         p1moveAble = true;
         p2moveAble = true;
+
+        p1Ap_enough = true;
+        p2Ap_enough = true;
+
 
         Debug.Log("p1controller" + p1controller + "p1joystick" + p1joystick + "p1charaType" + p1charaType);
     }
