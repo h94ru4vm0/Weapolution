@@ -25,6 +25,7 @@ public class SelectStage : MonoBehaviour {
     bool isMoving = false;
     bool p1MoveOnlyOnce = false;
     bool p2MoveOnlyOnce = false;
+    StageManager StageManager;
 
     // Use this for initialization
     void Awake () {
@@ -39,6 +40,7 @@ public class SelectStage : MonoBehaviour {
         CenterNum = stageNum;
         LeftNum = 1;
         RightNum = 2;
+        StageManager = GameObject.Find("MappingPvE_BG").GetComponent<StageManager>();
     }
 
     // Update is called once per frame
@@ -56,8 +58,9 @@ public class SelectStage : MonoBehaviour {
             }
             else
             {
-                MovingPicture();
+                MovingPicture();          
             }
+            LockChoice();
         }
         
     }
@@ -279,5 +282,21 @@ public class SelectStage : MonoBehaviour {
         isGoingRight = false;
         RightTarget.sprite = Resources.Load<Sprite>("image/Stage/ChooseStage/RightTarget");
         LeftTarget.sprite = Resources.Load<Sprite>("image/Stage/ChooseStage/LeftTarget");
+    }
+
+    void LockChoice()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            StageManager.ChangeScene(stageNum);
+        }
+        else if (Input.GetButtonDown("p1ButtonA"))
+        {
+            StageManager.ChangeScene(stageNum);
+        }
+        else if (Input.GetButtonDown("p2ButtonA"))
+        {
+            StageManager.ChangeScene(stageNum);
+        }
     }
 }

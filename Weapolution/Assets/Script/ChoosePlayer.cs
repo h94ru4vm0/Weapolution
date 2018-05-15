@@ -58,13 +58,12 @@ public class ChoosePlayer : MonoBehaviour {
         }
         if (AttackerSucces && CrafterSucces)
         {
-            Player.isMapped = true;
-            //scene.SendMessage("ChangeScene");
+            Player.isMapped = true;           
             SelectStageScript.isChoosed = true;
+
         }
         if (Input.GetMouseButtonDown(0)){
             SelectStageScript.isChoosed = true;
-            Debug.Log("eeeee");
         }
     }
     

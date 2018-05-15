@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour {
 
@@ -73,6 +73,11 @@ public class StageManager : MonoBehaviour {
 
     void OnControlMenu() {
 
+    }
+
+    public static void ChangeScene(int stageNum)
+    {
+        SceneManager.LoadScene(stageNum);
     }
 
     public void SetCurStageOver(bool _isWin) {
