@@ -42,10 +42,10 @@ public class CameraFollow : MonoBehaviour {
             transTime += Time.deltaTime * 2.0f;
             if (transUp)
             {
-                transform.position = Vector3.Lerp(oringinPos, new Vector3(0, maxPos.y, -100), transTime);
+                transform.position = Vector3.Lerp(oringinPos, new Vector3(0, maxPos.y, -150), transTime);
             }
             else {
-                transform.position = Vector3.Lerp(oringinPos, new Vector3(0, minPos.y, -100), transTime);
+                transform.position = Vector3.Lerp(oringinPos, new Vector3(0, minPos.y, -150), transTime);
             }
             if (transTime >= 1.0f) {
                 transTime = 0.0f;

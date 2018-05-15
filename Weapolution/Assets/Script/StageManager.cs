@@ -51,6 +51,7 @@ public class StageManager : MonoBehaviour {
     void GetInput() {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            StartCoroutine(SlowDown(0.5f,true));
             if (inMenuState)
             {
                 timeUp = false;
@@ -102,6 +103,7 @@ public class StageManager : MonoBehaviour {
         dialog.gameObject.SetActive(false);
         teamHP.CloseHpUi();
         transRender.SetStartTrans();
+        StartCoroutine(change());
     }
 
     public IEnumerator SlowDown(float slowTime, bool _isWin) {
@@ -118,6 +120,9 @@ public class StageManager : MonoBehaviour {
         SetCurStageOver(_isWin);
     }
 
-
+    IEnumerator change() {
+        yield return new WaitForSeconds(1.0f);
+        StageManager.ChangeScene(4);
+    }
 
 }
