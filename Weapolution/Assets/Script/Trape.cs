@@ -5,7 +5,7 @@ using UnityEngine;
 public class Trape : CChildProject
 {
 
-    bool isForOut;
+    bool isForOut = true;
     float time;
     bool damageOnce;
 
@@ -26,18 +26,19 @@ public class Trape : CChildProject
         isForOut = _isOut;
     }
 
+    public bool IsOut() {
+        return isForOut;
+    }
+
     public override void ResetChild()
     {
         time = 0.0f;
         damageOnce = false;
+        system.AddFree(this.transform);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "enemy") {
-            ResetChild();
-            system.AddFree(this.transform);
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //}
 
 }

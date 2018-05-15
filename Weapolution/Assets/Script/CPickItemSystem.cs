@@ -5,7 +5,8 @@ using UnityEngine;
 public class CPickItemSystem : MonoBehaviour {
     //public List<GameObject> free_list = new List<GameObject>();
     //public List<GameObject> used_list = new List<GameObject>();
-    int free_num, used_num, tree_num = 0, rock_num = 0,mush_num = 0, locationID = 0;
+    int free_num, used_num, locationID = 0;
+    
     int totalNum;
     float spawnTime = 0.0f;
     CPickCollection fireTree;
@@ -13,6 +14,8 @@ public class CPickItemSystem : MonoBehaviour {
     public Transform usedCollectList, freeCollectList;
     public List<CPickItem> freePickItemList = new List<CPickItem>(), 
                                     usedPickItemList = new List<CPickItem>();
+    public int[] typeCollectNum;
+    public float[] typeOppunity;
     public Vector3[] locations;
     public string stage;
     void Awake () {
@@ -59,8 +62,8 @@ public class CPickItemSystem : MonoBehaviour {
         {
             SpawnPickCollect(locations[0], 0, 1);
             SpawnPickCollect(locations[4], 0, 1);
-            SpawnPickCollect(locations[7], 3, 2);
-            SpawnPickCollect(locations[5], 0, 1);
+            SpawnPickCollect(locations[7], 1, 2);
+            SpawnPickCollect(locations[5], 1, 1);
         }
     }
 
@@ -77,14 +80,15 @@ public class CPickItemSystem : MonoBehaviour {
 	}
 
     void SpawnPickCollectInMap() {
-        if ((tree_num + rock_num ) >= locations.Length) return;
+        if (totalNum >= locations.Length) return;
         float opturity = Random.Range(0.0f, 1.0f);
         //Debug.Log(tree_num + "   " + rock_num +"   " + mush_num + "   " + locations.Length);
-        if (opturity <= 0.6f ){
-            if(tree_num < 5 && CheckPickCollectLoc()) SpawnPickCollect(locations[locationID], 0, 1);
-        }
-        else if (opturity <=0.9f ) {
-            if (rock_num < 3 && CheckPickCollectLoc()) SpawnPickCollect(locations[locationID], 2, 2);
+
+        for (int i = 0; i < typeOppunity.Length; i++) {
+            if (opturity <= typeOppunity[i])
+            {
+                if (typeCollectNum[i] < 5 && CheckPickCollectLoc()) SpawnPickCollect(locations[locationID], i, 1);
+            }
         }
         //else if (opturity <= 1.0f)
         //{
@@ -149,15 +153,26 @@ public class CPickItemSystem : MonoBehaviour {
         spawned.gameObject.SetActive(true);
         spawned.position = pos;
         spawned.GetComponent<CPickCollection>().InitCollects(_type, _itemID);
-        if (_type < 2) tree_num++;
-        else rock_num++;
+        for (int i = 0; i < typeCollectNum.Length; i++) {
+            if (_type <= i) {
+                typeCollectNum[i]++;
+                break;
+            } 
+        }
+        totalNum++;
     }
     public void RecyclePickCollect(GameObject _pickCollect) {
         _pickCollect.GetComponent<COutLine>().SetOutLine(false);
         _pickCollect.transform.position = freeCollectList.position;
         _pickCollect.transform.parent = freeCollectList;
-        if (_pickCollect.GetComponent<CPickCollection>().GetCollectType() < 2) tree_num--;
-        else rock_num--;
+        for (int i = 0; i < typeCollectNum.Length; i++)
+        {
+            if (_pickCollect.GetComponent<CPickCollection>().GetCollectType() <= i) {
+                typeCollectNum[i]--;
+                break;
+            }
+        }
+        totalNum--;
         //_pickCollect.gameObject.SetActive(false);
         
         Debug.Log("recycle" + _pickCollect.GetComponent<CPickCollection>().GetCollectType());

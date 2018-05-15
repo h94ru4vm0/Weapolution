@@ -397,10 +397,11 @@ public class CEnemy : MonoBehaviour {
     {
         if (isForceState && collision.tag == "Player") {
         }
-        if (IsOut &&collision.tag == "Trap") {
-            SetState(4,true);
-            collision.GetComponent<CTrap>().Disapear();
-            Destroy(collision.gameObject);
+        if (IsOut && collision.tag == "Trap")
+        {
+            //SetState(4, true);
+            //collision.GetComponent<CTrap>().Disapear();
+            //Destroy(collision.gameObject);
         }
     }
 

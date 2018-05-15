@@ -96,7 +96,7 @@ public class EnemySpider : CEnemy
     }
 
     public void BeTrapedOver() {
-        inState_time = 2.5f;
+        inState_time = 5.0f;
         isForceState = false;
     }
 
@@ -113,6 +113,20 @@ public class EnemySpider : CEnemy
             animator.SetInteger("state", state);
             animator.SetTrigger("exist");
             lastState = state;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Trap")
+        {
+            Trape temp = collision.GetComponent<Trape>();
+            if (temp.IsOut()) {
+                Debug.Log("adasdsadsadasdsadasdasdsadasdadasdd");
+                SetState(3, true);
+                temp.ResetChild();
+            }
+            
         }
     }
 

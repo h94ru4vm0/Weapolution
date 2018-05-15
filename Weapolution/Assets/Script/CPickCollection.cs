@@ -44,12 +44,12 @@ public class CPickCollection : MonoBehaviour {
         }
     }
 
-    public void SetCollect(int id) {
+    //public void SetCollect(int id) {
         
-        colliders[id<2 ? 0 : 1].enabled = true;
-        colliders[id > 2 ? 0 : 1].enabled = false;
-        type = id;
-    }
+    //    colliders[id<2 ? 0 : 1].enabled = true;
+    //    colliders[id > 2 ? 0 : 1].enabled = false;
+    //    type = id;
+    //}
 
     public void ThrowItemOut() {
         int random = Random.Range(2, 4);
@@ -94,14 +94,17 @@ public class CPickCollection : MonoBehaviour {
 
     public void ResetTree()
     {
-        this.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
-        this.transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
-        ToFire = false;
+        if (isOnFire) {
+            this.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+            this.transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
+            fireTime = 0.0f;
+            isOnFire = false;
+            ToFire = false;
+            animator.SetTrigger("endFire");
+        }
+        
         type = 0;
         itemTypes = 0;
-        fireTime = 0.0f;
-        isOnFire = false;
-        animator.SetTrigger("endFire");
         isOnCollect = false;
         gameObject.SetActive(false);
 }
