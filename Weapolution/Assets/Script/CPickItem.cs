@@ -25,6 +25,7 @@ public class CPickItem : MonoBehaviour {
 
     private void Update()
     {
+        if (StageManager.timeUp) return;
         if (b_flying) ThrowFly();
         if (b_falling) OnFalling();
         if (item != null && item.attack < 0) {

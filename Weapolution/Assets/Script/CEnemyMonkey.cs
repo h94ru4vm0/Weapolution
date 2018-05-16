@@ -17,6 +17,7 @@ public class CEnemyMonkey : CEnemy {
 	
 	// Update is called once per frame
 	void Update () {
+        if (StageManager.timeUp) return;
         UpdatePos();
         if (!isShowUp && !IsOut) {
             ShowUp(1.5f);

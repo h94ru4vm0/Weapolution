@@ -50,7 +50,6 @@ public class EnemySpider : CEnemy
 
         if (webTime < 3.0f)
         {
-            Debug.Log(state_time);
             webTime += Time.deltaTime;
             if (inState_time >= state_time && state_time > 0.1f)//每個狀態的時間到換新的，為了不蓋過
             { 

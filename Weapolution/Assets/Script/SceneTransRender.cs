@@ -122,7 +122,7 @@ public class SceneTransRender : MonoBehaviour {
             }
             if (inGlitchMoveTime >= glitchMoveTime)  //畫面切格數
             {
-                Debug.Log("inGlitchMoveTime" + inGlitchMoveTime + "  glitchMoveTime" + glitchMoveTime);
+                //Debug.Log("inGlitchMoveTime" + inGlitchMoveTime + "  glitchMoveTime" + glitchMoveTime);
                 inGlitchMoveTime = 0.0f;
                 glitchMoveTime = Random.Range(0.7f - 0.6f * gapTimeOffset, 1.2f - gapTimeOffset);
                 glitchY = Random.Range(0.0f, 150.0f) * Random.Range(50.0f, 200.0f);
@@ -156,7 +156,7 @@ public class SceneTransRender : MonoBehaviour {
             }
             if (inGlitchMoveTime >= glitchMoveTime)
             {
-                Debug.Log("inGlitchMoveTime" + inGlitchMoveTime + "  glitchMoveTime" + glitchMoveTime);
+                //Debug.Log("inGlitchMoveTime" + inGlitchMoveTime + "  glitchMoveTime" + glitchMoveTime);
                 inGlitchMoveTime = 0.0f;
                 glitchMoveTime = Random.Range(0.7f - 0.6f * gapTimeOffset, 1.2f - gapTimeOffset);
                 glitchY = Random.Range(0.0f, 150.0f) * Random.Range(50.0f, 200.0f);

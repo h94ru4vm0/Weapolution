@@ -33,7 +33,7 @@ public class CEnemyBear : CEnemy {
 	
 	// Update is called once per frame
 	void Update () {
-        //Debug.Log("boss state" + state);
+        if (StageManager.timeUp) return;
         if (!isShowUp)
         {
             ShowUp(1.5f);

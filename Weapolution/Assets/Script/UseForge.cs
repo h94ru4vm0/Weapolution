@@ -15,6 +15,7 @@ public class UseForge : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (StageManager.timeUp) return;
         NearForge();
         ThrowInForge();
     }

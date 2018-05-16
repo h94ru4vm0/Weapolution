@@ -126,16 +126,18 @@ public class CPickItemSystem : MonoBehaviour {
 
 
     public CPickItem SpawnInUsed(Vector3 pos, int id) {
+        
         if (free_num <= 0) return null;
         freePickItemList[0].gameObject.SetActive(true);
+        
         freePickItemList[0].SetPickItem(id);
         freePickItemList[0].transform.position = pos;
-        usedPickItemList.Add(freePickItemList[0]);
-        freePickItemList.RemoveAt(0);
-        
         freePickItemList[0].transform.parent = transform.GetChild(0);
+        usedPickItemList.Add(freePickItemList[0]);
+        freePickItemList.RemoveAt(0);     
         free_num--;
         used_num++;
+        Debug.Log(usedPickItemList[usedPickItemList.Count - 1].name);
         return usedPickItemList[usedPickItemList.Count - 1];
     }
 

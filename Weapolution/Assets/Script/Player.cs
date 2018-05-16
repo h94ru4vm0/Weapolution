@@ -124,7 +124,7 @@ public class Player : MonoBehaviour {
     }
     
     void Update () {
-
+        if (StageManager.timeUp) return;
         if (p1_die) return;
         if (!p1charaType) //p1是attacker
         {

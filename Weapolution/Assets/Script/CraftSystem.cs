@@ -91,7 +91,7 @@ public class CraftSystem : MonoBehaviour {
     }
     // Update is called once per frame
     void Update () {
-
+        if (StageManager.timeUp) return;
         if (craftFunc) {
             if (can_pick) CheckPickItem();
             ThrowItem();

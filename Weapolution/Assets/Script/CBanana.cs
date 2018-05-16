@@ -28,6 +28,7 @@ public class CBanana : CChildProject {
 
     // Update is called once per frame
     void Update () {
+        if (StageManager.timeUp) return;
         if (bananaFly) Flying();
         if (boom) BoomAni();
         //if (bePlaced) {

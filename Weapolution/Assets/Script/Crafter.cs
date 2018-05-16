@@ -30,6 +30,7 @@ public class Crafter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (StageManager.timeUp) return;
         if (PlayerScript.p2_die) return;
         if (Player.p2charaType)
         {
