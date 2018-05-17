@@ -20,12 +20,12 @@ public class ChoosePlayer : MonoBehaviour {
     TargetSelect TargetSelectScript;
     SelectStage SelectStageScript;
     // Use this for initialization
+
     void Start () {
         buda_joystick1 = GameObject.Find("buda_joystick1").GetComponent<SpriteRenderer>();
         buda_keyboard1 = GameObject.Find("buda_keyboard1").GetComponent<SpriteRenderer>();
         haka_joystick1 = GameObject.Find("haka_joystick1").GetComponent<SpriteRenderer>();
         haka_keyboard1 = GameObject.Find("haka_keyboard1").GetComponent<SpriteRenderer>();
-        scene = GameObject.Find("LoadingScreen");
         budaHands = GameObject.Find("budaHand");
         hakaHands = GameObject.Find("hakaHand");
         budaHands.SetActive(false);
@@ -36,6 +36,7 @@ public class ChoosePlayer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Player.isMapped || SelectStageScript.isChoosed ) return;
         if (!p1Ready)
         {          
             setPlayer1();

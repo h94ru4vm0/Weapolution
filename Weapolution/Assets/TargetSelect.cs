@@ -12,9 +12,7 @@ public class TargetSelect : MonoBehaviour {
     GameObject p2_target;
 
     float p1_L_JoyX = 0.0f;
-    float p1_L_JoyY = 0.0f;
     float p2_L_JoyX = 0.0f;
-    float p2_L_JoyY = 0.0f;
 
     Vector3 p1_target_pos = new Vector3(1.5f, 4f, 0);
     Vector3 p2_target_pos = new Vector3(5.7f, 2.1f, 0);
@@ -129,9 +127,7 @@ public class TargetSelect : MonoBehaviour {
     void LeftListener()
     {
         p1_L_JoyX = Input.GetAxis("p1LHorizontal");
-        p1_L_JoyY = Input.GetAxis("p1LVertical");
         p2_L_JoyX = Input.GetAxis("p2LHorizontal");
-        p2_L_JoyY = Input.GetAxis("p2LVertical");
     }
 
     float PingPong(float t, float minLength, float maxLength)

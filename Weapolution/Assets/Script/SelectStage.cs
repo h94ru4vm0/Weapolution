@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SelectStage : MonoBehaviour {
     public bool isChoosed = false;
@@ -15,8 +16,8 @@ public class SelectStage : MonoBehaviour {
     public List<GameObject> StageImage;
     public List<GameObject> StageText;
     public List<Vector3> stageImagePos;
-    SpriteRenderer RightTarget;
-    SpriteRenderer LeftTarget;
+    Image rightTarget;
+    Image leftTarget;
     int stageNum = 0;
     int CenterNum , LeftNum , RightNum;
     int fuctionTimes = 0;
@@ -27,14 +28,13 @@ public class SelectStage : MonoBehaviour {
     bool p1MoveOnlyOnce = false;
     bool p2MoveOnlyOnce = false;
     StageManager stageManager;
+    GameObject Canvas;
 
     // Use this for initialization
     void Awake () {
         Camera = GameObject.Find("Main Camera");       
         StageText[1].SetActive(false);
         StageText[2].SetActive(false);
-        RightTarget = GameObject.Find("RightTarget").GetComponent<SpriteRenderer>();
-        LeftTarget = GameObject.Find("LeftTarget").GetComponent<SpriteRenderer>();
         stageImagePos[0] =new Vector3( 12f, 0, 0);
         stageImagePos[1] = new Vector3(27f, 0, 0);
         stageImagePos[2] = new Vector3(42f, 0, 0);
@@ -42,6 +42,12 @@ public class SelectStage : MonoBehaviour {
         LeftNum = 1;
         RightNum = 2;
         stageManager = GameObject.Find("MappingPvE_BG").GetComponent<StageManager>();
+        if (Player.isMapped) Camera.transform.position = new Vector3(27f, 0, 0);
+        rightTarget = GameObject.Find("RightTarget").GetComponent<Image>();
+        leftTarget = GameObject.Find("LeftTarget").GetComponent<Image>();
+        Canvas = GameObject.Find("Canvas");
+        Canvas.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -50,7 +56,8 @@ public class SelectStage : MonoBehaviour {
         if (isChoosed)
         {
             LeftListener();
-            MoveCamera();
+            Canvas.SetActive(true);
+            if (!Player.isMapped) MoveCamera();
             ChoosingStage();
             if (!isMoving)
             {
@@ -96,55 +103,23 @@ public class SelectStage : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                StageText[stageNum].SetActive(false);
-                CenterNum = stageNum;
-                if (stageNum == 2) stageNum = 0;
-                else stageNum += 1;
-                StageText[stageNum].SetActive(true);
-                isMoving = true;
-                isGoingRight = true;
-                PicfuctionTimes = 0;
-                clickTime = Time.time;
+                RightButtonClick();
             }
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                StageText[stageNum].SetActive(false);
-                CenterNum = stageNum;
-                if (stageNum == 0) stageNum = 2;
-                else stageNum -= 1;
-                StageText[stageNum].SetActive(true);
-                isMoving = true;
-                isGoingRight = false;
-                PicfuctionTimes = 0;
-                clickTime = Time.time;
+                LeftButtonClick();
             }
 
             if (0.5f <= Mathf.Abs(p1_L_JoyX) && !p1MoveOnlyOnce)
             {
                 if (p1_L_JoyX>0)
                 {
-                    StageText[stageNum].SetActive(false);
-                    CenterNum = stageNum;
-                    if (stageNum == 2) stageNum = 0;
-                    else stageNum += 1;
-                    StageText[stageNum].SetActive(true);
-                    isMoving = true;
-                    isGoingRight = true;
-                    PicfuctionTimes = 0;
-                    clickTime = Time.time;
+                    RightButtonClick();
                     p1MoveOnlyOnce = true;
                 }
                 else
                 {
-                    StageText[stageNum].SetActive(false);
-                    CenterNum = stageNum;
-                    if (stageNum == 0) stageNum = 2;
-                    else stageNum -= 1;
-                    StageText[stageNum].SetActive(true);
-                    isMoving = true;
-                    isGoingRight = false;
-                    PicfuctionTimes = 0;
-                    clickTime = Time.time;
+                    LeftButtonClick();
                     p1MoveOnlyOnce = true;
 
                 }
@@ -160,28 +135,12 @@ public class SelectStage : MonoBehaviour {
             {
                 if (p2_L_JoyX>0)
                 {
-                    StageText[stageNum].SetActive(false);
-                    CenterNum = stageNum;
-                    if (stageNum == 0) stageNum = 2;
-                    else stageNum -= 1;
-                    StageText[stageNum].SetActive(true);
-                    isMoving = true;
-                    isGoingRight = true;
-                    PicfuctionTimes = 0;
-                    clickTime = Time.time;
+                    RightButtonClick();
                     p2MoveOnlyOnce = true;
                 }
                 else
                 {
-                    StageText[stageNum].SetActive(false);
-                    CenterNum = stageNum;
-                    if (stageNum == 0) stageNum = 2;
-                    else stageNum -= 1;
-                    StageText[stageNum].SetActive(true);
-                    isMoving = true;
-                    isGoingRight = false;
-                    PicfuctionTimes = 0;
-                    clickTime = Time.time;
+                    LeftButtonClick();
                     p2MoveOnlyOnce = true;
 
                 }
@@ -214,14 +173,15 @@ public class SelectStage : MonoBehaviour {
                 StageImage[0].transform.position += new Vector3(0.5f, 0, 0);
                 StageImage[1].transform.position += new Vector3(0.5f, 0, 0);
                 StageImage[2].transform.position += new Vector3(0.5f, 0, 0);
-                RightTarget.sprite = Resources.Load<Sprite>("image/Stage/ChooseStage/RightTarget2");
+                rightTarget.sprite= Resources.Load<Sprite>("image/Stage/ChooseStage/RightTarget2");
             }
             else
             {
                 StageImage[0].transform.position -= new Vector3(0.5f, 0, 0);
                 StageImage[1].transform.position -= new Vector3(0.5f, 0, 0);
                 StageImage[2].transform.position -= new Vector3(0.5f, 0, 0);
-                LeftTarget.sprite = Resources.Load<Sprite>("image/Stage/ChooseStage/LeftTarget2");
+                leftTarget.sprite = Resources.Load<Sprite>("image/Stage/ChooseStage/LeftTarget2");
+
             }
         }     
     }
@@ -280,9 +240,9 @@ public class SelectStage : MonoBehaviour {
 
     void OverMovig()
     {
+        rightTarget.sprite = Resources.Load<Sprite>("image/Stage/ChooseStage/RightTarget");
+        leftTarget.sprite = Resources.Load<Sprite>("image/Stage/ChooseStage/LeftTarget");
         isGoingRight = false;
-        RightTarget.sprite = Resources.Load<Sprite>("image/Stage/ChooseStage/RightTarget");
-        LeftTarget.sprite = Resources.Load<Sprite>("image/Stage/ChooseStage/LeftTarget");
     }
 
     void LockChoice()
@@ -313,5 +273,31 @@ public class SelectStage : MonoBehaviour {
                 stageManager.ChangeSceneBlackOut();
             }
         }
+    }
+
+    public void RightButtonClick()
+    {
+        StageText[stageNum].SetActive(false);
+        CenterNum = stageNum;
+        if (stageNum == 2) stageNum = 0;
+        else stageNum += 1;
+        StageText[stageNum].SetActive(true);
+        isMoving = true;
+        isGoingRight = true;
+        PicfuctionTimes = 0;
+        clickTime = Time.time;
+    }
+
+    public void LeftButtonClick()
+    {
+        StageText[stageNum].SetActive(false);
+        CenterNum = stageNum;
+        if (stageNum == 0) stageNum = 2;
+        else stageNum -= 1;
+        StageText[stageNum].SetActive(true);
+        isMoving = true;
+        isGoingRight = false;
+        PicfuctionTimes = 0;
+        clickTime = Time.time;
     }
 }
