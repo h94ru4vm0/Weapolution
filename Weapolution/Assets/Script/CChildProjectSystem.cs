@@ -21,7 +21,9 @@ public class CChildProjectSystem : MonoBehaviour {
         UsedList = transform.GetChild(1);
         freeNum = FreeList.childCount;
         for (int i =0; i<freeNum; i++) {
-            FreeList.GetChild(i).GetComponent<CChildProject>().system = this;
+            Transform temp = FreeList.GetChild(i);
+            temp.GetComponent<CChildProject>().system = this;
+            temp.gameObject.SetActive(false);
         }
 	}
 	
@@ -41,9 +43,10 @@ public class CChildProjectSystem : MonoBehaviour {
         temp.gameObject.SetActive(true);
         temp.parent = UsedList;
         temp.position = position;
-        temp.GetComponent<CChildProject>().SetOn((int)type);
+        temp.GetComponent<CChildProject>().SetOn();
         freeNum--;
     }
+
 
     public int GetFreeNum() {
         return freeNum;

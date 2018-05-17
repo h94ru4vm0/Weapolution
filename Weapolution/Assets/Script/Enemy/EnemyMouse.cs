@@ -8,6 +8,7 @@ public class EnemyMouse : CEnemy {
     float rangeDetectTime, lastAwayDst, attackTime;
     Vector3 keepAway, shootPos;
     Path path;
+    EnemyBulletSystem bullets;
 
     public float stoppingDis, turnDis, turnSpeed;
     public LayerMask obstacleMask;
@@ -17,7 +18,8 @@ public class EnemyMouse : CEnemy {
         base.Awake();
         rambleLayer = 1 << LayerMask.NameToLayer("Obstacle") | 1 << LayerMask.NameToLayer("Enemy") |
                         1 << LayerMask.NameToLayer("ObstacleForIn");
-        state = 2;
+        state = 0;
+        bullets = GameObject.Find("EnemyMouseBullets").GetComponent<EnemyBulletSystem>();
     }
 
     // Update is called once per frame
@@ -152,10 +154,13 @@ public class EnemyMouse : CEnemy {
                     detect_ray = Physics2D.Linecast(new_pos, playerPos, obstacleMask);
                     if (!detect_ray)
                     {
-                        SetState(3, true); //range attack
-                        Debug.Log("start shoot");
-                        pathFind = false;
-                        //if (state == 3) animator.SetTrigger("exist");
+                        if (bullets.GetFreeNum() > 0) {
+                            SetState(3, true); //range attack
+                            Debug.Log("start shoot");
+                            pathFind = false;
+                            //if (state == 3) animator.SetTrigger("exist");
+                        }
+
                     }
                 }
             }
@@ -194,6 +199,14 @@ public class EnemyMouse : CEnemy {
         inState_time += Time.deltaTime;
     }
 
+    public void OnRangeAttacking() {
+        Vector3 shootOutPos = new Vector3(self_pos.x - Mathf.Sign(transform.localScale.x) * 0.5f , self_pos.y + 0.65f, self_pos.z);
+        Vector3 shootWay = new Vector3(playerPos.x - self_pos.x, playerPos.y - self_pos.y, 0.0f);
+        float offset = Random.Range(-10.0f, 10.0f);
+        shootWay = Quaternion.AngleAxis(offset, Vector3.forward) * shootWay;
+        bullets.AddUsed(shootOutPos, shootWay);
+    }
+
     public void RangeAttackOver()
     {
         SetState(4, false);
@@ -216,7 +229,7 @@ public class EnemyMouse : CEnemy {
             Vector3 playerNewPos = playerPos += new Vector3(0.0f, 0.4f, 0.0f);
             //shootPos = self_pos + new Vector3();
             detect_ray = Physics2D.Linecast(new_pos, playerPos, obstacleMask);
-            if (!detect_ray) SetState(3, true);
+            if (!detect_ray && bullets.GetFreeNum() > 0) SetState(3, true);
             else {
                 Debug.Log("shoot but obstacle");
                 SetState(2, false);

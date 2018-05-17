@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class CChildProject : MonoBehaviour {
 
-    public bool bananaFly;
+    //public bool bananaFly;
     public CChildProjectSystem system;
+    CChildProject ene;
 
     // Use this for initialization
     void Start () {
@@ -14,17 +15,11 @@ public class CChildProject : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        
 	}
-    public void SetOn(int _type) {
-        switch (_type) {
-            case 0:
-                bananaFly = true;
-                break;
-            default:
-                break;
-        }
+    public virtual void SetOn() {
     }
+
 
     public virtual void ResetChild() {
 

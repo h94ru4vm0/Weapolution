@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 public class CBanana : CChildProject {
+    bool bananaFly;
     int aniImgID = 0;
     float flyTime,currentTime, throwAngle =- 90.0f;
     bool initFly = false, bePlaced = false, boom = false, damageOnce = false;
@@ -42,6 +43,10 @@ public class CBanana : CChildProject {
         }
 	}
 
+    public override void SetOn()
+    {
+        bananaFly = true;
+    }
 
     public override void ResetChild()
     {
