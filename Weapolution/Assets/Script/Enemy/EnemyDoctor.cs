@@ -16,6 +16,7 @@ public class EnemyDoctor : CEnemy
 
     public override void Awake()
     {
+        attackOnce = false;
         base.Awake();
         SetState(0,false);
         hp = 15;
@@ -46,6 +47,7 @@ public class EnemyDoctor : CEnemy
         //totalTraceTime = 0.0f;
         inState_time = 0.0f;
         state_time = 0.0f;
+        attackOnce = false;
         if (num >= 0) state = num;
         else Behavior();
         //traceAgain = false;
@@ -96,7 +98,7 @@ public class EnemyDoctor : CEnemy
 
     public  void Idle(float _idleTime)
     {
-        Debug.Log("idle" + state_time);
+        //Debug.Log("idle" + state_time);
         inState_time += Time.deltaTime;
         if (state_time < 0.1f) state_time = _idleTime;
         if (inState_time > state_time) {
@@ -134,7 +136,7 @@ public class EnemyDoctor : CEnemy
             {
                 if (pathIndex == path.finishLineIndex)
                 {
-                    Debug.Log("catch player  " + path.finishLineIndex);
+                    //Debug.Log("catch player  " + path.finishLineIndex);
                     pathFind = false;
                 }
                 else
@@ -146,7 +148,7 @@ public class EnemyDoctor : CEnemy
             {
                 if (CouculatePlayerDis(false, stoppingDis))
                 {
-                    Debug.Log("atkatkatkatkatktaktaktaktktaktakatkatkatkataktak ");
+                    //Debug.Log("atkatkatkatkatktaktaktaktktaktakatkatkatkataktak ");
                     animator.SetTrigger("nextState");
                     //onAttacking = true;
                     SetState(2, false);
@@ -178,7 +180,7 @@ public class EnemyDoctor : CEnemy
     }
 
     void NormalAtk() {
-        Debug.Log("inATTack");
+//Debug.Log("inATTack");
         if (state_time < 0.1f) {
             state_time = 1.0f;
             onAttacking = true;
@@ -230,7 +232,7 @@ public class EnemyDoctor : CEnemy
     } 
 
     void SprintAtk() {
-        Debug.Log("sprintattack");
+        //Debug.Log("sprintattack");
         if (state_time < 0.1f) {
             onAttacking = true;
             state_time = 2.0f;
@@ -282,6 +284,14 @@ public class EnemyDoctor : CEnemy
             lastState = state;
         }
         
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player" && !attackOnce) {
+            attackOnce = true;
+            Debug.Log("boss hit player");
+        }
     }
 
 }

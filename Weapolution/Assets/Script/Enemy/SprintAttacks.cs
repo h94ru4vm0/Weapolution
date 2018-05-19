@@ -22,7 +22,7 @@ public class SprintAttacks : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-        sprints = GameObject.Find("SprintAttacks").transform;
+        sprints = transform.Find("SprintAttacks");
         sprintRender = new SpriteRenderer[3];
         sprint = new Transform[3];
         sprintWay = new Vector3[3];

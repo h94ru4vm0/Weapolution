@@ -108,7 +108,7 @@ public class EnemySpider : CEnemy
         }
         if (state != lastState)
         {
-            Debug.Log("setAnimator" + gameObject.name);
+            //Debug.Log("setAnimator" + gameObject.name);
             animator.SetInteger("state", state);
             animator.SetTrigger("exist");
             lastState = state;
@@ -121,7 +121,7 @@ public class EnemySpider : CEnemy
         {
             Trape temp = collision.GetComponent<Trape>();
             if (temp.IsOut()) {
-                Debug.Log("adasdsadsadasdsadasdasdsadasdadasdd");
+                
                 SetState(3, true);
                 temp.ResetChild();
             }
