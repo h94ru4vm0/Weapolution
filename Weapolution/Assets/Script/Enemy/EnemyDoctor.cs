@@ -96,7 +96,7 @@ public class EnemyDoctor : CEnemy
 
     public  void Idle(float _idleTime)
     {
-        //Debug.Log("idle" + state_time);
+        Debug.Log("idle" + state_time);
         inState_time += Time.deltaTime;
         if (state_time < 0.1f) state_time = _idleTime;
         if (inState_time > state_time) {
@@ -127,7 +127,8 @@ public class EnemyDoctor : CEnemy
             pathFind = false;
             PathRequestManager.RequestPath(self_pos, playerPos, OnPathFound);
         }
-        if (pathFind) {
+        if (pathFind)
+        {
             Vector2 Pos2d = new Vector2(self_pos.x, self_pos.y);
             if (path.turnBoundaries[pathIndex].HasCrossedLine(Pos2d))
             {
@@ -160,6 +161,16 @@ public class EnemyDoctor : CEnemy
                 Vector3 nextWay = (path.lookPoints[pathIndex] - self_pos).V3NormalizedtoV2();
                 go_way = Vector3.Lerp(go_way, nextWay, Time.deltaTime * turnSpeed);
             }
+            transform.position += go_way * f_speed * 1.7f * Time.deltaTime;
+        }
+        else {
+            if (CouculatePlayerDis(false, stoppingDis))
+            {
+                animator.SetTrigger("nextState");
+                SetState(2, false);
+                totalTraceTime = 0.0f;
+            }
+            go_way = (playerPos - self_pos).V3NormalizedtoV2();
             transform.position += go_way * f_speed * 1.7f * Time.deltaTime;
         }
         inState_time += Time.deltaTime;
@@ -229,16 +240,17 @@ public class EnemyDoctor : CEnemy
         }
     }
 
-     void SprintAtkOver(Vector3 pos) {
+     void SprintAtkOver(Vector2 pos) {
         animator.SetTrigger("nextState");
         //breakTime = 1.5f;
         //onAttacking = false;
         //SetState(0, false);
-        transform.position = pos;
+        transform.position = new Vector3(pos.x, pos.y, self_pos.z);
         render.enabled = true;
     }
 
     public void SprintOver() {
+        Debug.Log("sprint over");
         breakTime = 1.5f;
         onAttacking = false;
         SetState(0, false);
