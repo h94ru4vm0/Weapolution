@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class StageManager : MonoBehaviour {
 
 
     public static bool timeUp;
-    public static  int currentStage = -2;
+    public static  int currentStage = 1;
 
 
     bool inMenuState, inTransState, stageBegin, stageOver;
@@ -21,16 +20,8 @@ public class StageManager : MonoBehaviour {
     SceneTransRender transRender;
     AudioSource BGM, CharacterSound,MonsterSound;
     Animator animator;
-
-    GameObject PauseMenu;
     GameObject BlackScene;
-    public List<Image> MenuButton;
-    public List<Sprite> ButtonState;
-    int SelectNum = 0;
-    int MaxNum = 4, MinNum = 0;
-    int InFuntionTime = 0;
-    float clickTime;
-    public bool MouseHover = false;
+    
 
     private void Awake()
     {
@@ -51,9 +42,7 @@ public class StageManager : MonoBehaviour {
 
         }
 
-        PauseMenu = GameObject.Find("PauseMenu");
-        BlackScene = GameObject.Find("BlackScene");
-        PauseMenu.SetActive(false);
+        
     }
 
     // Use this for initialization
@@ -63,7 +52,7 @@ public class StageManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //if (currentStage < 0) return;
+        if (currentStage < 0) return;
         if (!stageBegin)
         {
             if (!timeUp) {
@@ -90,21 +79,8 @@ public class StageManager : MonoBehaviour {
 
     void ShowMenu() {
         
-       if (inMenuState)
-       {
-            PauseMenu.SetActive(true);
-            animator.Play("BlackIn");
-            //BlackScene.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 100);
-       }
-        else
-        {
-            PauseMenu.SetActive(false);
-            animator.Play("BlackOut");
-            //BlackScene.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 0);
-        }
+      
         
-        
-
     }
 
     void GetInput() {
@@ -123,7 +99,6 @@ public class StageManager : MonoBehaviour {
             }
             ShowMenu();
         }
-        OnControlMenu();
         if (timeUp) {
             if (stageOver) {
                
@@ -132,27 +107,7 @@ public class StageManager : MonoBehaviour {
         }
     }
 
-    void OnControlMenu() {
-        if (Time.time - clickTime > 0.2f)
-        {
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                MenuButton[SelectNum].sprite = ButtonState[0];
-                if (SelectNum == MinNum) SelectNum = MaxNum;
-                else SelectNum--;
-                MenuButton[SelectNum].sprite = ButtonState[1];
-                clickTime = Time.time;
-            }
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                MenuButton[SelectNum].sprite = ButtonState[0];
-                if (SelectNum == MaxNum) SelectNum = MinNum;
-                else SelectNum++;
-                MenuButton[SelectNum].sprite = ButtonState[1];
-                clickTime = Time.time;
-            }
-        }
-    }
+    
 
     
 
