@@ -80,7 +80,7 @@ public class StageManager : MonoBehaviour {
     void GetInput() {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            StartCoroutine(SlowDown(0.5f,true));
+            //StartCoroutine(SlowDown(0.5f,true));
             if (inMenuState)
             {
                 timeUp = false;
