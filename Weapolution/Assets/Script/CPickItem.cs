@@ -15,12 +15,15 @@ public class CPickItem : MonoBehaviour {
     float blinkGapTime = 0.5f;
     int i_fly_way;
     Collider2D collider;
+    LevelHeight levelHeight;
+
     private void Awake()
     {
         render = this.transform.GetChild(0).GetComponent<SpriteRenderer>();
         shadowRender = this.transform.GetChild(1).GetComponent<SpriteRenderer>();
         collider = this.GetComponent<Collider2D>();
         f_flyTime = 2.0f * ground_height / f_gravity;
+        levelHeight = GetComponent<LevelHeight>();
     }
 
     private void Update()
@@ -104,6 +107,7 @@ public class CPickItem : MonoBehaviour {
             f_fallingTime = 0.0f;
             b_falling = false;
             shadowRender.enabled = true;
+            levelHeight.SetHeight();
         }
     }
 
@@ -159,6 +163,7 @@ public class CPickItem : MonoBehaviour {
             f_fallingTime = 0.0f;
             b_flying = false;
             shadowRender.enabled = true;
+            levelHeight.SetHeight();
         } 
     }
 

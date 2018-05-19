@@ -228,7 +228,7 @@ public class EnemyDoctor : CEnemy
 
     public void StartSprint() {
         render.enabled = false;
-        sprintAtks.SetSprintWay(playerPos, SprintAtkOver);
+        sprintAtks.SetTStartSprint();
     } 
 
     void SprintAtk() {
@@ -237,8 +237,9 @@ public class EnemyDoctor : CEnemy
             onAttacking = true;
             state_time = 2.0f;
             totalAtkNum++;
+            sprintAtks.SetSprintWay(playerPos, SprintAtkOver);
             //Vector3 sprintWay = (playerPos - self_pos).V3NormalizedtoV2();
-            
+
         }
     }
 

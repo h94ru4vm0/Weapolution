@@ -15,6 +15,7 @@ public class CEnemySystem : MonoBehaviour {
     //public List<Transform> InEnemys, OutEnemys;
     //public GameObject forge;
     CEnemy boss;
+    MonsterVoice monsterVoice;
     //public CPickItemSystem pickItemSystem;
     
     // Use this for initialization
@@ -27,6 +28,7 @@ public class CEnemySystem : MonoBehaviour {
         UsedEnemyIn = transform.GetChild(0).Find("InsideUsed");
         audioSource = GameObject.Find("MonsterAudio").GetComponent<MonsterVoice>();
         //pickItemSystem = GameObject.Find("PickItemSystem").GetComponent<CPickItemSystem>();
+        monsterVoice = GameObject.Find("MonsterAudio").GetComponent<MonsterVoice>();
     }
     private void Start()
     {
@@ -144,6 +146,8 @@ public class CEnemySystem : MonoBehaviour {
         audioSource.SetAudio(id, volume);
     }
 
-
+    public void PlaySound(int id, float volume) {
+        monsterVoice.SetAudio(id, volume);
+    }
 
 }

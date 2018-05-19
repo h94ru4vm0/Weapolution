@@ -372,6 +372,9 @@ public class CraftSystem : MonoBehaviour {
     }
 
     IEnumerator OnCollecting() {
+        Debug.Log(this.gameObject.name + "coroutine");
+        can_collect = false;
+        craftFunc = false;
         float time = 0.0f;
         collectBarBk.GetComponent<SpriteRenderer>().enabled = true;
         collectBar.GetComponent<SpriteRenderer>().enabled = true;
@@ -385,9 +388,11 @@ public class CraftSystem : MonoBehaviour {
         collectBar.GetComponent<SpriteRenderer>().enabled = false;
         switchMove(true);
         pick_collect.ThrowItemOut();
-        can_collect = false;
         pick_collect = null;
-        if (test) tutorialRequest.DoneCollect();
+        craftFunc = true;
+        if (test){
+            tutorialRequest.DoneCollect();
+        } 
     }
 
     void switchMove(bool enable) {
@@ -427,6 +432,7 @@ public class CraftSystem : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("enter");
         if (collision.tag == "PickItem") {
             if (!can_pick && !can_collect && craftFunc) {
                 picking_item = collision.gameObject.GetComponent<CPickItem>();
@@ -451,6 +457,7 @@ public class CraftSystem : MonoBehaviour {
             can_collect = true;
             pick_collect = collision.transform.GetComponent<CPickCollection>();
             pick_collect.GetComponent<COutLine>().SetOutLine(true);
+            Debug.Log(pick_collect.gameObject.name);
         }
     }
 

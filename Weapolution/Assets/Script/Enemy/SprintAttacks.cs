@@ -9,7 +9,6 @@ public class SprintAttacks : MonoBehaviour {
     int aniID;
     float time, sprintTime, sprintTimeOffset;
     Vector2 targetPos;
-    Vector3 oringinPos;
     Vector3[] sprintWay;
     Transform sprints;
     Transform[] sprint;
@@ -89,6 +88,13 @@ public class SprintAttacks : MonoBehaviour {
         }
 	}
 
+    public void SetTStartSprint() {
+        startSprint = true;
+        sprints.gameObject.SetActive(true);
+        sprintTime = 0.0f;
+        time = 0.0f;
+    }
+
     public void SetSprintWay(Vector3 _playerPos, Action<Vector2> _callBack) {
         Vector3 selfPos = transform.position;
         Vector3 playerPos = new Vector3(_playerPos.x, _playerPos.y , selfPos.z);
@@ -97,11 +103,6 @@ public class SprintAttacks : MonoBehaviour {
         sprintWay[1] = way;
         sprintWay[0] = Quaternion.AngleAxis(-25.0f, Vector3.forward) * way;
         sprintWay[2] = Quaternion.AngleAxis(25.0f, Vector3.forward) * way;
-        oringinPos = sprint[1].position;
-        startSprint = true;
-        sprints.gameObject.SetActive(true);
-        sprintTime = 0.0f;
-        time = 0.0f;
         callBack = _callBack;
     }
 

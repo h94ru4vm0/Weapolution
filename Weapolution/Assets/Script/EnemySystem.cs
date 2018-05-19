@@ -7,6 +7,7 @@ public class EnemySystem : MonoBehaviour {
     public Player playerIn, playerOut;
     CEnemy enemyMonkey;
     CEnemyBear enemyBear;
+
 	// Use this for initialization
 	void Awake () {
         //enemyMonkey.attackDetect += playerOut.OnHurt;

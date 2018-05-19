@@ -132,7 +132,7 @@ public class CPickItemSystem : MonoBehaviour {
         
         freePickItemList[0].SetPickItem(id);
         freePickItemList[0].transform.position = pos;
-        freePickItemList[0].transform.parent = transform.GetChild(0);
+        freePickItemList[0].transform.parent = transform.GetChild(1);
         usedPickItemList.Add(freePickItemList[0]);
         freePickItemList.RemoveAt(0);     
         free_num--;

@@ -26,7 +26,7 @@ public class CEnemy : MonoBehaviour {
     protected bool b_trace = false, isForceState = false, b_keep_trace = false,attackOnce = false,
                                     getHurtOnce = false, isShowUp, isDead, canDetectAtk,traceAgain;
     protected Vector3 go_way, new_pos, attackPos,playerPos, self_pos, hitToDir;
-    protected CEnemySystem EnemySystem = null;
+    protected CEnemySystem enemySystem = null;
     protected RaycastHit2D detect_ray, detect1, detect2, detect3;
     protected Collider2D detect_box;
     protected Animator animator;
@@ -57,7 +57,7 @@ public class CEnemy : MonoBehaviour {
     }
 
     public void SetEnemySystem(CEnemySystem system) {
-        EnemySystem = system;
+        enemySystem = system;
     }
 
     //設定狀態
@@ -340,7 +340,7 @@ public class CEnemy : MonoBehaviour {
         inState_time += Time.deltaTime;
         if (inState_time >= state_time) {
             ResetEnemy();
-            EnemySystem.AddFreeList(this.transform);
+            enemySystem.AddFreeList(this.transform);
         }
     }
 

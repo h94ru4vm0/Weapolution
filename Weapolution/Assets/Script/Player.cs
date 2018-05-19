@@ -662,7 +662,7 @@ public class Player : MonoBehaviour {
             if (weapon.ani_type < 0) return;
             Debug.Log("hit enemy");
             collision.transform.GetComponent<CEnemy>().SetHurtValue(weapon.attack, face_way);
-            GameObject.Find("MonsterAudio").GetComponent<MonsterVoice>().SetAudio(0 ,1f);
+            //GameObject.Find("MonsterAudio").GetComponent<MonsterVoice>().SetAudio(0 ,1f);
             if (test)tutorialRequest.DoneHitEnemy();
             //collision.transform.GetComponent<CEnemy>().SetState(4, true);
             //attackDetect();

@@ -8,6 +8,7 @@ public class CPickCollection : MonoBehaviour {
     float fireTime = 0.0f;
     SpriteRenderer img;
     Animator animator;
+    public float throwSpeed, throwHeight;
     public CPickItemSystem pickitem_system = null;
     public int[] colliderType;
     public bool isOnFire = false, isOnCollect = false;
@@ -52,11 +53,12 @@ public class CPickCollection : MonoBehaviour {
     //}
 
     public void ThrowItemOut() {
+        Debug.Log("throw out");
         int random = Random.Range(2, 4);
         CPickItem tempItem;
         for (int i = 0; i < random; i++) {
-            tempItem = pickitem_system.SpawnInUsed(transform.position + new Vector3(0,2.0f,0), itemTypes);
-            if (tempItem == null) return;
+            tempItem = pickitem_system.SpawnInUsed(transform.position + new Vector3(0,throwHeight,0), itemTypes);
+            if (tempItem == null) break;
             //tempItem = pickitem_system.usedList.GetChild(pickitem_system.usedList.childCount - 1);
             Vector3 throwWay = new Vector3(0, -1.0f, 0);
             float angle = 0.0f;
@@ -66,7 +68,7 @@ public class CPickCollection : MonoBehaviour {
                 angle = (Mathf.Abs(angle += offset) < 90.0f) ? angle : (Mathf.Sign(offset) * 90.0f - offset);
             }
             throwWay = Quaternion.AngleAxis(angle, new Vector3(0, 0, 1)) * throwWay;
-            tempItem.SetFall(0.5f, throwWay, 10.0f);
+            tempItem.SetFall(0.5f, throwWay, throwSpeed);
         }
         pickitem_system.RecyclePickCollect(this.gameObject);
         ResetTree();
