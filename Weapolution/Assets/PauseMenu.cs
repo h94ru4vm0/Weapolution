@@ -33,6 +33,7 @@ public class PauseMenu : MonoBehaviour {
 		if(showMenu){
 			OnControlMenu ();
 			MouseControl ();
+			LockOption ();
 		}
 	}
 
@@ -71,7 +72,7 @@ public class PauseMenu : MonoBehaviour {
 
     void OnControlMenu()
     {
-        if (Time.time - clickTime > 0.2f)
+        if (Time.time - clickTime > 0.1f)
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
@@ -92,7 +93,7 @@ public class PauseMenu : MonoBehaviour {
         }
     }
 
-	public void ClickOption(int whichButton){
+	public void ClickOption(int whichButton){ //MouseClick
 		switch(whichButton){
 		case 0:
 			StageManagerscript.inMenuState = false;
@@ -110,4 +111,26 @@ public class PauseMenu : MonoBehaviour {
 			break;
 		}
 	}
+
+	void LockOption(){ //keyboard
+		if(Input.GetKeyDown(KeyCode.Return)){
+			switch(SelectNum){
+			case 0:
+				StageManagerscript.inMenuState = false;
+				break;
+			case 1:
+				StageManagerscript.OnChangingScene (1);
+				break;
+			case 2:
+				StageManager.currentStage++;
+				StageManagerscript.OnChangingScene (1);
+				break;
+			case 3:
+				StageManager.currentStage = 4;
+				StageManagerscript.OnChangingScene (1);
+				break;
+			}
+		}
+	}
+
 }
