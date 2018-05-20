@@ -35,9 +35,9 @@ public class StageManager : MonoBehaviour {
             MonsterSound = GameObject.Find("MonsterAudio").GetComponent<AudioSource>();
             CharacterSound = GameObject.Find("CharacterAudio").GetComponent<AudioSource>();
             if (currentStage > 0) {
-                //dialog = GameObject.Find("Dialog").GetComponent<Dialog>();
-                //teamHP = GameObject.Find("TeamHp").GetComponent<TeamHp>();
-                //dialog.gameObject.SetActive(false);
+                dialog = GameObject.Find("Dialog").GetComponent<Dialog>();
+                teamHP = GameObject.Find("TeamHp").GetComponent<TeamHp>();
+                dialog.gameObject.SetActive(false);
             }
 
         }

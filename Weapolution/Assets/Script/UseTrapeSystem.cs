@@ -43,7 +43,6 @@ public class UseTrapeSystem : MonoBehaviour {
             else
                 useController = false;
         }
-        Debug.Log("sdasdasdsadsadsadasdsadasad" + whichPlayer);
     }
 	
 	// Update is called once per frame
