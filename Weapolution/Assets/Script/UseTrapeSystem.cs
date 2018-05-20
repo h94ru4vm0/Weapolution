@@ -17,7 +17,7 @@ public class UseTrapeSystem : MonoBehaviour {
 
     private void Awake()
     {
-        //Tool = transform.Find("Tool").GetComponent<SpriteRenderer>();
+        Tool = transform.Find("Tool").GetComponent<SpriteRenderer>();
         childProjectSystem = GameObject.Find("Trapes").GetComponent<CChildProjectSystem>();
     }
 
@@ -129,6 +129,7 @@ public class UseTrapeSystem : MonoBehaviour {
         childProjectSystem.GetNewestChild().SetOn(true);
         Tool.enabled = false;
         OnBuildTrapping = false;
+        switchMove(true);
 
     }
 
