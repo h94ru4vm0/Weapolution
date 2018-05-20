@@ -30,6 +30,12 @@ public class Trape : CChildProject
         return isForOut;
     }
 
+    public override void SetOn(bool _isOuT)
+    {
+        Debug.Log("set is out");
+        isForOut = _isOuT;
+    }
+
     public override void ResetChild()
     {
         time = 0.0f;

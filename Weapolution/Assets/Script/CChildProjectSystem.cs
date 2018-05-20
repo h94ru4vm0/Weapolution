@@ -47,6 +47,10 @@ public class CChildProjectSystem : MonoBehaviour {
         freeNum--;
     }
 
+    public CChildProject GetNewestChild() {
+        return UsedList.GetChild(UsedList.childCount - 1).GetComponent<CChildProject>();
+    }
+
 
     public int GetFreeNum() {
         return freeNum;

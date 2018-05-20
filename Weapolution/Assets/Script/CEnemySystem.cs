@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CEnemySystem : MonoBehaviour {
+    bool hasInit;
     int enemyNumber, deathNumber = 0;
     Transform freeEnemyIn, UsedEnemyIn;    
     //一維為左右，二維是可不可用, true為右
@@ -59,18 +60,26 @@ public class CEnemySystem : MonoBehaviour {
             //InEnemys[i].GetComponent<CEnemy>().attackDetect += Outplayer.OnHurt;
         }
         if (test) return;
-        AddUsedList(new Vector3(-5.8f,spawnLocY,0));
-        AddUsedList(new Vector3(6.6f, spawnLocY, 0));
-        AddUsedList(new Vector3(-0.5f, spawnLocY, 0));
+       
+
     }
 
     // Update is called once per frame
     void Update()
     {
         if (test) return;
+        if (StageManager.timeUp) return;
+        if (!hasInit) MonstersInit();
+
         if (deathNumber <= 2)
         {
-            if (enemyNumber < 3) AddUsedList(new Vector3(Random.Range(-7.0f, 8.0f), spawnLocY, 0));
+            if (enemyNumber < 3) {
+                if(StageManager.currentStage == 1)
+                    AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
+                else if(StageManager.currentStage == 2)
+                    AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
+                //AddUsedList(new Vector3(Random.Range(-7.0f, 8.0f), spawnLocY, 0));
+            } 
         }
         else if (deathNumber >= 5) {
             if (!bossAppear) {
@@ -85,6 +94,25 @@ public class CEnemySystem : MonoBehaviour {
         } 
     }
 
+    void MonstersInit() {
+        hasInit = true;
+        if (StageManager.currentStage == 1)
+        {
+            AddUsedList(new Vector3(-12.0f, spawnLocY, 0));
+            AddUsedList(new Vector3(0.0f, spawnLocY, 0));
+            AddUsedList(new Vector3(12.0f, spawnLocY, 0));
+            //AddUsedList(new Vector3(-5.8f, spawnLocY, 0));
+            //AddUsedList(new Vector3(6.6f, spawnLocY, 0));
+            //AddUsedList(new Vector3(-0.5f, spawnLocY, 0));
+        }
+        else if (StageManager.currentStage == 2)
+        {
+            AddUsedList(new Vector3(-12.0f, spawnLocY, 0));
+            AddUsedList(new Vector3(0.0f, spawnLocY, 0));
+            AddUsedList(new Vector3(12.0f, spawnLocY, 0));
+        }
+    }
+
     public void  AddFreeList(Transform trans)
     {
         Debug.Log("recycle enemy" + enemyNumber);
@@ -94,26 +122,29 @@ public class CEnemySystem : MonoBehaviour {
         trans.gameObject.SetActive(false);
         enemyNumber--;
         deathNumber++;
-        if (Mathf.Abs(side) > 0.5f) {    //如果回收的敵人有占住一個攻擊位置，把位置給其他人
-            if (side >0.1f) canAttackLoc[1] = true;
-            else if (side <-0.1f) canAttackLoc[0] = true;
-            for (int i = 0; i < UsedEnemyIn.childCount; i++)
-            {
-                temp = UsedEnemyIn.GetChild(i).GetComponent<CEnemy>();
-                if (Mathf.Abs(temp.whichSide) < 0.2f)
+        if (StageManager.currentStage < 2) {
+            if (Mathf.Abs(side) > 0.5f)
+            {    //如果回收的敵人有占住一個攻擊位置，把位置給其他人
+                if (side > 0.1f) canAttackLoc[1] = true;
+                else if (side < -0.1f) canAttackLoc[0] = true;
+                for (int i = 0; i < UsedEnemyIn.childCount; i++)
                 {
-                    Debug.Log("get position");
-                    if (canAttackLoc[0])
+                    temp = UsedEnemyIn.GetChild(i).GetComponent<CEnemy>();
+                    if (Mathf.Abs(temp.whichSide) < 0.2f)
                     {
-                        Debug.Log("left");
-                        temp.whichSide = -1.0f;
-                        canAttackLoc[0] = false;
-                    }
-                    else if (canAttackLoc[1])
-                    {
-                        Debug.Log("right");
-                        temp.whichSide = 1.0f;
-                        canAttackLoc[1] = false;
+                        Debug.Log("get position");
+                        if (canAttackLoc[0])
+                        {
+                            Debug.Log("left");
+                            temp.whichSide = -1.0f;
+                            canAttackLoc[0] = false;
+                        }
+                        else if (canAttackLoc[1])
+                        {
+                            Debug.Log("right");
+                            temp.whichSide = 1.0f;
+                            canAttackLoc[1] = false;
+                        }
                     }
                 }
             }
@@ -128,15 +159,19 @@ public class CEnemySystem : MonoBehaviour {
         temp.position = pos;
         temp.gameObject.SetActive(true);
         enemyNumber++;
-        if (canAttackLoc[0]) {
-            temp.GetComponent<CEnemy>().whichSide = -1.0f;
-            canAttackLoc[0] = false;
+        if (StageManager.currentStage < 2) {
+            if (canAttackLoc[0])
+            {
+                temp.GetComponent<CEnemy>().whichSide = -1.0f;
+                canAttackLoc[0] = false;
+            }
+            else if (canAttackLoc[1])
+            {
+                temp.GetComponent<CEnemy>().whichSide = 1.0f;
+                canAttackLoc[1] = false;
+            }
+            else temp.GetComponent<CEnemy>().whichSide = 0.0f;
         }
-        else if (canAttackLoc[1]) {
-            temp.GetComponent<CEnemy>().whichSide = 1.0f;
-            canAttackLoc[1] = false;
-        } 
-        else temp.GetComponent<CEnemy>().whichSide = 0.0f;
     }
 
     public int GetDeathNumber() {

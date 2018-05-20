@@ -20,6 +20,9 @@ public class CChildProject : MonoBehaviour {
     public virtual void SetOn() {
     }
 
+    public virtual void SetOn(bool _bool) {
+
+    }
 
     public virtual void ResetChild() {
 

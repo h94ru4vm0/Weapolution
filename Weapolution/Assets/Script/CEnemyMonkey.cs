@@ -198,6 +198,7 @@ public class CEnemyMonkey : CEnemy {
     public override void SetHurtValue(int _value, int _HitDir)
     {
         //base.SetHurtValue(_value, _HitDir); 
+        if (getHurtOnce) return;
         enemySystem.playSound(0, 1.0f);
         hurtValue = _value;
         SetState(4, true);

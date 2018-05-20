@@ -43,9 +43,9 @@ public class CPickItemSystem : MonoBehaviour {
     {
         //SpawnInUsed(new Vector3(-7, 0, 0), 5);
         //SpawnInUsed(new Vector3(-10, -6, 0), 5);
-        SpawnInUsed(new Vector3(-7, 3, 0), 5);
+        SpawnInUsed(new Vector3(-7, 3, 0), 6);
         SpawnInUsed(new Vector3(-5, 3, 0), 6);
-        SpawnInUsed(new Vector3(-4, 3, 0), 9);
+        SpawnInUsed(new Vector3(-4, 3, 0), 6);
         SpawnInUsed(new Vector3(-2, -6, 0), 7);
         SpawnInUsed(new Vector3(0, -6, 0), 8);
         SpawnInUsed(new Vector3(3, -6, 0), 4);

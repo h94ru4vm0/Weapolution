@@ -34,7 +34,13 @@ public class EnemyDoctor : CEnemy
     // Update is called once per frame
     void Update()
     {
+        if (StageManager.timeUp) return;
         UpdatePos();
+        if (!isShowUp)
+        {
+            state = -1;
+            return;
+        }
         StateMachine();
         //Ramble();
         //transform.localScale = new Vector3(-Mathf.Sign(go_way.x) * scaleX, scaleY, 1);
@@ -80,6 +86,8 @@ public class EnemyDoctor : CEnemy
     {
         
         switch (state) {
+            case -1:
+                break;
             case 0:
                 Idle(breakTime);
                 break;
@@ -94,6 +102,20 @@ public class EnemyDoctor : CEnemy
                 break;
             
         }
+    }
+
+    public override void ShowUp(float _time)
+    {
+        if (state_time < 0.0f)
+        {
+            state_time = 1.0f;
+        }
+    }
+
+    public void ShowUpOver()
+    {
+        state = 1;
+        isShowUp = true;
     }
 
     public  void Idle(float _idleTime)

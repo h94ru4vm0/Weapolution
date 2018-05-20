@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelHeight : MonoBehaviour {
-    public bool autoMovable;
+    public bool autoMovable, isIn;
     MapInfo.Area[] areaHeight;
     ZArrange zArrange;
 	// Use this for initialization
@@ -14,7 +14,7 @@ public class LevelHeight : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (autoMovable) SetHeight();
+        //if (autoMovable) SetHeight();
 	}
 
     public void SetHeight() {
@@ -39,6 +39,28 @@ public class LevelHeight : MonoBehaviour {
             else
             {
                 zArrange.f_base = -100.0f;
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if ( collision.tag == "Stair")
+        {
+            if (isIn)
+            {
+                if (collision.transform.position.y > transform.position.y)
+                {
+                    zArrange.f_base = 100.0f;
+                }
+                else zArrange.f_base = 0.0f;
+            }
+            else {
+                if (collision.transform.position.y < transform.position.y)
+                {
+                    zArrange.f_base = 0.0f;
+                }
+                else zArrange.f_base = -100.0f;
             }
         }
     }

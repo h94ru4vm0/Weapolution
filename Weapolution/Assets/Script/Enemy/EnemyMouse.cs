@@ -20,11 +20,18 @@ public class EnemyMouse : CEnemy {
                         1 << LayerMask.NameToLayer("ObstacleForIn");
         state = 0;
         bullets = GameObject.Find("EnemyMouseBullets").GetComponent<EnemyBulletSystem>();
+        hp = 1;
     }
 
     // Update is called once per frame
     void Update () {
+        if (StageManager.timeUp) return;
         UpdatePos();
+        if (!isShowUp)
+        {
+            state = -1;
+            return;
+        }
         StateMachine();
         //Trace();
         SetAnimator();
@@ -34,6 +41,8 @@ public class EnemyMouse : CEnemy {
     {
         DetectPlayer();
         switch(state){
+            case -1:
+                break;
             case 0:
                 Idle();
                 break;
@@ -54,6 +63,12 @@ public class EnemyMouse : CEnemy {
                 break;
             case 6:
                 GetHurt();
+                break;
+            case 7:
+                BeTrapped();
+                break;
+            case 8:
+                Die();
                 break;
         }
     }
@@ -131,10 +146,12 @@ public class EnemyMouse : CEnemy {
             PathRequestManager.RequestPath(self_pos, playerPos, OnPathFound);
         }
 
-        if (pathFind) {
+        if (pathFind)
+        {
             Debug.Log("trace path find");
             Vector2 Pos2d = new Vector2(self_pos.x, self_pos.y);
-            if (path.turnBoundaries[pathIndex].HasCrossedLine(Pos2d)) {
+            if (path.turnBoundaries[pathIndex].HasCrossedLine(Pos2d))
+            {
                 if (pathIndex == path.finishLineIndex)
                 {
                     Debug.Log("catch player  " + path.finishLineIndex);
@@ -148,13 +165,15 @@ public class EnemyMouse : CEnemy {
 
             if (pathIndex >= path.slowDownIndex && stoppingDis > 0)
             {
-                if (CouculatePlayerDis(false, 5.0f)) {
+                if (CouculatePlayerDis(false, 5.0f))
+                {
                     Vector3 playerNewPos = playerPos += new Vector3(0.0f, 0.4f, 0.0f);
                     //shootPos = self_pos + new Vector3();
                     detect_ray = Physics2D.Linecast(new_pos, playerPos, obstacleMask);
                     if (!detect_ray)
                     {
-                        if (bullets.GetFreeNum() > 0) {
+                        if (bullets.GetFreeNum() > 0)
+                        {
                             SetState(3, true); //range attack
                             Debug.Log("start shoot");
                             pathFind = false;
@@ -174,6 +193,8 @@ public class EnemyMouse : CEnemy {
             //transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self);
             transform.position += go_way * f_speed * 1.7f * Time.deltaTime;
         }
+
+
 
         inState_time += Time.deltaTime;
     }
@@ -197,6 +218,18 @@ public class EnemyMouse : CEnemy {
             
         }
         inState_time += Time.deltaTime;
+    }
+
+    public override void ShowUp(float _time)
+    {
+        if (state_time < 0.0f) {
+            state_time = 1.0f;
+        }
+    }
+
+    public void ShowUpOver() {
+        state = 0;
+        isShowUp = true;
     }
 
     public void OnRangeAttacking() {
@@ -316,6 +349,52 @@ public class EnemyMouse : CEnemy {
         //attackOnce = false;
     }
 
+    void BeTrapped() {
+        if (state_time < 0.1f) {
+            state_time = 1.0f;
+            //isForceState = true;
+            hp -= 2;
+        }
+    }
+
+    public void TrappedOver() {
+        isForceState = false;
+        SetState(-1, false);
+    }
+
+    public override void SetHurtValue(int _value, int _HitDir)
+    {
+        hurtValue = _value;
+        hitDir = _HitDir;
+        SetState(6, true);
+    }
+
+    public override void GetHurtOver()
+    {
+        inState_time = 2.0f;
+        getHurtOnce = false;
+        isForceState = false;
+        if (hp <= 0) SetState(8, true);
+        else SetState(2, false);
+        Debug.Log("Hurt Over");
+    }
+
+    public override void Die()
+    {
+        if (state_time < 0.1f)
+        {
+            state_time = 0.9f;
+            inState_time = 0.0f;
+            isDead = true;
+        }
+        inState_time += Time.deltaTime;
+        if (inState_time >= state_time)
+        {
+            ResetEnemy();
+            enemySystem.AddFreeList(this.transform);
+        }
+    }
+
     public override void SetAnimator()
     {
 
@@ -345,16 +424,23 @@ public class EnemyMouse : CEnemy {
             animator.SetTrigger("exist");
             lastState = state;
         }
+        
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "player") {
-            if (canDetectAtk) {
+        if (collision.tag == "Player")
+        {
+            if (canDetectAtk)
+            {
                 canDetectAtk = false;
                 player.GetComponent<Player>().GetHurt();
                 Debug.Log("hitPlayer");
             }
+        }
+        else if (collision.tag == "Trap") {
+            SetState(7, true);
         }
     }
 

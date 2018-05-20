@@ -17,6 +17,7 @@ public class UseTrapeSystem : MonoBehaviour {
 
     private void Awake()
     {
+        //Tool = transform.Find("Tool").GetComponent<SpriteRenderer>();
         childProjectSystem = GameObject.Find("Trapes").GetComponent<CChildProjectSystem>();
     }
 
@@ -42,6 +43,7 @@ public class UseTrapeSystem : MonoBehaviour {
             else
                 useController = false;
         }
+        Debug.Log("sdasdasdsadsadsadasdsadasad" + whichPlayer);
     }
 	
 	// Update is called once per frame
@@ -64,6 +66,7 @@ public class UseTrapeSystem : MonoBehaviour {
                     Tool.sprite = unToolImg;
                 }
                 else {
+                    OnBuildTrapping = true;
                     Tool.sprite = ToolImg;
                     this.GetComponent<Animator>().SetTrigger("usingTrape");
                     usingTool = true;
@@ -74,19 +77,22 @@ public class UseTrapeSystem : MonoBehaviour {
         }
         else
         {
-            Tool.enabled = true;
-            if (!CanSet() || trapeNum >= 2)
-            {//如果位置不能設陷阱，顯示不能挖
-                unTool = true;
-                Tool.sprite = unToolImg;
-            }
-            else
-            {
-                Tool.sprite = ToolImg;
-                this.GetComponent<Animator>().SetTrigger("usingTrape");
-                usingTool = true;
-                switchMove(false);
-                if (trapeNum < 2) trapeNum++;
+            if (Input.GetButtonDown(whichPlayer + "ButtonX")) {
+                Tool.enabled = true;
+                if (!CanSet() || trapeNum >= 2)
+                {//如果位置不能設陷阱，顯示不能挖
+                    unTool = true;
+                    Tool.sprite = unToolImg;
+                }
+                else
+                {
+                    OnBuildTrapping = true;
+                    Tool.sprite = ToolImg;
+                    this.GetComponent<Animator>().SetTrigger("usingTrape");
+                    usingTool = true;
+                    switchMove(false);
+                    if (trapeNum < 2) trapeNum++;
+                }
             }
         }
     }
@@ -120,6 +126,10 @@ public class UseTrapeSystem : MonoBehaviour {
     public void OnBuildingTrape() {
         Vector3 pos = new Vector3(transform.position.x, transform.position.y - 0.6f,transform.position.z);
         childProjectSystem.AddUsed(pos);
+        childProjectSystem.GetNewestChild().SetOn(true);
+        Tool.enabled = false;
+        OnBuildTrapping = false;
+
     }
 
     void switchMove(bool enable)
