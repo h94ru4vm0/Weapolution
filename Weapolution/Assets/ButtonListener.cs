@@ -20,10 +20,12 @@ public class ButtonListener : MonoBehaviour
     {
 
         Debug.Log("Enter");
+		PauseMenuScript.MouseHover = true;
     }
     public void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log("Exit");
+		PauseMenuScript.MouseHover = false;
     }
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -33,11 +35,11 @@ public class ButtonListener : MonoBehaviour
     {
         Debug.Log("Up");
     }
-   
+	PauseMenu PauseMenuScript;
 
     // Use this for initialization
-    void Start () {
-		
+    void Awake () {
+		PauseMenuScript = GameObject.Find("StageManager").GetComponent<PauseMenu>();
 	}
 	
 	// Update is called once per frame
