@@ -52,6 +52,9 @@ public class CChildProjectSystem : MonoBehaviour {
         return UsedList.GetChild(UsedList.childCount - 1).GetComponent<CChildProject>();
     }
 
+    public Transform GetUsedChildTransform(int id) {
+        return UsedList.GetChild(id);
+    }
 
     public int GetFreeNum() {
         return freeNum;

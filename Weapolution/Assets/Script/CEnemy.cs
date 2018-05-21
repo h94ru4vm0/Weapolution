@@ -35,7 +35,6 @@ public class CEnemy : MonoBehaviour {
     protected Rigidbody2D rigBody;
     // Use this for initialization
     public virtual void Awake() {
-        Debug.Log("enemy awake");
         inState_time = 0.0f;
         state_time = 1.0f;
         state = 0;

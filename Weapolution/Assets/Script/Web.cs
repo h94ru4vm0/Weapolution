@@ -27,6 +27,7 @@ public class Web : CChildProject
             if (!init) {
                 init = true;
                 levelHieght.SetHeight();
+                levelHieght.isOnGround();
             }
             time += Time.deltaTime;
         } 

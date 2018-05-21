@@ -43,6 +43,10 @@ public class LevelHeight : MonoBehaviour {
         }
     }
 
+    public void isOnGround() {
+        zArrange.f_base += 20.0f;
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if ( collision.tag == "Stair")

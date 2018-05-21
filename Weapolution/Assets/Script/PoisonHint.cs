@@ -21,10 +21,11 @@ public class PoisonHint : CChildProject
         {
             if (!init)
             {
+                Debug.Log("arange heiiiiiiiight");
                 init = true;
                 levelHieght.SetHeight();
             }
-            time += Time.deltaTime;
+            //time += Time.deltaTime;
         }
         else
         {

@@ -60,7 +60,14 @@ public class EnemySpider : CEnemy
         {
             if (inState_time >= state_time)
             {
-                if (childProjectSystem.GetFreeNum() > 0 && Random.Range(0.0f, 1.0f) > 0.7f) SetState(2, true);
+                Vector2 selfPos2d = new Vector2(new_pos.x, new_pos.y);
+                LayerMask webLayer = 1 << LayerMask.NameToLayer("Obstacle") | 1 << LayerMask.NameToLayer("ObstacleForOut") |
+                                        1 << LayerMask.NameToLayer("DamageToPlayer");
+                Collider2D detectWeb = Physics2D.OverlapCircle(selfPos2d, 0.3f, webLayer);
+                if (detectWeb == null)
+                {
+                    if (childProjectSystem.GetFreeNum() > 0 && Random.Range(0.0f, 1.0f) > 0.7f) SetState(2, true);
+                }
                 webTime = 0.0f;
             }
         }
@@ -71,15 +78,6 @@ public class EnemySpider : CEnemy
 
         if (state_time < 0.1f) {
             state_time = 1.0f;
-            Vector2 selfPos2d = new Vector2(new_pos.x, new_pos.y);
-            LayerMask webLayer = 1 << LayerMask.NameToLayer("Obstacle") | 1 << LayerMask.NameToLayer("ObstacleForOut") |
-                                    1 << LayerMask.NameToLayer("DamageToPlayer");
-            Collider2D detectWeb = Physics2D.OverlapCircle(selfPos2d, 1.0f, webLayer);
-            if (detectWeb != null) {
-                isForceState = false;
-                inState_time = 1.5f;
-                return;
-            }
         } 
         inState_time += Time.deltaTime;
     }

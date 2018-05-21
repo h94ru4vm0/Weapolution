@@ -5,13 +5,16 @@ using UnityEngine;
 public class EnemyDoctor : CEnemy
 {
     bool pathFind, onAttacking;
-    int pathIndex, normalAtkNum, totalAtkNum;
+    int pathIndex, normalAtkNum, totalAtkNum, poisonNum;
     float totalTraceTime, breakTime;
+    PoisonManager poisonManager;
+    Vector3 poisonOffset;
     Vector3[] poisonAtksPos = new Vector3[4];
     SpriteRenderer render;
     SprintAttacks sprintAtks;
     Path path;
     CChildProjectSystem poisonAlerts;
+
 
     public float stoppingDis, turnDis, turnSpeed;
     public LayerMask obstacleMask;
@@ -25,6 +28,7 @@ public class EnemyDoctor : CEnemy
         sprintAtks = GetComponent<SprintAttacks>();
         render = transform.Find("img").GetComponent<SpriteRenderer>();
         poisonAlerts = GameObject.Find("PoisonHints").GetComponent<CChildProjectSystem>();
+        poisonManager = GameObject.Find("Poisons").GetComponent<PoisonManager>();
         rambleLayer = 1 << LayerMask.NameToLayer("Obstacle")
                         | 1 << LayerMask.NameToLayer("ObstacleForIn");
     }
@@ -295,28 +299,57 @@ public class EnemyDoctor : CEnemy
     }
 
     public void MakePoisonOver() {
-        float angle;
+        float angle = -20.0f;
         float dst = 2.0f;
-        Vector3 offset = new Vector3(playerPos.x - self_pos.x, playerPos.y - self_pos.y, 0.0f).V3NormalizedtoV2();
+        RaycastHit2D detect = Physics2D.Raycast(new Vector2(playerPos.x , playerPos.y), new Vector2(-2.5f,0.0f),obstacleMask);
+        RaycastHit2D detect2 = Physics2D.Raycast(new Vector2(playerPos.x, playerPos.y), new Vector2(2.5f, 0.0f), obstacleMask);
 
-        poisonAtksPos[3] = playerPos + new Vector3(0.0f, 0.5f,0.0f) ;
-        poisonAlerts.AddUsed(poisonAtksPos[3]);
-        for (int i = -1; i < 2; i++) {
-            angle = i * 20.0f;
-            poisonAtksPos[i + 1] = poisonAtksPos[3] + (Quaternion.AngleAxis(angle, Vector3.forward) * offset * dst);
-            dst += 1.0f;
-            poisonAlerts.AddUsed(poisonAtksPos[i + 1]);
+        if (detect1 && detect2)
+        {
+            if (Random.Range(0.0f, 1.0f) > 0.5f) poisonOffset = new Vector3(0.0f, 1.0f, 0.0f);
+            else poisonOffset = new Vector3(0.0f, -1.0f, 0.0f);
         }
-        
+        else {
+            if (Random.Range(0.0f, 1.0f) > 0.5f) poisonOffset = new Vector3(1.0f, 0.0f, 0.0f);
+            else poisonOffset = new Vector3(-1.0f, 0.0f, 0.0f);
+        } 
+
+        poisonAtksPos[0] = playerPos + new Vector3(0.0f, 0.5f,0.0f) ;
+        poisonAlerts.AddUsed(poisonAtksPos[0]);
+        for (int i = 1; i < 4; i++) {
+            poisonAtksPos[i] = poisonAtksPos[0] + (Quaternion.AngleAxis(angle, Vector3.forward) * poisonOffset * dst);
+            dst += 1.0f;
+            poisonAlerts.AddUsed(poisonAtksPos[i]);
+            angle *= -1;
+        }
+
+        Vector3 tempSelfPos = Vector3.zero;
+
+        if (Mathf.Sign(poisonOffset.y) > 0.5f)
+        {
+            if (poisonOffset.y > 0.0f) tempSelfPos = new Vector3(poisonAtksPos[0].x - 1.0f, poisonAtksPos[0].y - 1.0f, transform.position.z);
+            else tempSelfPos = new Vector3(poisonAtksPos[0].x + 1.0f, poisonAtksPos[0].y + 1.0f, transform.position.z);
+        }
+        else
+        {
+            if (poisonOffset.x > 0.0f) tempSelfPos = new Vector3(poisonAtksPos[0].x - 1.0f, poisonAtksPos[0].y + 1.0f, transform.position.z);
+            else tempSelfPos = new Vector3(poisonAtksPos[0].x + 1.0f, poisonAtksPos[0].y + 1.0f, transform.position.z);
+        }
+        transform.position = tempSelfPos;
     }
 
     public void StartPoisonBlast() {
         //Vector2 locOffset = new Vector2(1.0f, 1.0f);
         //RaycastHit2D detect = Physics2D.Raycast(poisonAtksPos[3], locOffset);
+        
+
         for (int i = 0; i < 4; i++) {
-            Vector3 poisonLoc = new Vector3();
+            Vector3 blastLoc = new Vector3(self_pos.x - Mathf.Sign(poisonOffset.x)*2.0f, self_pos.y + 2.0f, poisonAlerts.GetUsedChildTransform(poisonNum).position.z);
+            if (poisonManager.freeNum > 0) poisonManager.AddUsedPosition(blastLoc, poisonAtksPos[i]);
+            else break;
+            poisonNum++;
         }
-        transform.position = new Vector3(poisonAtksPos[3].x + 1.0f, poisonAtksPos[3].y + 1.0f, transform.position.z);
+       
 
     }
 
