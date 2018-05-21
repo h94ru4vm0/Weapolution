@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CChildProject : MonoBehaviour {
 
     //public bool bananaFly;
     public CChildProjectSystem system;
     CChildProject ene;
+
+    protected Action callBack;
 
     // Use this for initialization
     void Start () {
@@ -20,7 +23,7 @@ public class CChildProject : MonoBehaviour {
     public virtual void SetOn() {
     }
 
-    public virtual void SetOn(bool _bool) {
+    public virtual void SetOn(bool _bool, Action _callBack) {
 
     }
 

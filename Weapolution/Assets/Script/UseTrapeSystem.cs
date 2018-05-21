@@ -12,7 +12,7 @@ public class UseTrapeSystem : MonoBehaviour {
     CChildProjectSystem childProjectSystem;
 
 
-    public Sprite ToolImg,unToolImg;
+    public Sprite ToolImg, unToolImg;
     public LayerMask trapeMask;
 
     private void Awake()
@@ -22,7 +22,7 @@ public class UseTrapeSystem : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         if (Player.p1charaType)
         {
             if (Player.p1controller) //p1用搖桿
@@ -44,9 +44,9 @@ public class UseTrapeSystem : MonoBehaviour {
                 useController = false;
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         UseTrap();
         UnBuildTrape();
     }
@@ -122,10 +122,14 @@ public class UseTrapeSystem : MonoBehaviour {
         }
     }
 
+    public void RecycleTrape(){
+        if(trapeNum > 0)trapeNum--;
+    }
+
     public void OnBuildingTrape() {
         Vector3 pos = new Vector3(transform.position.x, transform.position.y - 0.6f,transform.position.z);
         childProjectSystem.AddUsed(pos);
-        childProjectSystem.GetNewestChild().SetOn(true);
+        childProjectSystem.GetNewestChild().SetOn(true, RecycleTrape);
         Tool.enabled = false;
         OnBuildTrapping = false;
         switchMove(true);

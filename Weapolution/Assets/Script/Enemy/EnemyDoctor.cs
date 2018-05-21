@@ -7,9 +7,11 @@ public class EnemyDoctor : CEnemy
     bool pathFind, onAttacking;
     int pathIndex, normalAtkNum, totalAtkNum;
     float totalTraceTime, breakTime;
+    Vector3[] poisonAtksPos = new Vector3[4];
     SpriteRenderer render;
     SprintAttacks sprintAtks;
     Path path;
+    CChildProjectSystem poisonAlerts;
 
     public float stoppingDis, turnDis, turnSpeed;
     public LayerMask obstacleMask;
@@ -22,13 +24,15 @@ public class EnemyDoctor : CEnemy
         hp = 15;
         sprintAtks = GetComponent<SprintAttacks>();
         render = transform.Find("img").GetComponent<SpriteRenderer>();
+        poisonAlerts = GameObject.Find("PoisonHints").GetComponent<CChildProjectSystem>();
+        rambleLayer = 1 << LayerMask.NameToLayer("Obstacle")
+                        | 1 << LayerMask.NameToLayer("ObstacleForIn");
     }
 
     // Use this for initialization
     void Start()
     {
-        rambleLayer = 1 << LayerMask.NameToLayer("Obstacle")
-                        | 1 << LayerMask.NameToLayer("ObstacleForIn");
+        
     }
 
     // Update is called once per frame
@@ -100,6 +104,9 @@ public class EnemyDoctor : CEnemy
             case 3:
                 SprintAtk();
                 break;
+            case 4:
+                PoisonAttack();
+                break;
             
         }
     }
@@ -114,7 +121,7 @@ public class EnemyDoctor : CEnemy
 
     public void ShowUpOver()
     {
-        state = 1;
+        state = 4;
         isShowUp = true;
     }
 
@@ -250,7 +257,7 @@ public class EnemyDoctor : CEnemy
 
     public void StartSprint() {
         render.enabled = false;
-        sprintAtks.SetTStartSprint();
+        sprintAtks.SetStartSprint();
     } 
 
     void SprintAtk() {
@@ -279,6 +286,38 @@ public class EnemyDoctor : CEnemy
         breakTime = 1.5f;
         onAttacking = false;
         SetState(0, false);
+    }
+
+    void PoisonAttack() {
+        if (state_time < 0.1f) {
+            state_time = 10.0f;
+        }
+    }
+
+    public void MakePoisonOver() {
+        float angle;
+        float dst = 2.0f;
+        Vector3 offset = new Vector3(playerPos.x - self_pos.x, playerPos.y - self_pos.y, 0.0f).V3NormalizedtoV2();
+
+        poisonAtksPos[3] = playerPos + new Vector3(0.0f, 0.5f,0.0f) ;
+        poisonAlerts.AddUsed(poisonAtksPos[3]);
+        for (int i = -1; i < 2; i++) {
+            angle = i * 20.0f;
+            poisonAtksPos[i + 1] = poisonAtksPos[3] + (Quaternion.AngleAxis(angle, Vector3.forward) * offset * dst);
+            dst += 1.0f;
+            poisonAlerts.AddUsed(poisonAtksPos[i + 1]);
+        }
+        
+    }
+
+    public void StartPoisonBlast() {
+        //Vector2 locOffset = new Vector2(1.0f, 1.0f);
+        //RaycastHit2D detect = Physics2D.Raycast(poisonAtksPos[3], locOffset);
+        for (int i = 0; i < 4; i++) {
+            Vector3 poisonLoc = new Vector3();
+        }
+        transform.position = new Vector3(poisonAtksPos[3].x + 1.0f, poisonAtksPos[3].y + 1.0f, transform.position.z);
+
     }
 
     public override void SetHurtValue(int _value, int _HitDir)

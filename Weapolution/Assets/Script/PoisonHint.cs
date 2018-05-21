@@ -2,46 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Web : CChildProject
+public class PoisonHint : CChildProject
 {
     bool init;
-    bool damageOnce;
-    float lifeTime, time;
-
+    float time, lifeTime;
     LevelHeight levelHieght;
+    // Use this for initialization
 
     private void Awake()
     {
-        lifeTime = 15.0f;
+        lifeTime = 1.5f;
         levelHieght = GetComponent<LevelHeight>();
     }
 
-    // Use this for initialization
-    void Start () {
-        
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (time < lifeTime) {
-            if (!init) {
+    // Update is called once per frame
+    void Update () {
+        if (time < lifeTime)
+        {
+            if (!init)
+            {
                 init = true;
                 levelHieght.SetHeight();
             }
             time += Time.deltaTime;
-        } 
+        }
         else
         {
             ResetChild();
             system.AddFree(this.transform);
         }
     }
-
     public override void ResetChild()
     {
         init = false;
         time = 0.0f;
-        damageOnce = false;
     }
-
 }

@@ -86,6 +86,7 @@ public class EnemySpider : CEnemy
 
     public void OnWeaving() {
         childProjectSystem.AddUsed(self_pos);
+        
     }
 
     public void WeaveOver() {

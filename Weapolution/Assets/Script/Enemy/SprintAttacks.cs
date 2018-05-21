@@ -88,7 +88,7 @@ public class SprintAttacks : MonoBehaviour {
         }
 	}
 
-    public void SetTStartSprint() {
+    public void SetStartSprint() {
         startSprint = true;
         sprints.gameObject.SetActive(true);
         sprintTime = 0.0f;

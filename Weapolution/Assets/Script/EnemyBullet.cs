@@ -40,12 +40,12 @@ public class EnemyBullet : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player") {
-            Debug.Log("sadasdasdsadadasdsdsad hit player");
+            //Debug.Log("sadasdasdsadadasdsdsad hit player");
             ResetChild();
             system.AddFree(this);
         }
         if (collision.tag == "Wall") {
-            Debug.Log("sadasdasdsadadasdsdsad hit wall");
+            //Debug.Log("sadasdasdsadadasdsdsad hit wall");
             ResetChild();
             system.AddFree(this);
         }
