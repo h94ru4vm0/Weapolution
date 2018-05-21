@@ -9,12 +9,16 @@ public class PlayMainStory : MonoBehaviour {
     GameObject loadScece;
 
     bool videoStart;
-    int beCalledTime;
-
+    int beCalledTime = 0;
+    bool videoOver = false;
+    float videotime = 43f;
+    float videoStartTime = 0;
+    StageManager StageManagerScript;
     void Start()
     {
         GetComponent<Renderer>().material.mainTexture = movTexture;
         loadScece = GameObject.Find("LoadingScreen");
+        StageManagerScript = GameObject.Find("StageManager").GetComponent<StageManager>();
         movTexture.loop = false;
         videoStart = false;
         movAudio = transform.GetComponent<AudioSource>();
@@ -29,12 +33,9 @@ public class PlayMainStory : MonoBehaviour {
             movTexture.Play();
             movAudio.Play();
             videoStart = true;
+            videoStartTime = Time.time;
         }
-        if( !movTexture.isPlaying && Input.GetKeyDown(KeyCode.P))
-        {
-            movTexture.Play();
-            movAudio.Play();
-        }
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             GetComponent<AudioSource>().Pause();
@@ -46,16 +47,25 @@ public class PlayMainStory : MonoBehaviour {
             movTexture.Stop();
             movAudio.Stop();
         }
-
-        if (!movTexture.isPlaying && beCalledTime ==0)
+        if (Time.time - videoStartTime >= videotime)
         {
-            loadScece.SendMessage("ChangeScene");
+            videoOver = true;
+        }
+        if (videoOver && beCalledTime == 0)
+        {
             beCalledTime++;
+            StageManager.currentStage++;
+            StartCoroutine(StageManagerScript.OnChangingScene(1f));
         }
 
-        if (Input.GetKeyDown(KeyCode.N))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
-            loadScece.SendMessage("ChangeScene");
+            GetComponent<AudioSource>().Pause();
+            movTexture.Pause();
+            movAudio.Pause();
+
+            StageManager.currentStage++;
+            StartCoroutine(StageManagerScript.OnChangingScene(1f));
         }
     }
 }

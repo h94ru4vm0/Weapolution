@@ -63,9 +63,10 @@ public class ChoosePlayer : MonoBehaviour {
             SelectStageScript.isChoosed = true;
 
         }
-        if (Input.GetMouseButtonDown(0)){
-            SelectStageScript.isChoosed = true;
-        }
+        Debug.Log("Player.p2controller" + Player.p2controller);
+        //if (Input.GetMouseButtonDown(0)){
+        //    SelectStageScript.isChoosed = true;
+        //}
     }
     
     void setPlayer1()
@@ -287,13 +288,14 @@ public class ChoosePlayer : MonoBehaviour {
                     TargetSelectScript.p2IsLocked = true;
                     budaHands.SetActive(true);
                 }
-                else if (!CrafterSucces && !TargetSelectScript.P1targetOnBuda)
+                else if (!CrafterSucces && !TargetSelectScript.P2targetOnBuda)
                 {
                     haka_keyboard1.sprite = Resources.Load<Sprite>("image/Stage/ChooseCharacter/buda_keyboard2");
                     CrafterSucces = true;
                     Player.p2charaType = true;
                     TargetSelectScript.p2IsLocked = true;
                     hakaHands.SetActive(true);
+                   
                 }
             }
             if (Player.p2joystick == "p1" && Input.GetButtonDown("p1ButtonA"))

@@ -7,7 +7,7 @@ public class StageManager : MonoBehaviour {
 
 
     public static bool timeUp;
-    public static  int currentStage = 1;
+    public static  int currentStage = 2;
 
 	public bool inMenuState;
     bool inTransState, stageBegin, stageOver;
@@ -25,23 +25,24 @@ public class StageManager : MonoBehaviour {
 
     private void Awake()
     {
+        inChanging = false;
         //if (stageManager == null) stageManager = this;
         animator = GetComponent<Animator>();
-        if (currentStage > -1)
+        if (currentStage >= 3)
         {
             transRender = Camera.main.GetComponent<SceneTransRender>();
             transRender.stageManager = this;
             BGM = GameObject.Find("map").GetComponent<AudioSource>();
             MonsterSound = GameObject.Find("MonsterAudio").GetComponent<AudioSource>();
             CharacterSound = GameObject.Find("CharacterAudio").GetComponent<AudioSource>();
-            if (currentStage > 0) {
+            if (currentStage > 3) {
                 dialog = GameObject.Find("Dialog").GetComponent<Dialog>();
                 teamHP = GameObject.Find("TeamHp").GetComponent<TeamHp>();
                 dialog.gameObject.SetActive(false);
             }
 
         }
-
+ 
         
     }
 
@@ -52,7 +53,7 @@ public class StageManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (currentStage < 0) return;
+        if (currentStage < 3)  return;
         if (!stageBegin)
         {
             if (!timeUp) {
@@ -61,12 +62,14 @@ public class StageManager : MonoBehaviour {
             if (!inChanging)
             {
                 inChanging = true;
-                if (currentStage < 1) animator.Play("BlackIn");
+                if (currentStage == 3) animator.Play("BlackIn");
                 else transRender.SetIsGoIn(true);
+                ToStageBegin();
             }
         }
         else {
             GetInput();
+           
             //if (Input.GetKeyDown(KeyCode.Space)) SetCurStageOver(true);
         }
 
@@ -77,11 +80,7 @@ public class StageManager : MonoBehaviour {
         timeUp = false;
     }
 
-    void ShowMenu() {
-        
-      
-        
-    }
+ 
 
     void GetInput() {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -97,7 +96,7 @@ public class StageManager : MonoBehaviour {
                 inMenuState = true;
                 timeUp = true;
             }
-            ShowMenu();
+
         }
         if (timeUp) {
             if (stageOver) {
@@ -113,7 +112,8 @@ public class StageManager : MonoBehaviour {
 
     public void ChangeSceneBlackOut()
     {
-        animator.Play("BlackOut");
+        inChanging = true;
+        animator.Play("BlackOutForMapping");
     }
 
     public void SetCurStageOver(bool _isWin) {

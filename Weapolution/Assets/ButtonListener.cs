@@ -14,26 +14,26 @@ public class ButtonListener : MonoBehaviour
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Click");
+        //Debug.Log("Click");
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
 
-        Debug.Log("Enter");
+        //Debug.Log("Enter");
 		PauseMenuScript.MouseHover = true;
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Exit");
+       // Debug.Log("Exit");
 		PauseMenuScript.MouseHover = false;
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("Down");
+       // Debug.Log("Down");
     }
     public void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log("Up");
+        //Debug.Log("Up");
     }
 	PauseMenu PauseMenuScript;
 

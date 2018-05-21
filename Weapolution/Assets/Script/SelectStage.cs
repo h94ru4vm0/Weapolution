@@ -25,11 +25,11 @@ public class SelectStage : MonoBehaviour {
     float clickTime;
     bool isGoingRight;
     bool isMoving = false;
+    bool isLocked = false;
     bool p1MoveOnlyOnce = false;
     bool p2MoveOnlyOnce = false;
     StageManager stageManager;
     GameObject Canvas;
-
     // Use this for initialization
     void Awake () {
         Camera = GameObject.Find("Main Camera");       
@@ -52,12 +52,13 @@ public class SelectStage : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
-        if (isChoosed)
-        {
+        if (isLocked) return;
+        if (isChoosed || Player.isMapped)
+        {          
+            if (isChoosed) MoveCamera();
+            else if (Player.isMapped) Camera.transform.position = new Vector3(27f, 0, -500f);
             LeftListener();
-            Canvas.SetActive(true);
-            if (!Player.isMapped) MoveCamera();
+            Canvas.SetActive(true);                    
             ChoosingStage();
             if (!isMoving)
             {
@@ -74,14 +75,14 @@ public class SelectStage : MonoBehaviour {
     }
     void MoveCamera()
     {
-        if(Camera.transform.position.x < 27)
+        if (Camera.transform.position.x < 27)
         {
             Camera.transform.position += new Vector3(0.5f, 0, 0);
 
         }
         else if (Camera.transform.position.x >27)
         {
-            Camera.transform.position = new Vector3(27f, 0, 0);
+            Camera.transform.position = new Vector3(27f, 0, -500f);
         }
         else if (Camera.transform.position.x == 27)
         {
@@ -156,14 +157,13 @@ public class SelectStage : MonoBehaviour {
 
     }
 
-    void MovingPicture()
+    void MovingPicture() //pic移動
     {
         fuctionTimes++;
         if (fuctionTimes > 30)
         {
             isMoving = false;
-            fuctionTimes = 0;
-            
+            fuctionTimes = 0;       
         }
         else
         {
@@ -250,33 +250,44 @@ public class SelectStage : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Return))
         {
             if (!startChange) {
+                isLocked = true;
                 startChange = true;
-                StageManager.currentStage++;
+                StageManager.currentStage = stageNum + 3;
+                Canvas.SetActive(false);
                 stageManager.ChangeSceneBlackOut();
+                StartCoroutine(stageManager.OnChangingScene(1f));
             }
         }
         else if (Input.GetButtonDown("p1ButtonA"))
         {
             if (!startChange)
             {
+                isLocked = true;
                 startChange = true;
-                StageManager.currentStage++;
+                StageManager.currentStage = stageNum + 3;
+                Canvas.SetActive(false);
                 stageManager.ChangeSceneBlackOut();
+                StartCoroutine(stageManager.OnChangingScene(1f));
             }
         }
         else if (Input.GetButtonDown("p2ButtonA"))
         {
             if (!startChange)
             {
+                isLocked = true;
                 startChange = true;
-                StageManager.currentStage++;
+                StageManager.currentStage = stageNum + 3;
+                Canvas.SetActive(false);
                 stageManager.ChangeSceneBlackOut();
+                StartCoroutine(stageManager.OnChangingScene(1f));
             }
         }
     }
 
     public void RightButtonClick()
     {
+        Debug.Log("RightButtonClick");
+        if (isLocked) return;
         StageText[stageNum].SetActive(false);
         CenterNum = stageNum;
         if (stageNum == 2) stageNum = 0;
@@ -290,6 +301,8 @@ public class SelectStage : MonoBehaviour {
 
     public void LeftButtonClick()
     {
+        Debug.Log("LeftButtonClick");
+        if (isLocked) return;
         StageText[stageNum].SetActive(false);
         CenterNum = stageNum;
         if (stageNum == 0) stageNum = 2;

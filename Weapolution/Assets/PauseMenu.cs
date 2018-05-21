@@ -22,13 +22,13 @@ public class PauseMenu : MonoBehaviour {
         PauseMenuSystem = GameObject.Find("PauseMenu");
         PauseMenuSystem.SetActive(false);
 		StageManagerscript = GameObject.Find ("StageManager").GetComponent<StageManager>();
-		BlackScene = GameObject.Find ("BlackScene");
+		BlackScene = GameObject.Find ("PauseBlackScene");
 		BlackScene.SetActive(false);
     }
 	
 	// Update is called once per frame=
 	void Update () {
-		Debug.Log (MouseHover);
+
 		ShowMenu ();
 		if(showMenu){
 			OnControlMenu ();
@@ -52,6 +52,7 @@ public class PauseMenu : MonoBehaviour {
             PauseMenuSystem.SetActive(false);
 			BlackScene.SetActive(false);
 			showMenu = false;
+            SelectNum = 0;
             //BlackScene.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 0);
         }
 
@@ -76,7 +77,7 @@ public class PauseMenu : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                MenuButton[SelectNum].sprite = ButtonState[0]; //idleButton
+                MenuButton[SelectNum].sprite = ButtonState[0]; //idleButton               
                 if (SelectNum == MinNum) SelectNum = MaxNum;
                 else SelectNum--;
                 MenuButton[SelectNum].sprite = ButtonState[1];
@@ -84,7 +85,7 @@ public class PauseMenu : MonoBehaviour {
             }
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                MenuButton[SelectNum].sprite = ButtonState[0];
+                MenuButton[SelectNum].sprite = ButtonState[0];        
                 if (SelectNum == MaxNum) SelectNum = MinNum;
                 else SelectNum++;
                 MenuButton[SelectNum].sprite = ButtonState[1];
@@ -99,16 +100,16 @@ public class PauseMenu : MonoBehaviour {
 			StageManagerscript.inMenuState = false;
 			break;
 		case 1:
-			StageManagerscript.OnChangingScene (1);
-			break;
+                StartCoroutine(StageManagerscript.OnChangingScene(1f));
+                break;
 		case 2:
-			StageManager.currentStage++;
-			StageManagerscript.OnChangingScene (1);
-			break;
+			    StageManager.currentStage++;
+                StartCoroutine(StageManagerscript.OnChangingScene(1f));
+                break;
 		case 3:
-			StageManager.currentStage = 4;
-			StageManagerscript.OnChangingScene (1);
-			break;
+			    StageManager.currentStage = 2;
+                StartCoroutine(StageManagerscript.OnChangingScene(1f));
+                break;
 		}
 	}
 
@@ -116,19 +117,19 @@ public class PauseMenu : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Return)){
 			switch(SelectNum){
 			case 0:
-				StageManagerscript.inMenuState = false;
-				break;
+				    StageManagerscript.inMenuState = false;
+				    break;
 			case 1:
-				StageManagerscript.OnChangingScene (1);
-				break;
+                    StartCoroutine(StageManagerscript.OnChangingScene(1f));                
+                    break;
 			case 2:
-				StageManager.currentStage++;
-				StageManagerscript.OnChangingScene (1);
-				break;
+				    StageManager.currentStage++;
+                    StartCoroutine(StageManagerscript.OnChangingScene(1f));
+                    break;
 			case 3:
-				StageManager.currentStage = 4;
-				StageManagerscript.OnChangingScene (1);
-				break;
+				    StageManager.currentStage = 2;
+                    StartCoroutine(StageManagerscript.OnChangingScene(1f));
+                    break;
 			}
 		}
 	}
