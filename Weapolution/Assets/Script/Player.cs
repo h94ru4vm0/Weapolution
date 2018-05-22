@@ -47,7 +47,7 @@ public class Player : MonoBehaviour {
 
     float beingHurt_time = 0;
     float unbeatable_time = 1;
-    Vector3 rollWay;
+    Vector3 rollWay, selfOffsetPos;
     float roll_time = 0;
     float rollCDtime = 0.7f;
     float clickTime = 0;
@@ -73,6 +73,8 @@ public class Player : MonoBehaviour {
     public TutorialRequest tutorialRequest;
     public bool test;
 
+    LayerMask unWalkable;
+
     void Awake()
     {
         if (!isMapped)
@@ -94,7 +96,10 @@ public class Player : MonoBehaviour {
             p2joystick = "p1";
 
         }
-    
+        unWalkable = 1 << LayerMask.NameToLayer("Obstacle") |
+                     1 << LayerMask.NameToLayer("Enemy") |
+                     1 << LayerMask.NameToLayer("EnemyForIn") |
+                      1 << LayerMask.NameToLayer("ObstacleForIn");
     }
     
 
@@ -126,6 +131,7 @@ public class Player : MonoBehaviour {
     void Update () {
         if (StageManager.timeUp) return;
         if (p1_die) return;
+        selfOffsetPos = new Vector3(transform.position.x, transform.position.y + 1.0f,0.0f);
         if (!p1charaType) //p1是attacker
         {
             Movement(p1moveAble, p1controller, p1joystick);
@@ -347,7 +353,10 @@ public class Player : MonoBehaviour {
                         K_JoyY = 0;
                         K_JoyX = 0;
                     }
-                    transform.position += Time.deltaTime * new Vector3(K_JoyX, K_JoyY, 0);
+                    Vector3 goVec3 = new Vector3(K_JoyX, K_JoyY, 0);
+                    RaycastHit2D hitWall = Physics2D.Raycast(selfOffsetPos, goVec3,
+                                                    0.8f, unWalkable);
+                    if(!hitWall)transform.position += Time.deltaTime * goVec3;
                 }
 
 
@@ -413,7 +422,9 @@ public class Player : MonoBehaviour {
                         //else if(Mathf.Abs(L_JoyX) >= 0.2f)transform.position += Time.deltaTime * new Vector3(L_JoyX, 0, 0) * Speed;
                     }
                     Vector3 goVec3 = new Vector3(L_JoyX, L_JoyY, 0).V3NormalizedtoV2() * Speed;
-                    transform.position += Time.deltaTime * goVec3;
+                    RaycastHit2D hitWall = Physics2D.Raycast(selfOffsetPos, goVec3,
+                                                    0.8f, unWalkable);
+                    if (!hitWall) transform.position += Time.deltaTime * goVec3;
                 }
 
                 
@@ -481,8 +492,7 @@ public class Player : MonoBehaviour {
             roll_time += Time.deltaTime;
 
             RaycastHit2D hitWall = Physics2D.Raycast(transform.position, rollWay,
-                                                    0.8f, 1 << LayerMask.NameToLayer("Obstacle") |
-                                                    1 << LayerMask.NameToLayer("Enemy"));
+                                                    0.8f, unWalkable);
             if (!hitWall) Debug.Log("rollrollroll" + rollWay + "   " + roll_time);
             if (!hitWall) transform.position += roll_time * Time.deltaTime * rollWay;
         }

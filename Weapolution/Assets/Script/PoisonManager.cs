@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PoisonManager : MonoBehaviour {
     
-    List<Poison> freePoisons, usedPoisons;
+    public List<Poison> freePoisons, usedPoisons;
 
     public int freeNum;
     // Use this for initialization

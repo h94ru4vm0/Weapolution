@@ -24,7 +24,9 @@ public class TargetSelect : MonoBehaviour {
     Vector3 hakatargetSection_Right = new Vector3(6.5f, 2f, 0);
 
     int TargetType;
-    bool MoveOnlyOnce = false;
+    bool p1MoveOnlyOnce = false;
+    bool p2MoveOnlyOnce = false;
+
 
     public bool showP1Target = false;
     public bool showP2Target = false;
@@ -251,28 +253,28 @@ public class TargetSelect : MonoBehaviour {
         {
             if ( WhichStick == "p1")
             {
-                if ( 0.5f <= Mathf.Abs(p1_L_JoyX) && !MoveOnlyOnce )
+                if ( 0.5f <= Mathf.Abs(p1_L_JoyX) && !p1MoveOnlyOnce )
                 {
                     if (isP1target && !p1IsLocked) P1targetOnBuda = !P1targetOnBuda;
                     if (!isP1target && !p2IsLocked) P2targetOnBuda = !P2targetOnBuda;
-                    MoveOnlyOnce = true;
+                    p1MoveOnlyOnce = true;
                 }
-                if (0.5f >= Mathf.Abs(p1_L_JoyX) && MoveOnlyOnce)
+                if (0.5f >= Mathf.Abs(p1_L_JoyX) && p1MoveOnlyOnce)
                 {
-                    MoveOnlyOnce = false;
+                    p1MoveOnlyOnce = false;
                 }
             }
             else if (WhichStick == "p2")
             {
-                if (0.5f <= Mathf.Abs( p2_L_JoyX )&& !MoveOnlyOnce)
+                if (0.5f <= Mathf.Abs( p2_L_JoyX )&& !p2MoveOnlyOnce)
                 {
                     if (isP1target && !p1IsLocked) P1targetOnBuda = !P1targetOnBuda;
                     if (!isP1target && !p2IsLocked) P2targetOnBuda = !P2targetOnBuda;
-                    MoveOnlyOnce = true;
+                    p2MoveOnlyOnce = true;
                 }
-                if (0.5f >= Mathf.Abs(p2_L_JoyX) && MoveOnlyOnce)
+                if (0.5f >= Mathf.Abs(p2_L_JoyX) && p2MoveOnlyOnce)
                 {
-                    MoveOnlyOnce = false;
+                    p2MoveOnlyOnce = false;
                 }
             }
         }

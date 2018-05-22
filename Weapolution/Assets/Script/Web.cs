@@ -33,8 +33,7 @@ public class Web : CChildProject
         } 
         else
         {
-            ResetChild();
-            system.AddFree(this.transform);
+            RecycleSelf();
         }
     }
 
@@ -43,6 +42,11 @@ public class Web : CChildProject
         init = false;
         time = 0.0f;
         damageOnce = false;
+    }
+
+    public void RecycleSelf() {
+        ResetChild();
+        system.AddFree(this.transform);
     }
 
 }

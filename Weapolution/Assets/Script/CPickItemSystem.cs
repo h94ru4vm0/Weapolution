@@ -46,9 +46,9 @@ public class CPickItemSystem : MonoBehaviour {
         SpawnInUsed(new Vector3(-7, 3, 0), 6);
         SpawnInUsed(new Vector3(-5, 3, 0), 6);
         SpawnInUsed(new Vector3(-4, 3, 0), 6);
-        SpawnInUsed(new Vector3(-2, -6, 0), 7);
-        SpawnInUsed(new Vector3(0, -6, 0), 8);
-        SpawnInUsed(new Vector3(3, -6, 0), 4);
+        SpawnInUsed(new Vector3(-2, -6, 0), 3);
+        SpawnInUsed(new Vector3(0, -6, 0), 3);
+        SpawnInUsed(new Vector3(3, -6, 0), 3);
         //SpawnInUsed(new Vector3(-5, 0, 0), 5);
         //SpawnInUsed(new Vector3(-5, 0.7f, 0), 5);
         // SpawnInUsed(new Vector3(-3, 0.3f, 0), 5);
@@ -63,7 +63,7 @@ public class CPickItemSystem : MonoBehaviour {
             SpawnPickCollect(locations[0], 0, 1);
             SpawnPickCollect(locations[4], 0, 1);
             SpawnPickCollect(locations[7], 1, 2);
-            SpawnPickCollect(locations[5], 1, 1);
+            SpawnPickCollect(locations[5], 1, 2);
         }
     }
 

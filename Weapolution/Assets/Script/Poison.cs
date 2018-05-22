@@ -46,6 +46,7 @@ public class Poison : MonoBehaviour {
         }
         else {
             hasreached = false;
+            time = 0.0f;
             system.RecycleFree(this);
         }
     }

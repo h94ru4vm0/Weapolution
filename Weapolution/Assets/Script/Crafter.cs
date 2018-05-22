@@ -16,9 +16,15 @@ public class Crafter : MonoBehaviour {
     float K_JoyY = 0.0f;
     public float Speed = 5.0f;
     int inFuntionTime = 0;
+    float gatherStartTime;
+    float gatherTime = 1f;
+
+    Canon CanonScript;
 
     public Animator animator;
     SpriteRenderer img;
+
+    Web web;
 
     public Player PlayerScript;
     void Start () {
@@ -26,6 +32,7 @@ public class Crafter : MonoBehaviour {
         animator.SetInteger("face_way", 5);
         //animator.SetInteger("animation_state", 0);
         PlayerScript = GameObject.Find("character1").GetComponent<Player>();
+        CanonScript = GameObject.Find("Canon").GetComponent<Canon>();
     }
 	
 	// Update is called once per frame
@@ -71,6 +78,43 @@ public class Crafter : MonoBehaviour {
         if (Player.p2charaType) Player.p2moveAble = true;
         else Player.p1moveAble = true;
     }
+    void BeSticked()
+    {
+        if (test) return;
+        if (Player.p2charaType) Player.p2moveAble = false;
+        else Player.p1moveAble = false;
+        animator.SetTrigger("is_sticked");
+        GameObject.Find("CharacterAudio").GetComponent<CharacterVoice>().SetAudio(1); //受傷音效
+    }
+    void OverBeingStcik()
+    {
+        if (Player.p2charaType) Player.p2moveAble = true;
+        else Player.p1moveAble = true;
+        web.RecycleSelf();
+    }
+
+    public void Gathering()
+    {
+        animator.SetBool ("is_gather",true);
+        if (Player.p2charaType) Player.p2moveAble = false;
+        else Player.p1moveAble = false;
+        if(inFuntionTime == 0)
+        {
+            gatherStartTime = Time.time;
+            inFuntionTime++;
+        }
+    }
+
+    void OverGathering()
+    {
+        animator.SetBool("is_gather", false);        
+        inFuntionTime = 0;
+        CanonScript.startFilled = false;
+        CanonScript.canFiiled = false;
+        CanonScript.isfillingPowder = true;
+        CanonScript.CallCraftSystemFucion();
+    }
+
     void Movement(bool move, bool ctrlmode, string Joystick_num)
     {
         if (move)
@@ -263,5 +307,12 @@ public class Crafter : MonoBehaviour {
 
     }
 
-   
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.tag == "Web")
+        {
+            web = collision.GetComponent<Web>();
+            BeSticked();
+        }
+    }
 }
