@@ -73,8 +73,9 @@ public class EnemyDoctor : CEnemy
         if (totalAtkNum > 6)
         {
             totalAtkNum = 0;
-            if (CouculatePlayerDis(false, 2.0f)) state = 2;
-            else state = 1;
+            state = 4;
+            //if (CouculatePlayerDis(false, 2.0f)) state = 2;
+            //else state = 1;
         }
         else
         {
@@ -262,6 +263,7 @@ public class EnemyDoctor : CEnemy
     public void StartSprint() {
         render.enabled = false;
         sprintAtks.SetStartSprint();
+        
     } 
 
     void SprintAtk() {
@@ -294,6 +296,7 @@ public class EnemyDoctor : CEnemy
 
     void PoisonAttack() {
         if (state_time < 0.1f) {
+            onAttacking = true;
             state_time = 10.0f;
         }
     }
@@ -333,24 +336,35 @@ public class EnemyDoctor : CEnemy
         else
         {
             if (poisonOffset.x > 0.0f) tempSelfPos = new Vector3(poisonAtksPos[0].x - 1.0f, poisonAtksPos[0].y + 1.0f, transform.position.z);
-            else tempSelfPos = new Vector3(poisonAtksPos[0].x + 1.0f, poisonAtksPos[0].y + 1.0f, transform.position.z);
+            else tempSelfPos = new Vector3(poisonAtksPos[0].x - Mathf.Sign(poisonOffset.x), poisonAtksPos[0].y + 1.0f, transform.position.z);
         }
         transform.position = tempSelfPos;
+        transform.localScale = new Vector3(-Mathf.Sign(poisonOffset.x),1.0f,1.0f);
     }
 
     public void StartPoisonBlast() {
         //Vector2 locOffset = new Vector2(1.0f, 1.0f);
         //RaycastHit2D detect = Physics2D.Raycast(poisonAtksPos[3], locOffset);
-        
-
         for (int i = 0; i < 4; i++) {
-            Vector3 blastLoc = new Vector3(self_pos.x - Mathf.Sign(poisonOffset.x)*2.0f, self_pos.y + 2.0f, poisonAlerts.GetUsedChildTransform(poisonNum).position.z);
+            Debug.Log("poooooooooonum" + poisonNum);
+            Vector3 blastLoc = new Vector3(self_pos.x + Mathf.Sign(poisonOffset.x)*2.0f, self_pos.y + 2.0f, poisonAlerts.GetUsedChildTransform(poisonNum).position.z);
             if (poisonManager.freeNum > 0) poisonManager.AddUsedPosition(blastLoc, poisonAtksPos[i]);
             else break;
             poisonNum++;
         }
-       
+        
+        if (poisonNum >= 12) {
+            poisonNum = 0;
+            poisonAlerts.RecycleAllChild();  
+            animator.SetBool("poisonOver", true);
+        }
 
+    }
+
+    public void PoisonOver() {
+        inState_time = 15.0f;
+        SetState(-1, false);
+        onAttacking = false;
     }
 
     public override void SetHurtValue(int _value, int _HitDir)
@@ -375,6 +389,7 @@ public class EnemyDoctor : CEnemy
             else transform.localScale = new Vector3(scaleX, 1, 1);
         }
         if (state != lastState) {
+            if (lastState == 4) animator.SetBool("poisonOver", false);
             animator.SetInteger("state", state);
             lastState = state;
         }

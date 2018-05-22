@@ -56,6 +56,16 @@ public class CChildProjectSystem : MonoBehaviour {
         return UsedList.GetChild(id);
     }
 
+    public void RecycleAllChild() {
+        int tempNum = UsedList.childCount;
+        for (int i = 0; i < tempNum; i++) {
+            Transform temp = UsedList.GetChild(0);
+            temp.parent = FreeList;
+            temp.gameObject.SetActive(false);
+            freeNum++;
+        }
+    }
+
     public int GetFreeNum() {
         return freeNum;
     }

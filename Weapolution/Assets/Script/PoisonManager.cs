@@ -15,6 +15,7 @@ public class PoisonManager : MonoBehaviour {
         {
             Transform temp = transform.GetChild(i);
             freePoisons.Add(temp.GetComponent<Poison>());
+            freePoisons[freePoisons.Count - 1].system = this;
             temp.gameObject.SetActive(false);
             freeNum++;
         }
@@ -36,4 +37,12 @@ public class PoisonManager : MonoBehaviour {
         freePoisons.RemoveAt(0);
         freeNum--;
     }
+
+    public void RecycleFree(Poison poison) {
+        freePoisons.Add(poison);
+        usedPoisons.Remove(poison);
+        poison.gameObject.SetActive(false);
+        freeNum++;
+    }
+
 }
