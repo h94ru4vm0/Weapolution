@@ -21,7 +21,6 @@ public class PoisonHint : CChildProject
         {
             if (!init)
             {
-                Debug.Log("arange heiiiiiiiight");
                 init = true;
                 levelHieght.SetHeight();
             }

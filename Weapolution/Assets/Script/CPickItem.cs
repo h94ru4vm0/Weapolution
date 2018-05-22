@@ -16,7 +16,7 @@ public class CPickItem : MonoBehaviour {
     int i_fly_way;
     Collider2D collider;
     LevelHeight levelHeight;
-
+    ZArrange zArrange;
     private void Awake()
     {
         render = this.transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -24,6 +24,7 @@ public class CPickItem : MonoBehaviour {
         collider = this.GetComponent<Collider2D>();
         f_flyTime = 2.0f * ground_height / f_gravity;
         levelHeight = GetComponent<LevelHeight>();
+        zArrange = GetComponent<ZArrange>();
     }
 
     private void Update()
@@ -165,6 +166,10 @@ public class CPickItem : MonoBehaviour {
             shadowRender.enabled = true;
             levelHeight.SetHeight();
         } 
+    }
+
+    public void SetZBase(float _base) {
+        zArrange.f_base = _base;
     }
 
     void OnDisappear() {

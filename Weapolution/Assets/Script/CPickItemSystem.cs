@@ -137,7 +137,7 @@ public class CPickItemSystem : MonoBehaviour {
         freePickItemList.RemoveAt(0);     
         free_num--;
         used_num++;
-        Debug.Log(usedPickItemList[usedPickItemList.Count - 1].name);
+        //Debug.Log(usedPickItemList[usedPickItemList.Count - 1].name);
         return usedPickItemList[usedPickItemList.Count - 1];
     }
 

@@ -59,4 +59,13 @@ public class Poison : MonoBehaviour {
         //setOn = true;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "player") {
+            Debug.Log("asdasdasdasdasdasd hitttttt");
+            if (Mathf.Abs(collision.transform.position.z - transform.position.z) < 5.0f) {
+                Debug.Log("hittttttttttttttttt");
+            }
+        }
+    }
 }

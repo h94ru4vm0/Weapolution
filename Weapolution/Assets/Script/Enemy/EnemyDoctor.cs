@@ -309,8 +309,10 @@ public class EnemyDoctor : CEnemy
 
         if (detect1 && detect2)
         {
-            if (Random.Range(0.0f, 1.0f) > 0.5f) poisonOffset = new Vector3(0.0f, 1.0f, 0.0f);
-            else poisonOffset = new Vector3(0.0f, -1.0f, 0.0f);
+            float nearRight = ((playerPos.x - detect1.transform.position.x) > (detect2.transform.position.x - playerPos.x))
+                ? -1.0f : 1.0f;
+            if (Random.Range(0.0f, 1.0f) > 0.5f) poisonOffset = new Vector3(nearRight, 1.0f, 0.0f);
+            else poisonOffset = new Vector3(nearRight, -1.0f, 0.0f);
         }
         else {
             if (Random.Range(0.0f, 1.0f) > 0.5f) poisonOffset = new Vector3(1.0f, 0.0f, 0.0f);
@@ -352,12 +354,17 @@ public class EnemyDoctor : CEnemy
             else break;
             poisonNum++;
         }
-        
-        if (poisonNum >= 12) {
+        if (poisonNum >= 4)
+        {
+            poisonAlerts.RecycleAllChild();
             poisonNum = 0;
-            poisonAlerts.RecycleAllChild();  
-            animator.SetBool("poisonOver", true);
+            if (poisonNum >= 12)
+            {
+                
+                animator.SetBool("poisonOver", true);
+            }
         }
+       
 
     }
 
