@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class Canon : MonoBehaviour {
 
-    public bool isfillingPowder = false;
-    public bool startFilled = false;
-    public bool canFiiled = false;
-    string whichPlayer = "p1";
-    bool readyToShoot = false;
+    public bool Canon1isfillingPowder = false;
+    public bool Canon2isfillingPowder = false;
 
-    
+    public bool startFilled = false;
+    public bool Canon1canFiiled = false;
+    public bool Canon2canFiiled = false;
+
+    int Canon1PowderNum = 0;
+    int Canon2PowderNum = 0;
+
+    public bool Canon1Filled = false;
+    public bool Canon2Filled = false;
+
+    bool readyToShoot = false;
+    string whichPlayer = "p1";
 
     GameObject RightCanon, LeftCanon;
-    bool ShowRightAim = false, ShowLeftAim = false;
-    List<Vector3> DefaultAimPos;
     public int CanonNum;
-    float speed = 10f;
     Crafter CrafterScript;
     public CraftSystem CraftSystemScript;
 
@@ -34,36 +39,36 @@ public class Canon : MonoBehaviour {
     {
         if (Player.p2charaType) whichPlayer = Player.p2joystick;
         else whichPlayer = Player.p1joystick;
-        DefaultAimPos[0] = RightCanon.transform.position + new Vector3(-3f, 2.5f, 0);
-        DefaultAimPos[1] = LeftCanon.transform.position + new Vector3(3f, 2.5f, 0);
     }
     // Update is called once per frame
     void Update()
     {
-        
-        if (!isfillingPowder) //notFillingInPowder
+        if (CanonNum == 0)
         {
-            if (canFiiled)
+            if (!Canon1isfillingPowder) //notFillingInPowder
             {
-                FillingInPowder();
-                if (startFilled) CrafterScript.Gathering();
+                if (Canon1canFiiled)
+                {
+                    FillingInPowder();
+                    if (startFilled) CrafterScript.Gathering();
+                }
             }
         }
         else
         {
-            //if (!readyToShoot) AimControl();
-            //else ShootBullet();
-
+            if (!Canon2isfillingPowder) //notFillingInPowder
+            {
+                if (Canon2canFiiled)
+                {
+                    FillingInPowder();
+                    if (startFilled) CrafterScript.Gathering();
+                }
+            }
         }
+        
 
     }
 
-   
-
-    void ShootBullet()
-    {
-
-    }
     
     void FillingInPowder()
     {
@@ -99,6 +104,37 @@ public class Canon : MonoBehaviour {
 
     }
 
+    public void OverFinlling()
+    {
+        if (Canon1Filled)
+        {
+            if (Canon1PowderNum != 0)
+            {
+                Canon1isfillingPowder = true;
+            }
+            if (Canon1PowderNum >= 2)
+            {
+                Canon1isfillingPowder = true;
+                Canon1canFiiled = false;
+            }
+            Canon1Filled = false;
+        }
+
+        if (Canon2Filled)
+            {
+                if (Canon2PowderNum != 0)
+                {
+                    Canon2isfillingPowder = true;
+                }
+                if (Canon2PowderNum >= 2)
+                {
+                    Canon2isfillingPowder = true;
+                    Canon2canFiiled = false;
+                }
+                Canon2Filled = false;
+            }
+               
+    }
     public void CallCraftSystemFucion()
     {
         CraftSystemScript.ThrowOut();
@@ -106,12 +142,22 @@ public class Canon : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("CraftSystemScript.craftA" + CraftSystemScript);
         if (collision.tag == "Player")
         {
             if (CraftSystemScript.CheckHandle().id == 3)
             {
-                canFiiled = true;
+                if(CanonNum == 0)
+                {
+                    Canon1canFiiled = true;
+                    Canon1PowderNum++;
+                    Canon1Filled = true;
+                }
+                else
+                {
+                    Canon2canFiiled = true;
+                    Canon2PowderNum++;
+                    Canon2Filled = true;
+                }
             }
                 
             else return;

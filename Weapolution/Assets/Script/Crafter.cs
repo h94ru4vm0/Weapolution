@@ -110,9 +110,13 @@ public class Crafter : MonoBehaviour {
         animator.SetBool("is_gather", false);        
         inFuntionTime = 0;
         CanonScript.startFilled = false;
-        CanonScript.canFiiled = false;
-        CanonScript.isfillingPowder = true;
+        Debug.Log("OverGathering2222222222222");
+
+        CanonScript.OverFinlling();
         CanonScript.CallCraftSystemFucion();
+        if (Player.p2charaType) Player.p2moveAble = true;
+        else Player.p1moveAble = true;
+
     }
 
     void Movement(bool move, bool ctrlmode, string Joystick_num)
