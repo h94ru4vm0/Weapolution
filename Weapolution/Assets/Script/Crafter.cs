@@ -27,6 +27,15 @@ public class Crafter : MonoBehaviour {
     Web web;
 
     public Player PlayerScript;
+
+    LayerMask unWalkable;
+
+    private void Awake()
+    {
+        unWalkable = 1 << LayerMask.NameToLayer("Obstacle") |
+                      1 << LayerMask.NameToLayer("ObstacleForOut");
+    }
+
     void Start () {
         animator = GetComponent<Animator>();
         animator.SetInteger("face_way", 5);
@@ -132,7 +141,7 @@ public class Crafter : MonoBehaviour {
                     if (Input.GetKey(KeyCode.D))
                     {
                         animator.SetBool("is_walk", true);
-                        transform.position += Time.deltaTime * new Vector3(Speed, 0, 0);
+                        //transform.position += Time.deltaTime * new Vector3(Speed, 0, 0);
                         animator.SetInteger("face_way", 3);
                         face_way = 3;
                         K_JoyX = Speed;
@@ -140,26 +149,29 @@ public class Crafter : MonoBehaviour {
                     else if (Input.GetKey(KeyCode.A))
                     {
                         animator.SetBool("is_walk", true);
-                        transform.position -= Time.deltaTime * new Vector3(Speed, 0, 0);
+                        //transform.position -= Time.deltaTime * new Vector3(Speed, 0, 0);
                         animator.SetInteger("face_way", 2);
                         face_way = 2;
                         K_JoyX = -1 * Speed;
+
                     }
                     else if (Input.GetKey(KeyCode.W))
                     {
                         animator.SetBool("is_walk", true);
-                        transform.position += Time.deltaTime * new Vector3(0, Speed, 0);
+                        //transform.position += Time.deltaTime * new Vector3(0, Speed, 0);
                         animator.SetInteger("face_way", 0);
                         face_way = 0;
                         K_JoyY = Speed;
+
                     }
                     else if (Input.GetKey(KeyCode.S))
                     {
                         animator.SetBool("is_walk", true);
-                        transform.position -= Time.deltaTime * new Vector3(0, Speed, 0);
+                        //transform.position -= Time.deltaTime * new Vector3(0, Speed, 0);
                         animator.SetInteger("face_way", 1);
                         face_way = 1;
                         K_JoyY = -1 * Speed;
+
                     }
                     if (last_way != face_way)
                     {
@@ -178,28 +190,28 @@ public class Crafter : MonoBehaviour {
                     if (Input.GetKey(KeyCode.D))
                     {
                         animator.SetBool("is_walk", true);
-                        transform.position += Time.deltaTime * new Vector3(Speed, 0, 0);
+                        //transform.position += Time.deltaTime * new Vector3(Speed, 0, 0);
                         //face_way = 3;
                         K_JoyX = Speed;
                     }
                     if (Input.GetKey(KeyCode.A))
                     {
                         animator.SetBool("is_walk", true);
-                        transform.position -= Time.deltaTime * new Vector3(Speed, 0, 0);
+                        //transform.position -= Time.deltaTime * new Vector3(Speed, 0, 0);
                         //face_way = 2;
                         K_JoyX = -1 * Speed;
                     }
                     if (Input.GetKey(KeyCode.W))
                     {
                         animator.SetBool("is_walk", true);
-                        transform.position += Time.deltaTime * new Vector3(0, Speed, 0);
+                        //transform.position += Time.deltaTime * new Vector3(0, Speed, 0);
                         //face_way = 0;
                         K_JoyY = Speed;
                     }
                     if (Input.GetKey(KeyCode.S))
                     {
                         animator.SetBool("is_walk", true);
-                        transform.position -= Time.deltaTime * new Vector3(0, Speed, 0);
+                        //transform.position -= Time.deltaTime * new Vector3(0, Speed, 0);
                         //face_way = 1;
                         K_JoyY = -1 * Speed;
                     }
@@ -208,7 +220,8 @@ public class Crafter : MonoBehaviour {
                         K_JoyY = 0;
                         K_JoyX = 0;
                     }
-
+                    DetectWall(true);
+                    transform.position += Time.deltaTime * new Vector3(K_JoyX, K_JoyY, 0);
                 }
 
 
@@ -233,21 +246,21 @@ public class Crafter : MonoBehaviour {
                         if (L_JoyX > 0)
                         {
                             animator.SetInteger("face_way", 3);
-                            transform.position += Time.deltaTime * new Vector3(L_JoyX, 0, 0) * Speed;
+                            //transform.position += Time.deltaTime * new Vector3(L_JoyX, 0, 0) * Speed;
                             face_way = 3;
                         }
                         else
                         {
                             animator.SetInteger("face_way", 2);
-                            transform.position += Time.deltaTime * new Vector3(L_JoyX, 0, 0) * Speed;
+                            //transform.position += Time.deltaTime * new Vector3(L_JoyX, 0, 0) * Speed;
                             face_way = 2;
                         }
-                        if (Mathf.Abs(L_JoyY) >= 0.2f) transform.position += Time.deltaTime * new Vector3(0, L_JoyY, 0) * Speed;
+                        //if (Mathf.Abs(L_JoyY) >= 0.2f) transform.position += Time.deltaTime * new Vector3(0, L_JoyY, 0) * Speed;
                         if (last_way != face_way)
                         {
                             animator.SetTrigger("change_face");
+                            last_way = face_way;
                         }
-                        last_way = face_way;
                         //else if (Mathf.Abs(L_JoyY) >= 0.2f) transform.position -= Time.deltaTime * new Vector3(0, L_JoyY, 0) * Speed;
                     }
                     else if (Mathf.Abs(L_JoyX) < Mathf.Abs(L_JoyY))
@@ -256,23 +269,26 @@ public class Crafter : MonoBehaviour {
                         if (L_JoyY > 0)
                         {
                             animator.SetInteger("face_way", 0);
-                            transform.position += Time.deltaTime * new Vector3(0, L_JoyY, 0) * Speed;
+                            //transform.position += Time.deltaTime * new Vector3(0, L_JoyY, 0) * Speed;
                             face_way = 0;
                         }
                         else
                         {
                             animator.SetInteger("face_way", 1);
-                            transform.position += Time.deltaTime * new Vector3(0, L_JoyY, 0) * Speed;
+                            //transform.position += Time.deltaTime * new Vector3(0, L_JoyY, 0) * Speed;
                             face_way = 1;
                         }
-                        if (Mathf.Abs(L_JoyX) >= 0.2f) transform.position += Time.deltaTime * new Vector3(L_JoyX, 0, 0) * Speed;
+                        //if (Mathf.Abs(L_JoyX) >= 0.2f) transform.position += Time.deltaTime * new Vector3(L_JoyX, 0, 0) * Speed;
                         if (last_way != face_way)
                         {
                             animator.SetTrigger("change_face");
+                            last_way = face_way;
                         }
-                        last_way = face_way;
                         //else if(Mathf.Abs(L_JoyX) >= 0.2f)transform.position += Time.deltaTime * new Vector3(L_JoyX, 0, 0) * Speed;
                     }
+
+                    DetectWall(false);
+                    transform.position += Time.deltaTime * new Vector3(L_JoyX * Speed, L_JoyY * Speed, 0);
                 }
 
 
@@ -305,6 +321,42 @@ public class Crafter : MonoBehaviour {
             //    transform.position += Time.deltaTime * new Vector3(0, L_JoyY * Speed, 0);
             //}
             #endregion
+        }
+
+    }
+
+    void DetectWall(bool isKey)
+    {
+        float speedX = 0, speedY = 0;
+
+        Vector2 pos = new Vector2(transform.position.x, transform.position.y);
+
+        RaycastHit2D hitWall0 = Physics2D.Raycast(pos, new Vector3(0, 1, 0),
+                                        1.2f, unWalkable);
+        RaycastHit2D hitWall1 = Physics2D.Raycast(pos, new Vector3(0, -1, 0),
+                                        0.15f, unWalkable);
+        RaycastHit2D hitWall2 = Physics2D.Raycast(pos, new Vector3(-1, 0, 0),
+                                        0.4f, unWalkable);
+        RaycastHit2D hitWall3 = Physics2D.Raycast(pos, new Vector3(1, 0, 0),
+                                        0.4f, unWalkable);
+
+        if (isKey)
+        {
+            speedX = K_JoyX;
+            speedY = K_JoyY;
+            if (hitWall0 && K_JoyY > 0.0f) K_JoyY = 0.0f;
+            if (hitWall1 && K_JoyY < 0.0f) K_JoyY = 0.0f;
+            if (hitWall2 && K_JoyX < 0.0f) K_JoyX = 0.0f;
+            if (hitWall3 && K_JoyX > 0.0f) K_JoyX = 0.0f;
+        }
+        else
+        {
+            speedX = L_JoyX;
+            speedY = L_JoyY;
+            if (hitWall0 && L_JoyY > 0.0f) L_JoyY = 0.0f;
+            if (hitWall1 && L_JoyY < 0.0f) L_JoyY = 0.0f;
+            if (hitWall2 && L_JoyX < 0.0f) L_JoyX = 0.0f;
+            if (hitWall3 && L_JoyX > 0.0f) L_JoyX = 0.0f;
         }
 
 

@@ -47,7 +47,7 @@ public class Player : MonoBehaviour {
 
     float beingHurt_time = 0;
     float unbeatable_time = 1;
-    Vector3 rollWay, selfOffsetPos;
+    Vector3 rollWay;
     float roll_time = 0;
     float rollCDtime = 0.7f;
     float clickTime = 0;
@@ -131,7 +131,6 @@ public class Player : MonoBehaviour {
     void Update () {
         if (StageManager.timeUp) return;
         if (p1_die) return;
-        selfOffsetPos = new Vector3(transform.position.x, transform.position.y + 1.0f,0.0f);
         if (!p1charaType) //p1是attacker
         {
             Movement(p1moveAble, p1controller, p1joystick);
@@ -353,10 +352,8 @@ public class Player : MonoBehaviour {
                         K_JoyY = 0;
                         K_JoyX = 0;
                     }
-                    Vector3 goVec3 = new Vector3(K_JoyX, K_JoyY, 0);
-                    RaycastHit2D hitWall = Physics2D.Raycast(selfOffsetPos, goVec3,
-                                                    0.8f, unWalkable);
-                    if(!hitWall)transform.position += Time.deltaTime * goVec3;
+                    DetectWall(true);
+                    transform.position += Time.deltaTime * new Vector3(K_JoyX, K_JoyY, 0);
                 }
 
 
@@ -421,10 +418,9 @@ public class Player : MonoBehaviour {
                         }
                         //else if(Mathf.Abs(L_JoyX) >= 0.2f)transform.position += Time.deltaTime * new Vector3(L_JoyX, 0, 0) * Speed;
                     }
-                    Vector3 goVec3 = new Vector3(L_JoyX, L_JoyY, 0).V3NormalizedtoV2() * Speed;
-                    RaycastHit2D hitWall = Physics2D.Raycast(selfOffsetPos, goVec3,
-                                                    0.8f, unWalkable);
-                    if (!hitWall) transform.position += Time.deltaTime * goVec3;
+                    
+                    DetectWall(false);
+                    transform.position += Time.deltaTime * new Vector3(L_JoyX * Speed, L_JoyY * Speed, 0);
                 }
 
                 
@@ -461,6 +457,39 @@ public class Player : MonoBehaviour {
         
         
         
+    }
+
+    void DetectWall(bool isKey) {
+        float speedX = 0, speedY = 0;
+
+        Vector2 pos = new Vector2(transform.position.x, transform.position.y);
+
+        RaycastHit2D hitWall0 = Physics2D.Raycast(pos, new Vector3(0, 1, 0),
+                                        1.5f, unWalkable);
+        RaycastHit2D hitWall1 = Physics2D.Raycast(pos, new Vector3(0, -1, 0),
+                                        0.15f, unWalkable);
+        RaycastHit2D hitWall2 = Physics2D.Raycast(pos, new Vector3(-1, 0, 0),
+                                        0.8f, unWalkable);
+        RaycastHit2D hitWall3 = Physics2D.Raycast(pos, new Vector3(1, 0, 0),
+                                        0.8f, unWalkable);
+
+        if (isKey)
+        {
+            speedX = K_JoyX;
+            speedY = K_JoyY;
+            if (hitWall0 && K_JoyY > 0.0f) K_JoyY = 0.0f;
+            if (hitWall1 && K_JoyY < 0.0f) K_JoyY = 0.0f;
+            if (hitWall2 && K_JoyX < 0.0f) K_JoyX = 0.0f;
+            if (hitWall3 && K_JoyX > 0.0f) K_JoyX = 0.0f;
+        }
+        else {
+            speedX = L_JoyX;
+            speedY = L_JoyY;
+            if (hitWall0 && L_JoyY > 0.0f) L_JoyY = 0.0f;
+            if (hitWall1 && L_JoyY < 0.0f) L_JoyY = 0.0f;
+            if (hitWall2 && L_JoyX < 0.0f) L_JoyX = 0.0f;
+            if (hitWall3 && L_JoyX > 0.0f) L_JoyX = 0.0f;
+        }
     }
 
     void Roll(int player_number, int face_way)

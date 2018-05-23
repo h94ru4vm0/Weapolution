@@ -122,91 +122,58 @@ public class CanonSystem : MonoBehaviour {
 
     void AimControl(GameObject whichAim)
     {
+        float speedX = 0, speedY = 0;
 
         if (Player.p2charaType)
         {
             if (Player.p2controller)
             {
-                
-                if (IsHitted[0]) {
-                    Debug.Log("hitWall1");
-                    if (whichPlayer == "p1")
-                    {
-                        if (! (p1_L_JoyY > 0) )
-                        {
-                            whichAim.transform.position += new Vector3(p1_L_JoyX / speed, p1_L_JoyY / speed, 0);
-                        }
-
-                    }
-                    else
-                    {
-                        if (!(p2_L_JoyY > 0)) whichAim.transform.position += new Vector3(p2_L_JoyX / speed, p2_L_JoyY / speed, 0);
-                    }
-                }
-                if (IsHitted[1])
+                if (whichPlayer == "p1")
                 {
-                    if (whichPlayer == "p1")
-                    {
-                        if (!(p1_L_JoyY < 0))
-                            whichAim.transform.position += new Vector3(p1_L_JoyX / speed, p1_L_JoyY / speed, 0);
-
-                    }
-                    else
-                    {
-                        if (!(p2_L_JoyY < 0)) whichAim.transform.position += new Vector3(p2_L_JoyX / speed, p2_L_JoyY / speed, 0);
-                    }
+                    if (Mathf.Abs(p1_L_JoyY) > 0.1f) speedY = Mathf.Sign(p1_L_JoyY);
+                    if (Mathf.Abs(p1_L_JoyX) > 0.1f) speedX = Mathf.Sign(p1_L_JoyX);
+                    if (IsHitted[0] && speedY > 0.0F) speedY = 0.0f;
+                    if (IsHitted[1] && speedY < 0.0F) speedY = 0.0f;
+                    if (IsHitted[2] && speedX < 0.0F) speedX = 0.0f;
+                    if (IsHitted[3] && speedX > 0.0F) speedX = 0.0f;
                 }
-                if (IsHitted[2])
-                {
-                    if (whichPlayer == "p1")
-                    {
-                        if (!(p1_L_JoyX < 0))
-                            whichAim.transform.position += new Vector3(p1_L_JoyX / speed, p1_L_JoyY / speed, 0);
-
-                    }
-                    else
-                    {
-                        if (!(p2_L_JoyX < 0)) whichAim.transform.position += new Vector3(p2_L_JoyX / speed, p2_L_JoyY / speed, 0);
-                    }
+                else {
+                    if (Mathf.Abs(p2_L_JoyY) > 0.1f) speedY = Mathf.Sign(p1_L_JoyY);
+                    if (Mathf.Abs(p2_L_JoyX) > 0.1f) speedX = Mathf.Sign(p1_L_JoyX);
+                    if (IsHitted[0] && speedY > 0.0F) speedY = 0.0f;
+                    if (IsHitted[1] && speedY < 0.0F) speedY = 0.0f;
+                    if (IsHitted[2] && speedX < 0.0F) speedX = 0.0f;
+                    if (IsHitted[3] && speedX > 0.0F) speedX = 0.0f;
                 }
-                if (IsHitted[3])
-                {
-                    if (whichPlayer == "p1")
-                    {
-                        if (!(p1_L_JoyX > 0))
-                            whichAim.transform.position += new Vector3(p1_L_JoyX / speed, p1_L_JoyY / speed, 0);
-
-                    }
-                    else
-                    {
-                        if (!(p2_L_JoyX > 0)) whichAim.transform.position += new Vector3(p2_L_JoyX / speed, p2_L_JoyY / speed, 0);
-                    }
-
-                }
-                if (!IsHitted[0] && !IsHitted[1] && !IsHitted[2] && !IsHitted[3])
-                {
-                    if (whichPlayer == "p1")
-                    {
-                        whichAim.transform.position += new Vector3(p1_L_JoyX / speed, p1_L_JoyY / speed, 0);
-                    }
-                    else
-                    {
-                        whichAim.transform.position += new Vector3(p2_L_JoyX / speed, p2_L_JoyY / speed, 0);
-
-                    }
-                }
+                whichAim.transform.position += Time.deltaTime * speed * new Vector3(speedX, speedY, 0);
             }
-            else //用鍵盤
-            {
-
-            }
-
+            else { }//用鍵盤
         }
         else
         {
-            RightAim.transform.position += new Vector3(p1_L_JoyX, p1_L_JoyY, 0);
-            Debug.Log("Aim.transform.positios  1");
-
+            if (Player.p1controller)
+            {
+                if (whichPlayer == "p1")
+                {
+                    if (Mathf.Abs(p1_L_JoyY) > 0.1f) speedY = Mathf.Sign(p1_L_JoyY);
+                    if (Mathf.Abs(p1_L_JoyX) > 0.1f) speedX = Mathf.Sign(p1_L_JoyX);
+                    if (IsHitted[0] && speedY > 0.0F) speedY = 0.0f;
+                    if (IsHitted[1] && speedY < 0.0F) speedY = 0.0f;
+                    if (IsHitted[2] && speedX < 0.0F) speedX = 0.0f;
+                    if (IsHitted[3] && speedX > 0.0F) speedX = 0.0f;
+                }
+                else
+                {
+                    if (Mathf.Abs(p2_L_JoyY) > 0.1f) speedY = Mathf.Sign(p1_L_JoyY);
+                    if (Mathf.Abs(p2_L_JoyX) > 0.1f) speedX = Mathf.Sign(p1_L_JoyX);
+                    if (IsHitted[0] && speedY > 0.0F) speedY = 0.0f;
+                    if (IsHitted[1] && speedY < 0.0F) speedY = 0.0f;
+                    if (IsHitted[2] && speedX < 0.0F) speedX = 0.0f;
+                    if (IsHitted[3] && speedX > 0.0F) speedX = 0.0f;
+                }
+                whichAim.transform.position += Time.deltaTime * speed * new Vector3(speedX, speedY, 0);
+            }
+            else { }//用鍵盤
         }
     }
 
