@@ -346,6 +346,7 @@ public class CEnemy : MonoBehaviour {
 
     public virtual void ResetEnemy() {
         Debug.Log("reset enemy");
+        enemySystem.RespawnEnemy();
         isForceState = false;
         state_time = 0.0f;
         inState_time = 0.0f;

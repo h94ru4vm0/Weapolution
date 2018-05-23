@@ -6,7 +6,7 @@ public class EnemyDoctor : CEnemy
 {
     bool pathFind, onAttacking;
     int pathIndex, normalAtkNum, totalAtkNum, poisonNum;
-    float totalTraceTime, breakTime;
+    float totalTraceTime, breakTime, poisonAtkNum;
     PoisonManager poisonManager;
     Vector3 poisonOffset;
     Vector3[] poisonAtksPos = new Vector3[4];
@@ -14,7 +14,7 @@ public class EnemyDoctor : CEnemy
     SprintAttacks sprintAtks;
     Path path;
     CChildProjectSystem poisonAlerts;
-
+    LevelHeight levelHieght;
 
     public float stoppingDis, turnDis, turnSpeed;
     public LayerMask obstacleMask;
@@ -31,6 +31,7 @@ public class EnemyDoctor : CEnemy
         poisonManager = GameObject.Find("Poisons").GetComponent<PoisonManager>();
         rambleLayer = 1 << LayerMask.NameToLayer("Obstacle")
                         | 1 << LayerMask.NameToLayer("ObstacleForIn");
+        levelHieght = GetComponent<LevelHeight>();
     }
 
     // Use this for initialization
@@ -134,7 +135,10 @@ public class EnemyDoctor : CEnemy
     {
         //Debug.Log("idle" + state_time);
         inState_time += Time.deltaTime;
-        if (state_time < 0.1f) state_time = _idleTime;
+        if (state_time < 0.1f) {
+            levelHieght.SetHeight();
+            state_time = _idleTime;
+        } 
         if (inState_time > state_time) {
             animator.SetTrigger("nextState");
             SetState(-1, false);
@@ -145,7 +149,10 @@ public class EnemyDoctor : CEnemy
     public override void Trace()
     {
         if (totalTraceTime > 5.0f) {
-
+            animator.SetTrigger("nextState");
+            SetState(3,true);
+            totalTraceTime = 0.0f;
+            return;
         }
         if (state_time < 0.1f)
         {
@@ -289,7 +296,7 @@ public class EnemyDoctor : CEnemy
 
     public void SprintOver() {
         Debug.Log("sprint over");
-        breakTime = 1.5f;
+        breakTime = 2.5f;
         onAttacking = false;
         SetState(0, false);
     }
@@ -304,15 +311,16 @@ public class EnemyDoctor : CEnemy
     public void MakePoisonOver() {
         float angle = -20.0f;
         float dst = 2.0f;
-        RaycastHit2D detect = Physics2D.Raycast(new Vector2(playerPos.x , playerPos.y), new Vector2(-2.5f,0.0f),obstacleMask);
-        RaycastHit2D detect2 = Physics2D.Raycast(new Vector2(playerPos.x, playerPos.y), new Vector2(2.5f, 0.0f), obstacleMask);
-
-        if (detect1 && detect2)
+        //RaycastHit2D detect = Physics2D.Raycast(new Vector2(playerPos.x , playerPos.y), new Vector2(-1.0f,0.0f),4.0f);
+        //RaycastHit2D detect2 = Physics2D.Raycast(new Vector2(playerPos.x, playerPos.y), new Vector2(1.0f, 0.0f), 4.0f);
+        bool detectWall = (playerPos.y > -4.3f && playerPos.y < 2.6f && (playerPos.x < -11.3f || playerPos.x > 11.3f)) ? true : false;
+        if (detectWall)
         {
-            float nearRight = ((playerPos.x - detect1.transform.position.x) > (detect2.transform.position.x - playerPos.x))
-                ? -1.0f : 1.0f;
-            if (Random.Range(0.0f, 1.0f) > 0.5f) poisonOffset = new Vector3(nearRight, 1.0f, 0.0f);
-            else poisonOffset = new Vector3(nearRight, -1.0f, 0.0f);
+            
+            //float nearRight = ((playerPos.x - detect1.transform.position.x) > (detect2.transform.position.x - playerPos.x))
+            //    ? -1.0f : 1.0f;
+            if (Random.Range(0.0f, 1.0f) > 0.5f) poisonOffset = new Vector3(0.0f, 1.0f, 0.0f);
+            else poisonOffset = new Vector3(0.0f, -1.0f, 0.0f);
         }
         else {
             if (Random.Range(0.0f, 1.0f) > 0.5f) poisonOffset = new Vector3(1.0f, 0.0f, 0.0f);
@@ -330,7 +338,7 @@ public class EnemyDoctor : CEnemy
 
         Vector3 tempSelfPos = Vector3.zero;
 
-        if (Mathf.Sign(poisonOffset.y) > 0.5f)
+        if (Mathf.Abs(poisonOffset.y) > 0.5f)
         {
             if (poisonOffset.y > 0.0f) tempSelfPos = new Vector3(poisonAtksPos[0].x - 1.0f, poisonAtksPos[0].y - 1.0f, transform.position.z);
             else tempSelfPos = new Vector3(poisonAtksPos[0].x + 1.0f, poisonAtksPos[0].y + 1.0f, transform.position.z);
@@ -342,13 +350,13 @@ public class EnemyDoctor : CEnemy
         }
         transform.position = tempSelfPos;
         transform.localScale = new Vector3(-Mathf.Sign(poisonOffset.x),1.0f,1.0f);
+        levelHieght.SetSpecificHeight(-110.0f);
     }
 
     public void StartPoisonBlast() {
         //Vector2 locOffset = new Vector2(1.0f, 1.0f);
         //RaycastHit2D detect = Physics2D.Raycast(poisonAtksPos[3], locOffset);
         for (int i = 0; i < 4; i++) {
-            Debug.Log("poooooooooonum" + poisonNum);
             Vector3 blastLoc = new Vector3(self_pos.x + Mathf.Sign(poisonOffset.x)*2.0f, self_pos.y + 2.0f, poisonAlerts.GetUsedChildTransform(poisonNum).position.z);
             if (poisonManager.freeNum > 0) poisonManager.AddUsedPosition(blastLoc, poisonAtksPos[i]);
             else break;
@@ -358,9 +366,10 @@ public class EnemyDoctor : CEnemy
         {
             poisonAlerts.RecycleAllChild();
             poisonNum = 0;
-            if (poisonNum >= 12)
+            poisonAtkNum++;
+            if (poisonAtkNum >= 3)
             {
-                
+                poisonAtkNum = 0;
                 animator.SetBool("poisonOver", true);
             }
         }
@@ -370,8 +379,10 @@ public class EnemyDoctor : CEnemy
 
     public void PoisonOver() {
         inState_time = 15.0f;
-        SetState(-1, false);
+        breakTime = 4.0f;
         onAttacking = false;
+        SetState(0, false);
+        
     }
 
     public override void SetHurtValue(int _value, int _HitDir)

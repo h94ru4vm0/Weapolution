@@ -25,7 +25,7 @@ public class CItemDataBase {
         dataText = (TextAsset)Resources.Load("TextCsv/CraftDataBase" + stage);//+ StageManager.currentStage
         string[] st = dataText.text.Split('\n');
         List<string[]> data = new List<string[]>();
-        Debug.Log("st.Length" + st.Length);
+        //Debug.Log("st.Length" + st.Length);
         items = new CItem[st.Length - 2];
         for (int i = 0; i < st.Length - 2; i++)
         {

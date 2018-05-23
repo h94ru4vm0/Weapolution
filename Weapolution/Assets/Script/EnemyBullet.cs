@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour {
 
-    bool startShoot;
+    bool startShoot, isEndAni;
+    int endAniID;
+    float aniTime;
     
     Vector3 shootWay;
+    SpriteRenderer Img;
     EnemyBulletSystem system;
 
     public float shootSpeed;
+    public Sprite[] endAni;
+
+    private void Awake()
+    {
+        Img = transform.Find("Img").GetComponent<SpriteRenderer>();
+    }
 
     // Use this for initialization
     void Start() {
@@ -20,6 +29,23 @@ public class EnemyBullet : MonoBehaviour {
     void Update() {
         if (startShoot) {
             transform.position += Time.deltaTime* shootSpeed * shootWay;
+        }
+        if (isEndAni) {
+            aniTime += Time.deltaTime;
+            if (aniTime > 0.15f) {
+                if (endAniID > 2) {
+                    isEndAni = false;
+                    aniTime = 0.0f;
+                    endAniID = 0;
+                    Img.sprite = endAni[endAniID];
+                    system.AddFree(this);
+                } 
+                else {
+                    endAniID++;
+                    Img.sprite = endAni[endAniID];
+                    aniTime = 0.0f;
+                }  
+            } 
         }
     }
 
@@ -41,13 +67,18 @@ public class EnemyBullet : MonoBehaviour {
     {
         if (collision.tag == "Player") {
             //Debug.Log("sadasdasdsadadasdsdsad hit player");
-            ResetChild();
-            system.AddFree(this);
+            isEndAni = true;
+            endAniID++;
+            Img.sprite = endAni[endAniID];
+            startShoot = false;
+            
         }
         if (collision.tag == "Wall") {
             //Debug.Log("sadasdasdsadadasdsdsad hit wall");
-            ResetChild();
-            system.AddFree(this);
+            isEndAni = true;
+            endAniID++;
+            Img.sprite = endAni[endAniID];
+            startShoot = false;
         }
     }
 

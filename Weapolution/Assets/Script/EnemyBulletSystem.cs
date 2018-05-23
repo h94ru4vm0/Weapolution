@@ -29,7 +29,7 @@ public class EnemyBulletSystem : MonoBehaviour {
     }
 
     public void AddFree(EnemyBullet _bullet) {
-        _bullet.ResetChild();
+        //_bullet.ResetChild();
         freeList.Add(_bullet);
         usedList.Remove(_bullet);
         _bullet.gameObject.SetActive(false);

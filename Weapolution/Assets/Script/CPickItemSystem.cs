@@ -129,8 +129,8 @@ public class CPickItemSystem : MonoBehaviour {
         
         if (free_num <= 0) return null;
         freePickItemList[0].gameObject.SetActive(true);
-        
         freePickItemList[0].SetPickItem(id);
+        freePickItemList[0].SetShadowEnable(true);
         freePickItemList[0].transform.position = pos;
         freePickItemList[0].transform.parent = transform.GetChild(1);
         usedPickItemList.Add(freePickItemList[0]);

@@ -42,10 +42,10 @@ public class PoisonManager : MonoBehaviour {
     }
 
     public void RecycleFree(Poison poison) {
-        Vector3 posOffset = new Vector3(poison.transform.position.x, poison.transform.position.y - 1.2f, poison.transform.position.z);
+        Vector3 posOffset = new Vector3(poison.transform.position.x, poison.transform.position.y - 0.8f, poison.transform.position.z);
         freePoisons.Add(poison);
         usedPoisons.Remove(poison);
-        if (IsOnHeight3(posOffset)) {
+        if (IsOnHeight3(posOffset) && posOffset.z < -50.0f) {
             CPickItem tempPick= pickItemSystem.SpawnInUsed(posOffset, 3);
             tempPick.SetZBase(-100.0f);
         }

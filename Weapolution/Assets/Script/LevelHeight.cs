@@ -47,6 +47,10 @@ public class LevelHeight : MonoBehaviour {
         zArrange.f_base += 20.0f;
     }
 
+    public void SetSpecificHeight(float _base) {
+        zArrange.f_base = _base;
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if ( collision.tag == "Stair")

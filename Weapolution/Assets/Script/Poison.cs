@@ -61,7 +61,7 @@ public class Poison : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "player") {
+        if (collision.tag == "Player") {
             Debug.Log("asdasdasdasdasdasd hitttttt");
             if (Mathf.Abs(collision.transform.position.z - transform.position.z) < 5.0f) {
                 Debug.Log("hittttttttttttttttt");

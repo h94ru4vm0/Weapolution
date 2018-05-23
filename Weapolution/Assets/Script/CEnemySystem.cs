@@ -71,23 +71,51 @@ public class CEnemySystem : MonoBehaviour {
         if (StageManager.timeUp) return;
         if (!hasInit) MonstersInit();
 
-        if (deathNumber <= 2)
-        {
-            if (enemyNumber < 3) {
-                if(StageManager.currentStage == 1)
-                    AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
-                else if(StageManager.currentStage == 2)
-                    AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
-                //AddUsedList(new Vector3(Random.Range(-7.0f, 8.0f), spawnLocY, 0));
-            } 
-        }
-        else if (deathNumber >= 5) {
-            if (!bossAppear) {
-                bossAppear = true;
-                boss.gameObject.SetActive(true);
-            }
-            
-        }
+        //if (StageManager.currentStage == 4)
+        //{
+        //    if (deathNumber <= 2)
+        //    {
+        //        if (enemyNumber < 3)
+        //        {
+        //            AddUsedList(new Vector3(Random.Range(-7.0f, 8.0f), spawnLocY, 0));
+        //            //AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
+        //        }
+        //    }
+        //    else if (deathNumber >= 5)
+        //    {
+        //        if (!bossAppear)
+        //        {
+        //            bossAppear = true;
+        //            boss.gameObject.SetActive(true);
+        //        }
+
+        //    }
+        //}
+
+        //else if (StageManager.currentStage == 5)
+        //{
+        //    if (deathNumber <= 3)
+        //    {
+        //        if (enemyNumber < 2)
+        //        {
+        //            if (StageManager.currentStage == 4)
+        //                AddUsedList(new Vector3(Random.Range(-7.0f, 8.0f), spawnLocY, 0));
+        //            //AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
+        //            else if (StageManager.currentStage == 5)
+        //                AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
+        //            //AddUsedList(new Vector3(Random.Range(-7.0f, 8.0f), spawnLocY, 0));
+        //        }
+        //    }
+        //    else if (deathNumber >= 5)
+        //    {
+        //        if (!bossAppear)
+        //        {
+        //            bossAppear = true;
+        //            boss.gameObject.SetActive(true);
+        //        }
+
+        //    }
+        //}
         if (Input.GetKeyDown(KeyCode.K)) {
             boss.gameObject.SetActive(true);
             //forge.GetComponent<CForge>().ShowUp();
@@ -96,19 +124,19 @@ public class CEnemySystem : MonoBehaviour {
 
     void MonstersInit() {
         hasInit = true;
-        if (StageManager.currentStage == 1)
+        if (StageManager.currentStage == 4)
         {
-            AddUsedList(new Vector3(-12.0f, spawnLocY, 0));
-            AddUsedList(new Vector3(0.0f, spawnLocY, 0));
-            AddUsedList(new Vector3(12.0f, spawnLocY, 0));
-            //AddUsedList(new Vector3(-5.8f, spawnLocY, 0));
-            //AddUsedList(new Vector3(6.6f, spawnLocY, 0));
-            //AddUsedList(new Vector3(-0.5f, spawnLocY, 0));
+            //AddUsedList(new Vector3(-12.0f, spawnLocY, 0));
+            //AddUsedList(new Vector3(0.0f, spawnLocY, 0));
+            //AddUsedList(new Vector3(12.0f, spawnLocY, 0));
+            AddUsedList(new Vector3(-5.8f, spawnLocY, 0));
+            AddUsedList(new Vector3(6.6f, spawnLocY, 0));
+            AddUsedList(new Vector3(-0.5f, spawnLocY, 0));
         }
-        else if (StageManager.currentStage == 2)
+        else if (StageManager.currentStage == 5)
         {
             AddUsedList(new Vector3(-12.0f, spawnLocY, 0));
-            AddUsedList(new Vector3(0.0f, spawnLocY, 0));
+            //AddUsedList(new Vector3(0.0f, spawnLocY, 0));
             AddUsedList(new Vector3(12.0f, spawnLocY, 0));
         }
     }
@@ -122,7 +150,7 @@ public class CEnemySystem : MonoBehaviour {
         trans.gameObject.SetActive(false);
         enemyNumber--;
         deathNumber++;
-        if (StageManager.currentStage < 2) {
+        if (StageManager.currentStage < 5) {
             if (Mathf.Abs(side) > 0.5f)
             {    //如果回收的敵人有占住一個攻擊位置，把位置給其他人
                 if (side > 0.1f) canAttackLoc[1] = true;
@@ -159,7 +187,7 @@ public class CEnemySystem : MonoBehaviour {
         temp.position = pos;
         temp.gameObject.SetActive(true);
         enemyNumber++;
-        if (StageManager.currentStage < 2) {
+        if (StageManager.currentStage < 5) {
             if (canAttackLoc[0])
             {
                 temp.GetComponent<CEnemy>().whichSide = -1.0f;
@@ -183,6 +211,39 @@ public class CEnemySystem : MonoBehaviour {
 
     public void PlaySound(int id, float volume) {
         monsterVoice.SetAudio(id, volume);
+    }
+
+    public void RespawnEnemy() {
+        if (StageManager.currentStage == 4)
+        {
+            if (deathNumber >= 5)
+            {
+                if (!bossAppear)
+                {
+                    bossAppear = true;
+                    boss.gameObject.SetActive(true);
+                }
+            }
+            else {
+                if (deathNumber <= 2)
+                    AddUsedList(new Vector3(Random.Range(-7.0f, 8.0f), spawnLocY, 0));
+            }
+        }
+
+        else if (StageManager.currentStage == 5) {
+            if (deathNumber >= 5)
+            {
+                if (!bossAppear)
+                {
+                    bossAppear = true;
+                    boss.gameObject.SetActive(true);
+                }
+            }
+            else {
+                if (deathNumber <= 3)
+                    AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
+            } 
+        } 
     }
 
 }

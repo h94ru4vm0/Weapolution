@@ -187,6 +187,11 @@ public class CPickItem : MonoBehaviour {
         time = _time;
     }
 
+    public void SetShadowEnable(bool _isOn) {
+        shadowRender.enabled = _isOn;
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
