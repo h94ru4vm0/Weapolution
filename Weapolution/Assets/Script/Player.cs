@@ -97,8 +97,6 @@ public class Player : MonoBehaviour {
 
         }
         unWalkable = 1 << LayerMask.NameToLayer("Obstacle") |
-                     1 << LayerMask.NameToLayer("Enemy") |
-                     1 << LayerMask.NameToLayer("EnemyForIn") |
                       1 << LayerMask.NameToLayer("ObstacleForIn");
     }
     
@@ -467,7 +465,7 @@ public class Player : MonoBehaviour {
         RaycastHit2D hitWall0 = Physics2D.Raycast(pos, new Vector3(0, 1, 0),
                                         1.5f, unWalkable);
         RaycastHit2D hitWall1 = Physics2D.Raycast(pos, new Vector3(0, -1, 0),
-                                        0.15f, unWalkable);
+                                        1.0f, unWalkable);
         RaycastHit2D hitWall2 = Physics2D.Raycast(pos, new Vector3(-1, 0, 0),
                                         0.8f, unWalkable);
         RaycastHit2D hitWall3 = Physics2D.Raycast(pos, new Vector3(1, 0, 0),

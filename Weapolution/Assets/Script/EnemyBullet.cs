@@ -33,7 +33,7 @@ public class EnemyBullet : MonoBehaviour {
         if (isEndAni) {
             aniTime += Time.deltaTime;
             if (aniTime > 0.15f) {
-                if (endAniID > 2) {
+                if (endAniID > 1) {
                     isEndAni = false;
                     aniTime = 0.0f;
                     endAniID = 0;
@@ -41,6 +41,7 @@ public class EnemyBullet : MonoBehaviour {
                     system.AddFree(this);
                 } 
                 else {
+                    Debug.Log(endAniID + "     " + endAni.Length);
                     endAniID++;
                     Img.sprite = endAni[endAniID];
                     aniTime = 0.0f;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyMouse : CEnemy {
     bool pathFind;
     int rangeAttackNum, pathIndex;
-    float rangeDetectTime, lastAwayDst, attackTime;
+    float rangeDetectTime, lastAwayDst, attackTime, traceTotalTime;
     Vector3 keepAway, shootPos;
     Path path;
     EnemyBulletSystem bullets;
@@ -22,7 +22,7 @@ public class EnemyMouse : CEnemy {
         bullets = GameObject.Find("EnemyMouseBullets").GetComponent<EnemyBulletSystem>();
         hp = 1;
     }
-
+    
     // Update is called once per frame
     void Update () {
         if (StageManager.timeUp) return;
@@ -193,7 +193,13 @@ public class EnemyMouse : CEnemy {
             //transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self);
             transform.position += go_way * f_speed * 1.7f * Time.deltaTime;
         }
-
+        else {
+            traceTotalTime += Time.deltaTime;
+            if (traceTotalTime > 1.5f && bullets.GetFreeNum() > 0) {
+                SetState(3,true);
+                traceTotalTime = 0.0f;
+            }
+        }
 
 
         inState_time += Time.deltaTime;
