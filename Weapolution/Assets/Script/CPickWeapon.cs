@@ -189,7 +189,7 @@ public class CPickWeapon : MonoBehaviour {
 
     void IsAwayWeapon() {
         if (canPick) {
-            Debug.Log("lastid"+lastID);
+            //Debug.Log("lastid"+lastID);
             float temp_dis = Vector2.Distance(this.transform.position, lastPick.transform.position);
             if (temp_dis >= 2.0f) {
                 canPick = false;

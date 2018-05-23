@@ -7,10 +7,10 @@ public class StageManager : MonoBehaviour {
 
 
     public static bool timeUp;
-    public static  int currentStage = 5;
+    public static  int currentStage = 5, nextStage;
 
 	public bool inMenuState;
-    bool inTransState, stageBegin, stageOver;
+    bool inTransState, stageBegin, stageOver, isWin;
     bool inChanging;
     float slowTime;
     string whichPlayerControl;
@@ -56,6 +56,7 @@ public class StageManager : MonoBehaviour {
         if (currentStage < 3)  return;
         if (!stageBegin)
         {
+            currentStage = nextStage;
             if (!timeUp) {
                 timeUp = true;
             }
@@ -118,6 +119,9 @@ public class StageManager : MonoBehaviour {
 
     public void SetCurStageOver(bool _isWin) {
         //if (stageOver) return;
+        isWin = _isWin;
+        if (isWin) nextStage = currentStage + 1;
+        else nextStage = currentStage;
         stageOver = true;
         timeUp = true;
         dialog.gameObject.SetActive(true);
@@ -159,8 +163,8 @@ public class StageManager : MonoBehaviour {
     public IEnumerator OnChangingScene(float time) {
         yield return new WaitForSeconds(time);
         Debug.Log("currentsdadasdasda" + currentStage);
-        if (currentStage >= 5) currentStage = 2;
-        SceneManager.LoadScene(currentStage);
+        if (nextStage >= 6) nextStage = 2;
+        SceneManager.LoadScene(nextStage);
     }
 
 }

@@ -103,11 +103,13 @@ public class PauseMenu : MonoBehaviour {
                 StartCoroutine(StageManagerscript.OnChangingScene(1f));
                 break;
 		case 2:
-			    StageManager.currentStage++;
+                StageManager.nextStage = StageManager.currentStage+1;
+			    //StageManager.currentStage++;
                 StartCoroutine(StageManagerscript.OnChangingScene(1f));
                 break;
 		case 3:
-			    StageManager.currentStage = 2;
+                //StageManager.currentStage = 2;
+                StageManager.nextStage = 2;
                 StartCoroutine(StageManagerscript.OnChangingScene(1f));
                 break;
 		}
@@ -123,11 +125,11 @@ public class PauseMenu : MonoBehaviour {
                     StartCoroutine(StageManagerscript.OnChangingScene(1f));                
                     break;
 			case 2:
-				    StageManager.currentStage++;
+                    StageManager.nextStage = StageManager.currentStage+1;
                     StartCoroutine(StageManagerscript.OnChangingScene(1f));
                     break;
 			case 3:
-				    StageManager.currentStage = 2;
+				    StageManager.nextStage = 2;
                     StartCoroutine(StageManagerscript.OnChangingScene(1f));
                     break;
 			}

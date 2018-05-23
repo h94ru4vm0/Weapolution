@@ -54,7 +54,8 @@ public class PlayMainStory : MonoBehaviour {
         if (videoOver && beCalledTime == 0)
         {
             beCalledTime++;
-            StageManager.currentStage++;
+            StageManager.nextStage = StageManager.currentStage + 1;
+            //StageManager.currentStage++;
             StartCoroutine(StageManagerScript.OnChangingScene(1f));
         }
 
@@ -63,8 +64,8 @@ public class PlayMainStory : MonoBehaviour {
             GetComponent<AudioSource>().Pause();
             movTexture.Pause();
             movAudio.Pause();
-
-            StageManager.currentStage++;
+            StageManager.nextStage = StageManager.currentStage + 1;
+            //StageManager.currentStage++;
             StartCoroutine(StageManagerScript.OnChangingScene(1f));
         }
     }

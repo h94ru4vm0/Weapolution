@@ -17,7 +17,7 @@ public class CEnemyBear : CEnemy {
     // Use this for initialization
     public override void Awake () {
         base.Awake();
-        hp = 1;
+        hp = 10;
         lastState = -1;
         state = 0;
         //box1 = transform.Find("PlayerDetect").GetChild(0).GetComponent<BoxCollider2D>();
@@ -182,10 +182,10 @@ public class CEnemyBear : CEnemy {
         if (!traceAgain)
         {
             if (hitWall) traceAgain = true;
-            Debug.Log("traceagain false" + attackPos);
+            //Debug.Log("traceagain false" + attackPos);
         }
         else {
-            Debug.Log("traceagain true" + changeTraceLoc);
+            //Debug.Log("traceagain true" + changeTraceLoc);
             go_way = (changeTraceLoc - self_pos).V3NormalizedtoV2();
             RaycastHit2D hitWallAgain = Physics2D.Linecast(start,self_pos, 1 << LayerMask.NameToLayer("Obstacle"));
             //RaycastHit2D hitWallAgain = Physics2D.Raycast(start, -go_way, 0.5f, 1 << LayerMask.NameToLayer("Obstacle"));
@@ -474,7 +474,12 @@ public class CEnemyBear : CEnemy {
 
     public override void SetHurtValue(int _value, int _HitDir)
     {
-        getHurtEffect.SetEffectOn();
+        Vector3 effectPos = new Vector3(0,0,0) ;
+        if (_HitDir == 0) effectPos = new Vector3(new_pos.x, new_pos.y - 1.5f, -200.0f);
+        else if (_HitDir == 1) effectPos = new Vector3(new_pos.x, new_pos.y + 1.5f, -200.0f);
+        else if(_HitDir == 2) effectPos = new Vector3(new_pos.x + 1.5f, new_pos.y , -200.0f);
+        else if (_HitDir == 3) effectPos = new Vector3(new_pos.x - 1.5f, new_pos.y, -200.0f);
+        getHurtEffect.SetEffect(effectPos);
         enemySystem.PlaySound(7, 1.0f);
         hurtValue = _value;
         hp -= hurtValue;
