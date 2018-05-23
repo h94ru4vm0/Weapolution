@@ -10,13 +10,9 @@ public class Canon : MonoBehaviour {
     string whichPlayer = "p1";
     bool readyToShoot = false;
 
-    float p1_L_JoyX;
-    float p1_L_JoyY;
-    float p2_L_JoyX;
-    float p2_L_JoyY;
+    
 
     GameObject RightCanon, LeftCanon;
-    public GameObject RightAim,LeftAim;
     bool ShowRightAim = false, ShowLeftAim = false;
     List<Vector3> DefaultAimPos;
     public int CanonNum;
@@ -40,13 +36,11 @@ public class Canon : MonoBehaviour {
         else whichPlayer = Player.p1joystick;
         DefaultAimPos[0] = RightCanon.transform.position + new Vector3(-3f, 2.5f, 0);
         DefaultAimPos[1] = LeftCanon.transform.position + new Vector3(3f, 2.5f, 0);
-        RightAim.SetActive(false);
-        LeftAim.SetActive(false);
     }
     // Update is called once per frame
     void Update()
     {
-        LeftListener();
+        
         if (!isfillingPowder) //notFillingInPowder
         {
             if (canFiiled)
@@ -57,64 +51,20 @@ public class Canon : MonoBehaviour {
         }
         else
         {
-            if (!readyToShoot) AimControl();
-            else ShootBullet();
+            //if (!readyToShoot) AimControl();
+            //else ShootBullet();
 
         }
 
     }
 
-    void LeftListener()
-    {
-        p1_L_JoyX = Input.GetAxis("p1LHorizontal");
-        p1_L_JoyY = Input.GetAxis("p1LVertical");
-        p2_L_JoyX = Input.GetAxis("p2LHorizontal");
-        p2_L_JoyY = Input.GetAxis("p2LVertical");
-    }
+   
 
     void ShootBullet()
     {
 
     }
-    void ShowAim()
-    {
-        if (CanonNum == 0)
-        {
-            RightAim.SetActive(true);
-            RightAim.transform.position = DefaultAimPos[0];
-            ShowRightAim = true;
-        }
-        else
-        {
-            LeftAim.SetActive(true);
-            LeftAim.transform.position = DefaultAimPos[1];
-            ShowLeftAim = true;
-
-        }
-    }
-    void AimControl()
-    {
-        
-        if (Player.p2charaType)
-        {
-            if (Player.p2controller)
-            {
-                if (whichPlayer == "p1") RightAim.transform.position += new Vector3(p1_L_JoyX / speed, p1_L_JoyY / speed, 0);
-                else RightAim.transform.position += new Vector3(p2_L_JoyX / speed, p2_L_JoyY / speed, 0);
-            }
-            else //用鍵盤
-            {
-
-            }
-
-        }
-        else
-        {
-            RightAim.transform.position += new Vector3(p1_L_JoyX, p1_L_JoyY, 0);
-            Debug.Log("Aim.transform.positios  1");
-
-        }
-    }
+    
     void FillingInPowder()
     {
         
