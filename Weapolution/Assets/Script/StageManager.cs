@@ -117,7 +117,7 @@ public class StageManager : MonoBehaviour {
     }
 
     public void SetCurStageOver(bool _isWin) {
-        if (stageOver) return;
+        //if (stageOver) return;
         stageOver = true;
         timeUp = true;
         dialog.gameObject.SetActive(true);
@@ -159,6 +159,7 @@ public class StageManager : MonoBehaviour {
     public IEnumerator OnChangingScene(float time) {
         yield return new WaitForSeconds(time);
         Debug.Log("currentsdadasdasda" + currentStage);
+        if (currentStage >= 5) currentStage = 2;
         SceneManager.LoadScene(currentStage);
     }
 

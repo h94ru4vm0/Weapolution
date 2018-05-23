@@ -110,7 +110,7 @@ public class CEnemyMonkey : CEnemy {
     {
         isForceState = false;
         inState_time = 2.0f; //故意設定時間，才可以丟完的時候換其他狀態
-        enemySystem.playSound(1,0.1f);
+        enemySystem.PlaySound(1,0.1f);
     }
 
     public override void Trace()
@@ -199,7 +199,7 @@ public class CEnemyMonkey : CEnemy {
     {
         //base.SetHurtValue(_value, _HitDir); 
         if (getHurtOnce) return;
-        enemySystem.playSound(0, 1.0f);
+        enemySystem.PlaySound(0, 1.0f);
         hurtValue = _value;
         SetState(4, true);
         hitDir = _HitDir;

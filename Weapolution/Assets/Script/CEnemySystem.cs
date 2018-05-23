@@ -17,6 +17,7 @@ public class CEnemySystem : MonoBehaviour {
     //public GameObject forge;
     CEnemy boss;
     MonsterVoice monsterVoice;
+    StageManager stageManager;
     //public CPickItemSystem pickItemSystem;
     
     // Use this for initialization
@@ -30,6 +31,8 @@ public class CEnemySystem : MonoBehaviour {
         audioSource = GameObject.Find("MonsterAudio").GetComponent<MonsterVoice>();
         //pickItemSystem = GameObject.Find("PickItemSystem").GetComponent<CPickItemSystem>();
         monsterVoice = GameObject.Find("MonsterAudio").GetComponent<MonsterVoice>();
+        stageManager = GameObject.Find("StageManager").GetComponent<StageManager>(); ;
+
     }
     private void Start()
     {
@@ -205,9 +208,9 @@ public class CEnemySystem : MonoBehaviour {
     public int GetDeathNumber() {
         return deathNumber;
     }
-    public void playSound(int id,float volume) {
-        audioSource.SetAudio(id, volume);
-    }
+    //public void playSound(int id,float volume) {
+    //    audioSource.SetAudio(id, volume);
+    //}
 
     public void PlaySound(int id, float volume) {
         monsterVoice.SetAudio(id, volume);
@@ -244,6 +247,10 @@ public class CEnemySystem : MonoBehaviour {
                     AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
             } 
         } 
+    }
+
+    public void NextStage() {
+        StartCoroutine(stageManager.SlowDown(1.5f, true));
     }
 
 }

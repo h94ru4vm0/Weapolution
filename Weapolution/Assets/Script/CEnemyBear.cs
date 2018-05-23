@@ -17,7 +17,7 @@ public class CEnemyBear : CEnemy {
     // Use this for initialization
     public override void Awake () {
         base.Awake();
-        hp = 15;
+        hp = 1;
         lastState = -1;
         state = 0;
         //box1 = transform.Find("PlayerDetect").GetChild(0).GetComponent<BoxCollider2D>();
@@ -205,6 +205,7 @@ public class CEnemyBear : CEnemy {
             if (!b_attacking) {
                 Debug.Log("punch");
                 //rigBody.velocity = Vector2.zero;
+                enemySystem.PlaySound(3,1.0f);
                 animator.SetInteger("state", -1);
                 animator.Play("EnemyBearPunch");
                 //animator.SetTrigger("exist");
@@ -248,8 +249,9 @@ public class CEnemyBear : CEnemy {
                 //float attackDisX = face * (f_attack_dis + 0.7f);
                 //attackPos = transform.position + new Vector3(attackDisX, 1.3f, 0.0f);
                 go_way = (playerPos - self_pos).normalized;
-                state_time = Random.Range(1.6f, 2.0f);
+                state_time = 2.0f;
                 inState_time = 0.0f;
+                enemySystem.PlaySound(4, 1.0f);
             }
             inState_time += Time.deltaTime;
             if (inState_time < state_time)
@@ -330,6 +332,7 @@ public class CEnemyBear : CEnemy {
         if (!b_attacking) {
             //rigBody.velocity = Vector2.zero;
             b_attacking = true;
+            enemySystem.PlaySound(5, 1.0f);
         } 
         inState_time += Time.deltaTime;
         if (subAniState == 1)
@@ -337,6 +340,7 @@ public class CEnemyBear : CEnemy {
             if (state_time < 0.1f)
             {
                 state_time = 1.0f;
+                
                 //for (int i = 0; i < 3; i++) {
                 //    float degree = Random.Range(0.0f, 350.0f);
                 //    float dis = Random.Range(0.5f,3.0f);
@@ -383,9 +387,11 @@ public class CEnemyBear : CEnemy {
                         }
                         Vector3 thunderPos = new Vector3(thunderOffsetX, thunderOffsetY, 0);
                         thunders.AddUsed(thunderPos);
+                        //enemySystem.PlaySound(6, 1.0f);
                         degree += 40.0f;
                     }
                     thunders.AddUsed(playerPos + new Vector3(0, -0.3f, 0.0f));
+                    enemySystem.PlaySound(6, 1.0f);
                     thunderNum++;
                 }
             }
@@ -469,11 +475,13 @@ public class CEnemyBear : CEnemy {
     public override void SetHurtValue(int _value, int _HitDir)
     {
         getHurtEffect.SetEffectOn();
+        enemySystem.PlaySound(7, 1.0f);
         hurtValue = _value;
         hp -= hurtValue;
         if (hp <= 0) {
             animator.Play("EnemyBearDie");
             SetState(5, true);
+            enemySystem.NextStage();
         }
     }
 
@@ -483,6 +491,7 @@ public class CEnemyBear : CEnemy {
 
     public void DieOver() {
         this.gameObject.SetActive(false);
+        
     }
 
     public void TakeBreak(float total_time) {

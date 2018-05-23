@@ -79,7 +79,7 @@ public class CPickCollection : MonoBehaviour {
     }
 
     public bool CanOnFire() {
-        if (type < 2 && !isOnFire && !isOnCollect) return true;
+        if (type < 1 && !isOnFire && !isOnCollect) return true;
         else return false;
     }
 
