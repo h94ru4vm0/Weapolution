@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class Canon : MonoBehaviour {
 
-    public bool Canon1isfillingPowder = false;
-    public bool Canon2isfillingPowder = false;
+    public bool CanonisfillingPowder = false;
 
     public bool startFilled = false;
-    public bool Canon1canFiiled = false;
-    public bool Canon2canFiiled = false;
+    public bool CanoncanFiiled = false;
+    public bool CanonTriigerIN = false;
 
-    int Canon1PowderNum = 0;
-    int Canon2PowderNum = 0;
+    public int CanonPowderNum = 0;
 
-    public bool Canon1Filled = false;
-    public bool Canon2Filled = false;
+    public bool CanonFilled = false;
 
     bool readyToShoot = false;
     string whichPlayer = "p1";
@@ -25,12 +22,14 @@ public class Canon : MonoBehaviour {
     Crafter CrafterScript;
     public CraftSystem CraftSystemScript;
 
+    COutLine outLine;
 
     private void Awake()
     {
         CrafterScript = GameObject.Find("character2").GetComponent<Crafter>();
         RightCanon = GameObject.Find("Canon");
         LeftCanon = GameObject.Find("Canon (1)");
+        outLine = transform.GetComponent<COutLine>();
         //CraftSystemScript = GameObject.Find("CraftSystem").GetComponent<CraftSystem>();
         Debug.Log(GameObject.Find("CraftSystem").GetComponent<CraftSystem>());
         Debug.Log("CraftSystemScript：  " + CraftSystemScript);
@@ -43,47 +42,30 @@ public class Canon : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (CanonNum == 0)
+        if (CanoncanFiiled)
         {
-            if (!Canon1isfillingPowder) //notFillingInPowder
-            {
-                if (Canon1canFiiled)
-                {
-                    FillingInPowder();
-                    if (startFilled) CrafterScript.Gathering();
-                }
-            }
+            if(CanonTriigerIN && CraftSystemScript.CheckHandle().id == 3) FillingInPowder();
+            if (startFilled) CrafterScript.Gathering();
         }
-        else
-        {
-            if (!Canon2isfillingPowder) //notFillingInPowder
-            {
-                if (Canon2canFiiled)
-                {
-                    FillingInPowder();
-                    if (startFilled) CrafterScript.Gathering();
-                }
-            }
-        }
-        
 
     }
 
     
     void FillingInPowder()
     {
-        
         if (Player.p2charaType)
         {
             if (Player.p2controller && Input.GetButtonDown(whichPlayer + "LB"))
             {
                 Player.p2moveAble = false;
                 startFilled = true;
+                CanonPowderNum++;
             }
             else if (!Player.p2controller && Input.GetKeyDown(KeyCode.E))
             {
                 Player.p2moveAble = false;
                 startFilled = true;
+                CanonPowderNum++;
             }
         }
         else
@@ -92,12 +74,13 @@ public class Canon : MonoBehaviour {
             {
                 Player.p1moveAble = false;
                 startFilled = true;
+                CanonPowderNum++;
             }
             else if (!Player.p1controller && Input.GetKeyDown(KeyCode.E))
             {
                 Player.p1moveAble = false;
                 startFilled = true;
-
+                CanonPowderNum++;
             }
         }
 
@@ -106,62 +89,50 @@ public class Canon : MonoBehaviour {
 
     public void OverFinlling()
     {
-        if (Canon1Filled)
+        if (CanonFilled)
         {
-            if (Canon1PowderNum != 0)
+            CanoncanFiiled = true;
+            if (CanonPowderNum != 0)
             {
-                Canon1isfillingPowder = true;
+                CanonisfillingPowder = true;
             }
-            if (Canon1PowderNum >= 2)
+            if (CanonPowderNum > 2)
             {
-                Canon1isfillingPowder = true;
-                Canon1canFiiled = false;
+                CanonisfillingPowder = true;
+                CanoncanFiiled = false;
             }
-            Canon1Filled = false;
+            CanonFilled = false;
         }
 
-        if (Canon2Filled)
-            {
-                if (Canon2PowderNum != 0)
-                {
-                    Canon2isfillingPowder = true;
-                }
-                if (Canon2PowderNum >= 2)
-                {
-                    Canon2isfillingPowder = true;
-                    Canon2canFiiled = false;
-                }
-                Canon2Filled = false;
-            }
-               
     }
     public void CallCraftSystemFucion()
     {
         CraftSystemScript.ThrowOut();
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        CanonTriigerIN = true;
         if (collision.tag == "Player")
         {
             if (CraftSystemScript.CheckHandle().id == 3)
             {
-                if(CanonNum == 0)
-                {
-                    Canon1canFiiled = true;
-                    Canon1PowderNum++;
-                    Canon1Filled = true;
-                }
-                else
-                {
-                    Canon2canFiiled = true;
-                    Canon2PowderNum++;
-                    Canon2Filled = true;
-                }
+                outLine.SetOutLine(true);
+                CanoncanFiiled = true;               
+                CanonFilled = true;
+                
             }
                 
             else return;
 
         }
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        CanonTriigerIN = false;
+        outLine.SetOutLine(false);
+    }
+
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CanonSystem : MonoBehaviour {
 
-    GameObject RightCanon, LeftCanon;
-    public GameObject RightAim, LeftAim;
+    GameObject RightCanon;
+    public GameObject RightAim;
     string whichPlayer = "p1";
     int CanonNum;
     float p1_L_JoyX;
@@ -13,6 +13,7 @@ public class CanonSystem : MonoBehaviour {
     float p2_L_JoyX;
     float p2_L_JoyY;
     Canon CanonScript;
+    Animator CanonAnimator;
     public List<Vector3> DefaultAimPos;
     public List<Vector2> Rayway;
     bool ShowRightAim = false, ShowLeftAim = false;
@@ -23,15 +24,17 @@ public class CanonSystem : MonoBehaviour {
     RaycastHit2D hitWall2;
     RaycastHit2D hitWall3;
     RaycastHit2D hitWall4;
+    GameObject Explosion;
     public List<bool> IsHitted;
 
     private void Awake() 
     {
         RightAim.SetActive(false);
-        LeftAim.SetActive(false);
         CanonScript = GameObject.Find("Canon").GetComponent<Canon>();
+        CanonAnimator = transform.GetComponent<Animator>();
         RightCanon = GameObject.Find("Canon");
-        LeftCanon = GameObject.Find("Canon (1)");
+        Explosion = GameObject.Find("Explosion");
+        Explosion.SetActive(false);
         Rayway[0] = new Vector2(0, 1f); //上下左右
         Rayway[1] = new Vector2(0, -1f);
         Rayway[2] = new Vector2(-1f, 0);
@@ -49,68 +52,67 @@ public class CanonSystem : MonoBehaviour {
     }
     void Update()
     {
+        CanonAnimtion();
         LeftListener();
-        if (CanonScript.Canon1isfillingPowder)
+        OutOfBullet();
+        if (CanonScript.CanonisfillingPowder)
         {
-            
-            if (Input.GetButtonDown(whichPlayer + "ButtonA"))
+            if (ShowRightAim)
+            {
+                if (Input.GetButtonDown(whichPlayer + "ButtonA")) ShootAndExplosion();
+                RaycastHitWall();
+                AimControl(RightAim);
+
+                if (Input.GetButtonDown(whichPlayer + "ButtonB")) CancelShoot();               
+            }
+            if (Input.GetButtonDown(whichPlayer + "ButtonA") && CanonScript.CanonTriigerIN && !ShowRightAim && CanonScript.CanonPowderNum !=0)
             {
                 ReadyToShoot(true);
             }
-            if (ShowRightAim)
-            {
-                RaycastHitWall();
-                if (ShowRightAim) AimControl(RightAim);
-                CancelShoot();
-             }         
+                 
         }
-        if (CanonScript.Canon2isfillingPowder)
-        {
-
-            if (Input.GetButtonDown(whichPlayer + "ButtonA"))
-            {
-                ReadyToShoot(false);
-            }
-            if (ShowLeftAim)
-            {
-                RaycastHitWall();
-                if (ShowLeftAim) AimControl(LeftAim);
-                CancelShoot();
-            }
-        }
+       
     }
+
+    void CanonAnimtion()
+    {
+        if (CanonScript.CanonPowderNum == 0) CanonAnimator.SetBool("HavePowder", false);
+        else CanonAnimator.SetBool("HavePowder", true);
+      
+    } 
     void ReadyToShoot(bool isRightCanon)
     {
         ShowAim(isRightCanon);
         if (Player.p2charaType) Player.p2moveAble = false;
         else Player.p1moveAble = false;
     }
+    void ShootAndExplosion()
+    {
+        Explosion.SetActive(true);
+        Explosion.transform.position = RightAim.transform.position;
+        CanonAnimator.SetTrigger("Shoot");
+        CanonScript.CanonPowderNum--;
+    }
+    void OutOfBullet()
+    {
+        if (CanonScript.CanonPowderNum == 0)
+        {
+            CancelShoot();
+        }
+    }
     void CancelShoot()
     {
-        if (Input.GetButtonDown(whichPlayer + "ButtonB"))
-        {
-            if (Player.p2charaType) Player.p2moveAble = true;
-            else Player.p1moveAble = true;
-            RightAim.SetActive(false);
-            LeftAim.SetActive(false);
-        }
-
+        RightAim.SetActive(false);
+        ShowRightAim = false;
+        Debug.Log("CancelShootCancelShootCancelShoot");
+        if (Player.p2charaType) Player.p2moveAble = true;
+        else Player.p1moveAble = true;     
     }
     void ShowAim(bool isRightCanon)
     {
-        if (isRightCanon)
-        {
-            RightAim.SetActive(true);
-            RightAim.transform.position = DefaultAimPos[0];
-            ShowRightAim = true;
-        }
-        else
-        {
-            LeftAim.SetActive(true);
-            LeftAim.transform.position = DefaultAimPos[1];
-            ShowLeftAim = true;
-
-        }
+        RightAim.SetActive(true);
+        RightAim.transform.position = DefaultAimPos[0];
+        ShowRightAim = true;
     }
     void LeftListener()
     {
