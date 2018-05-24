@@ -78,7 +78,7 @@ public class Player : MonoBehaviour {
 
     LayerMask unWalkable;
 
-    
+    public float downDetect;
 
     void Awake()
     {
@@ -498,7 +498,7 @@ public class Player : MonoBehaviour {
         RaycastHit2D hitWall0 = Physics2D.Raycast(pos, new Vector3(0, 1, 0),
                                         1.5f, unWalkable);
         RaycastHit2D hitWall1 = Physics2D.Raycast(pos, new Vector3(0, -1, 0),
-                                        1.0f, unWalkable);
+                                        downDetect, unWalkable);
         RaycastHit2D hitWall2 = Physics2D.Raycast(pos, new Vector3(-1, 0, 0),
                                         0.8f, unWalkable);
         RaycastHit2D hitWall3 = Physics2D.Raycast(pos, new Vector3(1, 0, 0),
@@ -671,9 +671,13 @@ public class Player : MonoBehaviour {
         invincible = true;
         if (inFuntionTime == 0)
         {
-            TeamHp.teamHp -= 0.05f;
-            inFuntionTime++;
-            EffectAudio.SetAudio(1);
+          L_JoyX = 0.0f;
+          L_JoyY = 0.0f;
+          K_JoyX = 0.0f;
+          K_JoyY = 0.0f;
+
+          inFuntionTime++;
+          EffectAudio.SetAudio(1);
         }
 
         
@@ -701,7 +705,7 @@ public class Player : MonoBehaviour {
         inFuntionTime = 0;
         weaponUsedTimes++;
         invincible = false;
-        if (weaponUsedTimes > weapon.durability)
+        if (weaponUsedTimes >= weapon.durability)
         {
             pickWeaponScript.DestroyWeapon();
             weapon = CItemDataBase.items[0];
