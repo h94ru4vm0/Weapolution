@@ -41,7 +41,7 @@ public class Crafter : MonoBehaviour {
         animator.SetInteger("face_way", 5);
         //animator.SetInteger("animation_state", 0);
         PlayerScript = GameObject.Find("character1").GetComponent<Player>();
-        CanonScript = GameObject.Find("Canon").GetComponent<Canon>();
+        if(StageManager.currentStage == 5)CanonScript = GameObject.Find("Canon").GetComponent<Canon>();
     }
 	
 	// Update is called once per frame
@@ -118,11 +118,13 @@ public class Crafter : MonoBehaviour {
     {
         animator.SetBool("is_gather", false);        
         inFuntionTime = 0;
-        CanonScript.startFilled = false;
-        Debug.Log("OverGathering2222222222222");
-
-        CanonScript.OverFinlling();
-        CanonScript.CallCraftSystemFucion();
+        if (StageManager.currentStage == 5)
+        {
+            CanonScript.startFilled = false;
+            CanonScript.OverFinlling();
+            CanonScript.CallCraftSystemFucion();
+        }
+            
         if (Player.p2charaType) Player.p2moveAble = true;
         else Player.p1moveAble = true;
 

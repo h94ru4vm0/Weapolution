@@ -9,25 +9,31 @@ public class PauseMenu : MonoBehaviour {
     GameObject PauseMenuSystem;
 	GameObject BlackScene;
     public List<Image> MenuButton;
-    public List<Sprite> ButtonState;
+    public List<Sprite> Stage01ButtonState;
+    public List<Sprite> Stage02ButtonState;
+
     int SelectNum = 0;
     int MaxNum = 4, MinNum = 0;
     int InFuntionTime = 0;
 	bool showMenu;
     float clickTime;
     public bool MouseHover = false;
-	StageManager  StageManagerscript;
+    StageManager StageManagerscript;
+    public Image PauseMenuImage;
     // Use this for initialization
     void Awake () {
         PauseMenuSystem = GameObject.Find("PauseMenu");
         PauseMenuSystem.SetActive(false);
 		StageManagerscript = GameObject.Find ("StageManager").GetComponent<StageManager>();
-		BlackScene = GameObject.Find ("PauseBlackScene");
+        BlackScene = GameObject.Find ("PauseBlackScene");
 		BlackScene.SetActive(false);
     }
-	
-	// Update is called once per frame=
-	void Update () {
+    private void Start()
+    {
+        SetMenuPic();
+    }
+    // Update is called once per frame=
+    void Update () {
 
 		ShowMenu ();
 		if(showMenu){
@@ -36,6 +42,23 @@ public class PauseMenu : MonoBehaviour {
 			LockOption ();
 		}
 	}
+
+    void SetMenuPic()
+    {
+        if (StageManager.currentStage < 5)
+        {
+            PauseMenuImage.sprite = Stage01ButtonState[2];
+            for (int i = 0; i >5 ; i++)
+            {
+                MenuButton[i].sprite = Stage01ButtonState[0];
+            }
+            
+        }
+        else
+        {
+
+        }
+    }
 
     void ShowMenu()
     {
@@ -61,7 +84,7 @@ public class PauseMenu : MonoBehaviour {
 	void MouseControl(){
 		if(MouseHover && InFuntionTime == 0){
 			for(int i = 0; i < 5; i++){
-				MenuButton[i].sprite = ButtonState[0];
+				MenuButton[i].sprite = Stage01ButtonState[0];
 			}
 			SelectNum = 0;
 			InFuntionTime++;
@@ -77,24 +100,25 @@ public class PauseMenu : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                MenuButton[SelectNum].sprite = ButtonState[0]; //idleButton               
+                MenuButton[SelectNum].sprite = Stage01ButtonState[0]; //idleButton               
                 if (SelectNum == MinNum) SelectNum = MaxNum;
                 else SelectNum--;
-                MenuButton[SelectNum].sprite = ButtonState[1];
+                MenuButton[SelectNum].sprite = Stage01ButtonState[1];
                 clickTime = Time.time;
             }
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                MenuButton[SelectNum].sprite = ButtonState[0];        
+                MenuButton[SelectNum].sprite = Stage01ButtonState[0];        
                 if (SelectNum == MaxNum) SelectNum = MinNum;
                 else SelectNum++;
-                MenuButton[SelectNum].sprite = ButtonState[1];
+                MenuButton[SelectNum].sprite = Stage01ButtonState[1];
                 clickTime = Time.time;
             }
         }
     }
 
 	public void ClickOption(int whichButton){ //MouseClick
+        Debug.Log("dfdsfsfsfsf" + whichButton);
 		switch(whichButton){
 		case 0:
 			StageManagerscript.inMenuState = false;
@@ -122,6 +146,7 @@ public class PauseMenu : MonoBehaviour {
 				    StageManagerscript.inMenuState = false;
 				    break;
 			case 1:
+                    StageManager.nextStage = StageManager.currentStage;
                     StartCoroutine(StageManagerscript.OnChangingScene(1f));                
                     break;
 			case 2:

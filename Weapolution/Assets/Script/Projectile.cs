@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour {
     public List<Sprite> ProjectileSprite;
     public TutorialRequest tutorialRequest;
     public bool test;
+    public int StageNum;
     // Use this for initializatio
     void Start () {
         Debug.Log("projectile start");
@@ -29,15 +30,22 @@ public class Projectile : MonoBehaviour {
     }
     public void SetProjectileImg(int _flight_way)
     {
-        if (Player.weapon.id == 6) //木頭弓箭
+        if (StageNum == 1)
         {
-            projectile_img.sprite = ProjectileSprite[0];
-
+            if (Player.weapon.id == 6) //木頭弓箭
+                projectile_img.sprite = ProjectileSprite[0];
+            else if (Player.weapon.id == 9)
+                projectile_img.sprite = ProjectileSprite[1];
+            
         }
-        else if (Player.weapon.id == 9)
+        if (StageNum == 2)
         {
-            projectile_img.sprite = ProjectileSprite[1];
+            if (Player.weapon.id == 8) 
+                projectile_img.sprite = ProjectileSprite[0];
+            else if (Player.weapon.id == 10)
+                projectile_img.sprite = ProjectileSprite[1];
         }
+        
         //Debug.Log("setflight" + _flight_way);
         flight_way = _flight_way;
         switch (flight_way)
@@ -69,7 +77,6 @@ public class Projectile : MonoBehaviour {
     void flight(int Player_faceWay)
     {
         if (Player_faceWay < 0) return;
-        Debug.Log("flight" + Player_faceWay);  
         switch (Player_faceWay)
         {
             case 0:               

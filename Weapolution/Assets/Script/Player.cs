@@ -271,7 +271,6 @@ public class Player : MonoBehaviour {
                         animator.SetInteger("face_way", 3);
                         face_way = 3;
                         K_JoyX = Speed;
-                        EffectAudio.SetAudio(4);
                     }
                     else if (Input.GetKey(KeyCode.A))
                     {
@@ -280,7 +279,6 @@ public class Player : MonoBehaviour {
                         animator.SetInteger("face_way", 2);
                         face_way = 2;
                         K_JoyX = -1 * Speed;
-                        EffectAudio.SetAudio(4);
 
                     }
                     else if (Input.GetKey(KeyCode.W))
@@ -290,8 +288,6 @@ public class Player : MonoBehaviour {
                         animator.SetInteger("face_way", 0);
                         face_way = 0;
                         K_JoyY = Speed;
-                        EffectAudio.SetAudio(4);
-
                     }
                     else if (Input.GetKey(KeyCode.S))
                     {
@@ -300,8 +296,6 @@ public class Player : MonoBehaviour {
                         animator.SetInteger("face_way", 1);
                         face_way = 1;
                         K_JoyY = -1*Speed;
-                        EffectAudio.SetAudio(4);
-
                     }
                     if (last_way != face_way)
                     {

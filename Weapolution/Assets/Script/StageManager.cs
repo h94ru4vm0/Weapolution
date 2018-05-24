@@ -7,7 +7,7 @@ public class StageManager : MonoBehaviour {
 
 
     public static bool timeUp;
-    public static  int currentStage = 5, nextStage;
+    public static  int currentStage = 4, nextStage;
 
 	public bool inMenuState;
     bool inTransState, stageBegin, stageOver, isWin;
@@ -53,24 +53,27 @@ public class StageManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        Debug.Log("currentStage : " + currentStage);
+
         if (currentStage < 3)  return;
         if (!stageBegin)
         {
-            currentStage = nextStage;
+            
             if (!timeUp) {
                 timeUp = true;
             }
             if (!inChanging)
             {
+
                 inChanging = true;
                 if (currentStage == 3) animator.Play("BlackIn");
                 else transRender.SetIsGoIn(true);
                 ToStageBegin();
             }
         }
-        else {
+         else{
+
             GetInput();
-           
             //if (Input.GetKeyDown(KeyCode.Space)) SetCurStageOver(true);
         }
 
@@ -81,11 +84,13 @@ public class StageManager : MonoBehaviour {
         timeUp = false;
     }
 
- 
 
-    void GetInput() {
+
+    void GetInput()
+    {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+
             //StartCoroutine(SlowDown(0.5f,true));
             if (inMenuState)
             {
@@ -99,17 +104,19 @@ public class StageManager : MonoBehaviour {
             }
 
         }
-        if (timeUp) {
-            if (stageOver) {
-               
+        if (timeUp)
+        {
+            if (stageOver)
+            {
+
             }
-           
+
         }
     }
 
-    
 
-    
+
+
 
     public void ChangeSceneBlackOut()
     {
@@ -161,9 +168,11 @@ public class StageManager : MonoBehaviour {
     }
 
     public IEnumerator OnChangingScene(float time) {
+        
         yield return new WaitForSeconds(time);
         Debug.Log("currentsdadasdasda" + currentStage);
         if (nextStage >= 6) nextStage = 2;
+        currentStage = nextStage;
         SceneManager.LoadScene(nextStage);
     }
 
