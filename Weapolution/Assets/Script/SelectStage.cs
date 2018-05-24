@@ -265,8 +265,8 @@ public class SelectStage : MonoBehaviour {
                 startChange = true;
                 StageManager.nextStage = stageNum + 3;
                 Canvas.SetActive(false);
-                stageManager.ChangeSceneBlackOut();
-                //StartCoroutine(stageManager.OnChangingScene(1f));
+                stageManager.ChangeSceneBlackOutForMapping();
+                StartCoroutine(stageManager.OnChangingScene(1f));
             }
         }
         else if (Input.GetButtonDown("p1ButtonA"))
@@ -277,8 +277,8 @@ public class SelectStage : MonoBehaviour {
                 startChange = true;
                 StageManager.nextStage = stageNum + 3;
                 Canvas.SetActive(false);
-                stageManager.ChangeSceneBlackOut();
-                //StartCoroutine(stageManager.OnChangingScene(1f));
+                stageManager.ChangeSceneBlackOutForMapping();
+                StartCoroutine(stageManager.OnChangingScene(1f));
             }
         }
         else if (Input.GetButtonDown("p2ButtonA"))
@@ -289,8 +289,8 @@ public class SelectStage : MonoBehaviour {
                 startChange = true;
                 StageManager.nextStage = stageNum + 3;
                 Canvas.SetActive(false);
-                stageManager.ChangeSceneBlackOut();
-                //StartCoroutine(stageManager.OnChangingScene(1f));
+                stageManager.ChangeSceneBlackOutForMapping();
+                StartCoroutine(stageManager.OnChangingScene(1f));
             }
         }
     }

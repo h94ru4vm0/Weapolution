@@ -56,6 +56,7 @@ public class PlayMainStory : MonoBehaviour {
             beCalledTime++;
             StageManager.nextStage = StageManager.currentStage + 1;
             //StageManager.currentStage++;
+            StageManager.nextStage = 2;
             StartCoroutine(StageManagerScript.OnChangingScene(1f));
         }
 
@@ -66,6 +67,7 @@ public class PlayMainStory : MonoBehaviour {
             movAudio.Pause();
             StageManager.nextStage = StageManager.currentStage + 1;
             //StageManager.currentStage++;
+            StageManager.nextStage = 2;
             StartCoroutine(StageManagerScript.OnChangingScene(1f));
         }
     }

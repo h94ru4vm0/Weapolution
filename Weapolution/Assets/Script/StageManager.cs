@@ -7,7 +7,7 @@ public class StageManager : MonoBehaviour {
 
 
     public static bool timeUp;
-    public static  int currentStage = 2, nextStage;
+    public static  int currentStage = 0, nextStage;
 
 	public bool inMenuState;
     bool inTransState, stageBegin, stageOver, isWin;
@@ -54,7 +54,10 @@ public class StageManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Debug.Log("currentStage : " + currentStage);
-
+        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.S)) {
+            nextStage = 0;
+            StartCoroutine(OnChangingScene(0.0f));
+        }
         if (currentStage < 3)  return;
         if (!stageBegin)
         {
@@ -116,15 +119,21 @@ public class StageManager : MonoBehaviour {
 
 
 
+    public void StartBegining() {
+        nextStage = 1;
+        StartCoroutine(OnChangingScene(0.0f));
+    }
 
-
-    public void ChangeSceneBlackOut()
+    public void ChangeSceneBlackOutForMapping()
     {
         inChanging = true;
         animator.Play("BlackOutForMapping");
     }
 
-
+    public void ChangeSceneBlackOut() {
+        inChanging = true;
+        animator.Play("BlackOut");
+    }
 
     public void SetCurStageOver(bool _isWin) {
         //if (stageOver) return;
