@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+//using UnityEngine.SceneManagement;
 
 public class TutorialDialog : MonoBehaviour {
     bool aniFirst = true, changeRequest;
@@ -15,12 +15,21 @@ public class TutorialDialog : MonoBehaviour {
     Image BKImage, requestImage, requestImageLast, crafterConfirm, attackerConfirm;
     CPickItemSystem pickItemSystem;
     CEnemySystem enemySystem;
+
+    StageManager stageManager;
+
     public int progress;
     public bool attackComplete = false, craftComplete = false;
     public List<Sprite> allRequestImage_0, allRequestImage_1;
     public TutorialRequest tutorialRequest;
 
     // Use this for initialization
+
+    private void Awake()
+    {
+        stageManager = GameObject.Find("stageManager").GetComponent<StageManager>();
+    }
+
     void Start() {
         Tutorialtext = transform.GetChild(1).GetComponent<Text>();
         dataText = (TextAsset)Resources.Load("TextCsv/TutorialDialog");
@@ -64,7 +73,10 @@ public class TutorialDialog : MonoBehaviour {
             }
             else
             {
-                if (progress < -1) SceneManager.LoadScene(2);
+                if (progress < -1) {
+                    StageManager.nextStage = 4;
+                    stageManager.ChangeSceneBlackOut();
+                } 
                 progress++;
                 //BKImage.enabled = false;
                 Tutorialtext.enabled = false;
