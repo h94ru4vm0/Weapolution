@@ -104,7 +104,7 @@ public class CanonSystem : MonoBehaviour {
     {
         RightAim.SetActive(false);
         ShowRightAim = false;
-        Debug.Log("CancelShootCancelShootCancelShoot");
+        
         if (Player.p2charaType) Player.p2moveAble = true;
         else Player.p1moveAble = true;     
     }

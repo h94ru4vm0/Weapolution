@@ -134,7 +134,7 @@ public class PauseMenu : MonoBehaviour {
     }
 
 	public void ClickOption(int whichButton){ //MouseClick
-        Debug.Log("dfdsfsfsfsf" + whichButton);
+        //Debug.Log("dfdsfsfsfsf" + whichButton);
 		switch(whichButton){
 		case 0:
 			StageManagerscript.inMenuState = false;

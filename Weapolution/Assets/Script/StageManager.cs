@@ -7,7 +7,7 @@ public class StageManager : MonoBehaviour {
 
 
     public static bool timeUp;
-    public static  int currentStage = 0, nextStage;
+    public static  int currentStage = 4, nextStage = 4;
 
 	public bool inMenuState;
     bool inTransState, stageBegin, stageOver, isWin;
@@ -53,7 +53,7 @@ public class StageManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log("currentStage : " + currentStage);
+        
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.S)) {
             nextStage = 0;
             StartCoroutine(OnChangingScene(0.0f));
@@ -85,6 +85,7 @@ public class StageManager : MonoBehaviour {
     public void ToStageBegin() {
         stageBegin = true;
         timeUp = false;
+        Player.isMapped = false;
     }
 
 

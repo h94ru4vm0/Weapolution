@@ -19,6 +19,7 @@ public class CPickItemSystem : MonoBehaviour {
     public Vector3[] locations;
     public string stage;
     void Awake () {
+        Debug.Log("adsadasdasdsadsadsad" + (StageManager.nextStage - 3));
         CItemDataBase.SetItemDataBase(stage);
         CItemDataBase.SetSpriteList(stage);
         Transform tempFree = transform.GetChild(0);
@@ -89,10 +90,10 @@ public class CPickItemSystem : MonoBehaviour {
             {
                 if (i < 1)
                 {
-                    if (typeCollectNum[i] < 5 && CheckPickCollectLoc()) SpawnPickCollect(locations[locationID], i, 1);
+                    if (typeCollectNum[i] < 5 && CheckPickCollectLoc()) SpawnPickCollect(locations[locationID], 0, 1);
                 }
                 else {
-                    if (typeCollectNum[i] < 3 && CheckPickCollectLoc()) SpawnPickCollect(locations[locationID], i, 2);
+                    if (typeCollectNum[i] < 3 && CheckPickCollectLoc()) SpawnPickCollect(locations[locationID],1, 2);
                 }
                 
             }

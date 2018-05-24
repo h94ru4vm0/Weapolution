@@ -82,6 +82,7 @@ public class CraftMenu : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        if (StageManager.timeUp) return;
         cameraOffset = mainCamera.position.y - oldCameraPosY;
         GetInput();
         OnMoving();

@@ -72,6 +72,7 @@ public class EnemyBullet : MonoBehaviour {
             endAniID++;
             Img.sprite = endAni[endAniID];
             startShoot = false;
+            collision.GetComponent<Player>().GetHurt();
             
         }
         if (collision.tag == "Wall") {

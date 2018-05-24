@@ -69,6 +69,7 @@ public class CPickCollection : MonoBehaviour {
             }
             throwWay = Quaternion.AngleAxis(angle, new Vector3(0, 0, 1)) * throwWay;
             tempItem.SetFall(0.5f, throwWay, throwSpeed);
+            Debug.Log("throw out   " + throwWay);
         }
         pickitem_system.RecyclePickCollect(this.gameObject);
         ResetTree();

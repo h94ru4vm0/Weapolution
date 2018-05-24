@@ -29,19 +29,22 @@ public class CItemDataBase {
         items = new CItem[st.Length - 2];
         for (int i = 0; i < st.Length - 2; i++)
         {
+            
             data.Add(st[i].Split(','));
+            Debug.Log(data[i][0]);
             items[i] = new CItem(data[i][0], data[i][1], data[i][2], data[i][3], data[i][4], data[i][5], data[i][6], data[i][7], data[i][8]);
+            Debug.Log(items[i].name);
         }
 
     }
     public static void SetSpriteList(string Stage)
     {
-        if (fail_sprite == null || spriteList == null) {
-            fail_sprite = Resources.Load<Sprite>("image/Stage/fail");
-            for (int id = 0; id < items.Length; id++)
-            {
-                spriteList.Add(Resources.Load<Sprite>("image/Stage/" + Stage +  "/CraftElement/" + items[id].image));
-            }
+        fail_sprite = Resources.Load<Sprite>("image/Stage/fail");
+        spriteList = new List<Sprite>();
+        for (int id = 0; id < items.Length; id++)
+        {
+            spriteList.Add(Resources.Load<Sprite>("image/Stage/" + Stage + "/CraftElement/" + items[id].image));
+            Debug.Log(items[id].image);
         }
     }
 

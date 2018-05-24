@@ -29,7 +29,7 @@ public class CForge : MonoBehaviour {
         images = new SpriteRenderer[total_num];
         fire = transform.Find("fire");
         for (int i = 0; i < total_num; i++) {
-            Debug.Log(i);
+            //Debug.Log(i);
             images[i] = transform.GetChild(1).transform.GetChild(i).GetChild(0).GetComponent<SpriteRenderer>();
             images[i].enabled = false;
         }

@@ -64,7 +64,7 @@ public class Poison : MonoBehaviour {
         if (collision.tag == "Player") {
             Debug.Log("asdasdasdasdasdasd hitttttt");
             if (Mathf.Abs(collision.transform.position.z - transform.position.z) < 5.0f) {
-                Debug.Log("hittttttttttttttttt");
+                collision.transform.parent.GetComponent<Player>().GetHurt();
             }
         }
     }
