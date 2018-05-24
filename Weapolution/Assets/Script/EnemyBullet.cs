@@ -66,22 +66,28 @@ public class EnemyBullet : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player") {
-            //Debug.Log("sadasdasdsadadasdsdsad hit player");
-            isEndAni = true;
-            endAniID++;
-            Img.sprite = endAni[endAniID];
-            startShoot = false;
-            collision.GetComponent<Player>().GetHurt();
-            
+        if (!isEndAni)
+        {
+            if (collision.tag == "Player")
+            {
+                //Debug.Log("sadasdasdsadadasdsdsad hit player");
+                isEndAni = true;
+                endAniID++;
+                Img.sprite = endAni[endAniID];
+                startShoot = false;
+                collision.GetComponent<Player>().GetHurt();
+
+            }
+            if (collision.tag == "Wall")
+            {
+                //Debug.Log("sadasdasdsadadasdsdsad hit wall");
+                isEndAni = true;
+                endAniID++;
+                Img.sprite = endAni[endAniID];
+                startShoot = false;
+            }
         }
-        if (collision.tag == "Wall") {
-            //Debug.Log("sadasdasdsadadasdsdsad hit wall");
-            isEndAni = true;
-            endAniID++;
-            Img.sprite = endAni[endAniID];
-            startShoot = false;
-        }
+          
     }
 
 }

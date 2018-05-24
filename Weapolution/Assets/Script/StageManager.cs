@@ -10,7 +10,9 @@ public class StageManager : MonoBehaviour {
     public static  int currentStage = 0, nextStage = 0;
 
 	public bool inMenuState;
-    bool inTransState, stageBegin, stageOver, isWin;
+    public bool stageBegin;
+
+    bool inTransState, stageOver, isWin;
     bool inChanging;
     float slowTime;
     string whichPlayerControl;
@@ -27,7 +29,7 @@ public class StageManager : MonoBehaviour {
     {
         inChanging = false;
         //if (stageManager == null) stageManager = this;
-        animator = GetComponent<Animator>();
+        animator = GameObject.Find("BlackScene").GetComponent<Animator>();
         if (currentStage >= 3)
         {
             transRender = Camera.main.GetComponent<SceneTransRender>();
@@ -125,11 +127,11 @@ public class StageManager : MonoBehaviour {
         StartCoroutine(OnChangingScene(0.0f));
     }
 
-    public void ChangeSceneBlackOutForMapping()
-    {
-        inChanging = true;
-        animator.Play("BlackOutForMapping");
-    }
+    //public void ChangeSceneBlackOutForMapping()
+    //{
+    //    inChanging = true;
+    //    animator.Play("BlackOutForMapping");
+    //}
 
     public void ChangeSceneBlackOut() {
         inChanging = true;

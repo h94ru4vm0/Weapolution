@@ -134,6 +134,7 @@ public class Player : MonoBehaviour {
     void Update () {
         if (StageManager.timeUp) return;
         if (p1_die) return;
+        if (Input.GetKeyDown(KeyCode.Z) && Input.GetKeyDown(KeyCode.X)) CharacterRespawn();
         if (!p1charaType) //p1是attacker
         {
             Movement(p1moveAble, p1controller, p1joystick);
@@ -288,11 +289,13 @@ public class Player : MonoBehaviour {
         }
 
 
-        CheckAP();
-
+       
     }
 
-
+    void CharacterRespawn()
+    {
+        this.gameObject.transform.position = new Vector3(-12f, -6f, 0);
+    }
     void Movement( bool move , bool ctrlmode , string Joystick_num)
     {
         if (move)
@@ -520,10 +523,7 @@ public class Player : MonoBehaviour {
             if (hitWall1 && L_JoyY < 0.0f) L_JoyY = 0.0f;
             if (hitWall2 && L_JoyX < 0.0f) L_JoyX = 0.0f;
             if (hitWall3 && L_JoyX > 0.0f) L_JoyX = 0.0f;
-            if (hitWall0 && hitWall1 && hitWall2 && hitWall3)
-            {
-
-            }
+           
         }
     }
 
@@ -572,22 +572,7 @@ public class Player : MonoBehaviour {
         
         
     }
-    void CheckAP()
-    {
-
-        if (p1Ap <= 1 ) //時間回復AP
-        {
-            p1Ap += Time.deltaTime/2.0f;
-        }
-        else if (p1Ap <= 0) //AP為0
-        {
-            p1Ap = 0;         
-        }
-        else if (p1Ap >=1) //AP為1
-        {
-            p1Ap = 1;
-        }
-    }
+   
     public void Gameover()
     {
         p1_die = true;
