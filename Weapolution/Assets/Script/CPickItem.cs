@@ -124,6 +124,8 @@ public class CPickItem : MonoBehaviour {
         //若是往下丟，重力需要較小
         if (_flyDir.y < 0.0f) add_velocity_vec3 = new Vector3(0.0f, -f_gravity - (_flyDir.y*25.0f), 0.0f);
         shadowRender.enabled = false;
+        SetZBase(-3.0f);
+        
         //switch (fly_dir)
         //{
         //    case 0:
@@ -160,6 +162,7 @@ public class CPickItem : MonoBehaviour {
             //transform.position += 0.5f * Time.deltaTime * Time.deltaTime * resistance_vec3;
         }
         else {
+            SetZBase(0.0f);
             setColliderOnce = false;
             f_fallingTime = 0.0f;
             b_flying = false;

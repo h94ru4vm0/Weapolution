@@ -68,7 +68,7 @@ public class StageManager : MonoBehaviour {
                 inChanging = true;
                 if (currentStage == 3) animator.Play("BlackIn");
                 else transRender.SetIsGoIn(true);
-                ToStageBegin();
+                //ToStageBegin();
             }
         }
          else{
@@ -123,6 +123,8 @@ public class StageManager : MonoBehaviour {
         inChanging = true;
         animator.Play("BlackOutForMapping");
     }
+
+
 
     public void SetCurStageOver(bool _isWin) {
         //if (stageOver) return;
