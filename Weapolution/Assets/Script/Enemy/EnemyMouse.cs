@@ -21,7 +21,7 @@ public class EnemyMouse : CEnemy {
                         1 << LayerMask.NameToLayer("ObstacleForIn");
         state = 0;
         bullets = GameObject.Find("EnemyMouseBullets").GetComponent<EnemyBulletSystem>();
-        hp = 5;
+        hp = 4;
         getHurtEffect = GetComponent<GetHurtEffect>();
     }
     
@@ -150,13 +150,13 @@ public class EnemyMouse : CEnemy {
 
         if (pathFind)
         {
-            Debug.Log("trace path find");
+            //Debug.Log("trace path find");
             Vector2 Pos2d = new Vector2(self_pos.x, self_pos.y);
             if (path.turnBoundaries[pathIndex].HasCrossedLine(Pos2d))
             {
                 if (pathIndex == path.finishLineIndex)
                 {
-                    Debug.Log("catch player  " + path.finishLineIndex);
+                    //Debug.Log("catch player  " + path.finishLineIndex);
                     pathFind = false;
                 }
                 else
@@ -177,7 +177,7 @@ public class EnemyMouse : CEnemy {
                         if (bullets.GetFreeNum() > 0)
                         {
                             SetState(3, true); //range attack
-                            Debug.Log("start shoot");
+                            //Debug.Log("start shoot");
                             pathFind = false;
                             //if (state == 3) animator.SetTrigger("exist");
                         }
@@ -213,7 +213,7 @@ public class EnemyMouse : CEnemy {
         if (pathSuccessful)
         {
             pathIndex = 0;
-            Debug.Log(gameObject.name + "find path");
+            //Debug.Log(gameObject.name + "find path");
             pathFind = pathSuccessful;
             path = new Path(wayPoints, self_pos, turnDis, stoppingDis);
         }
@@ -251,17 +251,17 @@ public class EnemyMouse : CEnemy {
     public void RangeAttackOver()
     {
         SetState(4, false);
-        Debug.Log("RangeAttackOver");
+        //Debug.Log("RangeAttackOver");
         //keepAway = new Vector3(playerPos.x - keepAway.x, playerPos.y - keepAway.y, 0.0f).V3NormalizedtoV2();
     }
 
     void KeepRangeDst() {
         bool goKeepAway = false;
-        Debug.Log("keep dis");
+
         if (rangeDetectTime > 1.0f) {
             if (CouculatePlayerDis(true, 8.0f))  //閃避過程距離拉太大，重新追逐
             {
-                Debug.Log("dodge but too far");
+                //Debug.Log("dodge but too far");
                 SetState(2, false);
                 rangeDetectTime = 0.0f;
                 return;
@@ -455,6 +455,7 @@ public class EnemyMouse : CEnemy {
         }
         else if (collision.tag == "Trap") {
             SetState(7, true);
+            collision.GetComponent<Trape>().ResetChild();
         }
     }
 

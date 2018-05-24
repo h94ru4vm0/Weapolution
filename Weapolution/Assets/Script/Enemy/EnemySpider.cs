@@ -88,7 +88,7 @@ public class EnemySpider : CEnemy
     }
 
     public void WeaveOver() {
-        Debug.Log("weave over");
+        //Debug.Log("weave over");
         inState_time = 2.0f;
         isForceState = false;
     }

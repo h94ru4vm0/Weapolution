@@ -22,7 +22,7 @@ public class PathRequestManager : MonoBehaviour {
 
     public static void RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<Vector3[], bool> callback) {
         PathRequest newRequest = new PathRequest(pathStart, pathEnd, callback);
-        Debug.Log("path request" + instance);
+        //Debug.Log("path request" + instance);
         instance.pathRequestQueue.Enqueue(newRequest);
         instance.TryProcessNext();
     }
@@ -38,8 +38,8 @@ public class PathRequestManager : MonoBehaviour {
     }
 
     public void FinishProcessingPath(Vector3[] path, bool success) {
-        Debug.Log("finish request   " + success);
-        Debug.Log(path.Length);
+       //Debug.Log("finish request   " + success);
+        //Debug.Log(path.Length);
         if (path.Length < 1) currentPathRequest.callback(path, false);  //path 長度為0
         else currentPathRequest.callback(path, success); 
         isProcessingPath = false;

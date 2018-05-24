@@ -98,7 +98,7 @@ public class UseTrapeSystem : MonoBehaviour {
     bool CanSet()
     {
         bool beenTrap = false;
-        RaycastHit2D detect = Physics2D.Raycast(transform.position, new Vector2(0, -1), 1.0f,
+        RaycastHit2D detect = Physics2D.Raycast(transform.position, new Vector2(0, -1), 0.6f,
                                                 trapeMask);
         if (detect)
         {

@@ -17,7 +17,7 @@ public class CEnemyBear : CEnemy {
     // Use this for initialization
     public override void Awake () {
         base.Awake();
-        hp = 10;
+        hp = 25;
         lastState = -1;
         state = 0;
         //box1 = transform.Find("PlayerDetect").GetChild(0).GetComponent<BoxCollider2D>();
@@ -486,7 +486,7 @@ public class CEnemyBear : CEnemy {
         if (hp <= 0) {
             animator.Play("EnemyBearDie");
             SetState(5, true);
-            enemySystem.NextStage();
+            
         }
     }
 
@@ -496,7 +496,7 @@ public class CEnemyBear : CEnemy {
 
     public void DieOver() {
         this.gameObject.SetActive(false);
-        
+        enemySystem.NextStage();
     }
 
     public void TakeBreak(float total_time) {

@@ -12,7 +12,7 @@ public class CEnemySystem : MonoBehaviour {
     public float spawnLocY;
     //public Vector2 InsidefieldMinLimit, InsidefieldMaxLimit;
     public GameObject Inplayer, Outplayer;
-    MonsterVoice audioSource;
+    //MonsterVoice audioSource;
     //public List<Transform> InEnemys, OutEnemys;
     //public GameObject forge;
     CEnemy boss;
@@ -28,7 +28,7 @@ public class CEnemySystem : MonoBehaviour {
         Outplayer = GameObject.Find("character2");
         freeEnemyIn = transform.GetChild(0).Find("InsideFree");
         UsedEnemyIn = transform.GetChild(0).Find("InsideUsed");
-        audioSource = GameObject.Find("MonsterAudio").GetComponent<MonsterVoice>();
+        //audioSource = GameObject.Find("MonsterAudio").GetComponent<MonsterVoice>();
         //pickItemSystem = GameObject.Find("PickItemSystem").GetComponent<CPickItemSystem>();
         monsterVoice = GameObject.Find("MonsterAudio").GetComponent<MonsterVoice>();
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>(); ;

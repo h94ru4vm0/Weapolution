@@ -62,9 +62,11 @@ public class Poison : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player") {
-            Debug.Log("asdasdasdasdasdasd hitttttt");
+            //Debug.Log("asdasdasdasdasdasd hitttttt");
             if (Mathf.Abs(collision.transform.position.z - transform.position.z) < 5.0f) {
-                collision.transform.parent.GetComponent<Player>().GetHurt();
+                Player _player = collision.transform.parent.GetComponent<Player>();
+                if(_player != null)
+                    collision.transform.parent.GetComponent<Player>().GetHurt();
             }
         }
     }

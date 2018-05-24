@@ -9,8 +9,12 @@ public class Trape : CChildProject
     bool isForOut = true;
     float time;
     bool damageOnce;
+    LevelHeight levelHieght;
 
-    
+    private void Awake()
+    {
+        levelHieght = GetComponent<LevelHeight>();
+    }
 
     // Use this for initialization
     void Start()
@@ -21,7 +25,12 @@ public class Trape : CChildProject
     // Update is called once per frame
     void Update()
     {
-
+        if (!isForOut) {
+            time += Time.deltaTime;
+            if (time > 15.0f) {
+                ResetChild();
+            }
+        }
     }
 
     public void Init(bool _isOut)
@@ -38,6 +47,8 @@ public class Trape : CChildProject
         Debug.Log("set is out");
         isForOut = _isOuT;
         callBack = _callBack;
+        if (isForOut) levelHieght.SetSpecificHeight(-100.0f);
+        else levelHieght.SetSpecificHeight(0.0f);
     }
 
     public override void ResetChild()

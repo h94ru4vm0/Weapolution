@@ -25,7 +25,7 @@ public class EnemyDoctor : CEnemy
         attackOnce = false;
         base.Awake();
         SetState(0,false);
-        hp = 15;
+        hp = 20;
         sprintAtks = GetComponent<SprintAttacks>();
         render = transform.Find("img").GetComponent<SpriteRenderer>();
         poisonAlerts = GameObject.Find("PoisonHints").GetComponent<CChildProjectSystem>();
@@ -132,7 +132,7 @@ public class EnemyDoctor : CEnemy
 
     public void ShowUpOver()
     {
-        state = 4;
+        state = 1;
         isShowUp = true;
     }
 
@@ -232,6 +232,7 @@ public class EnemyDoctor : CEnemy
             onAttacking = true;
             normalAtkNum++;
             totalAtkNum++;
+            enemySystem.PlaySound(2, 1.0f);
         }
     }
 
@@ -275,7 +276,7 @@ public class EnemyDoctor : CEnemy
     public void StartSprint() {
         render.enabled = false;
         sprintAtks.SetStartSprint();
-        
+        enemySystem.PlaySound(4, 1.0f);
     } 
 
     void SprintAtk() {
@@ -285,6 +286,7 @@ public class EnemyDoctor : CEnemy
             state_time = 2.0f;
             totalAtkNum++;
             sprintAtks.SetSprintWay(playerPos, SprintAtkOver);
+            enemySystem.PlaySound(3,1.0f);
             //Vector3 sprintWay = (playerPos - self_pos).V3NormalizedtoV2();
 
         }
@@ -310,6 +312,7 @@ public class EnemyDoctor : CEnemy
         if (state_time < 0.1f) {
             onAttacking = true;
             state_time = 10.0f;
+            enemySystem.PlaySound(5, 1.0f);
         }
     }
 
@@ -361,6 +364,7 @@ public class EnemyDoctor : CEnemy
     public void StartPoisonBlast() {
         //Vector2 locOffset = new Vector2(1.0f, 1.0f);
         //RaycastHit2D detect = Physics2D.Raycast(poisonAtksPos[3], locOffset);
+        enemySystem.PlaySound(6, 1.0f);
         for (int i = 0; i < 4; i++) {
             Vector3 blastLoc = new Vector3(self_pos.x + Mathf.Sign(poisonOffset.x)*2.0f, self_pos.y + 2.0f, poisonAlerts.GetUsedChildTransform(poisonNum).position.z);
             if (poisonManager.freeNum > 0) poisonManager.AddUsedPosition(blastLoc, poisonAtksPos[i]);
@@ -419,6 +423,12 @@ public class EnemyDoctor : CEnemy
         
     }
 
+    public void DieOver()
+    {
+        this.gameObject.SetActive(false);
+        enemySystem.NextStage();
+    }
+
     public override void SetAnimator()
     {
         //Debug.Log("SetAnimator" + state + "   " + lastState);
@@ -440,7 +450,10 @@ public class EnemyDoctor : CEnemy
     {
         if (collision.tag == "Player" && !attackOnce) {
             attackOnce = true;
-            Debug.Log("boss hit player");
+            collision.GetComponent<Player>().GetHurt();
+        }
+        if (collision.tag == "Explosion") {
+            SetHurtValue(3, 1);
         }
     }
 

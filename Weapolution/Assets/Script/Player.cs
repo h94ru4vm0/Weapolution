@@ -128,7 +128,7 @@ public class Player : MonoBehaviour {
         p2Ap_enough = true;
 
 
-        Debug.Log("p1controller" + p1controller + "p1joystick" + p1joystick + "p1charaType" + p1charaType);
+        //Debug.Log("p1controller" + p1controller + "p1joystick" + p1joystick + "p1charaType" + p1charaType);
     }
     
     void Update () {
@@ -655,7 +655,7 @@ public class Player : MonoBehaviour {
     {
         if (test || invincible) return;
         if (p1_die) return;
-        Debug.Log("getHurt");
+        //Debug.Log("getHurt");
 
         if (animation_type == 2)//如果被打到時正在攻擊，被斷招
         { 
@@ -675,7 +675,7 @@ public class Player : MonoBehaviour {
           L_JoyY = 0.0f;
           K_JoyX = 0.0f;
           K_JoyY = 0.0f;
-
+          TeamHp.teamHp -= 0.05f;
           inFuntionTime++;
           EffectAudio.SetAudio(1);
         }
@@ -722,7 +722,7 @@ public class Player : MonoBehaviour {
 
     public void OverBeHurt()
     {
-        Debug.Log(gameObject.name + "hurt over");
+        //Debug.Log(gameObject.name + "hurt over");
         if (!p1charaType) p1moveAble = true;
         else p2moveAble = true;
         inFuntionTime = 0;
@@ -733,7 +733,7 @@ public class Player : MonoBehaviour {
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Enemy")
+        if (collision.tag == "Enemy" && animation_type == 2)
         {
             if (weapon.ani_type < 0) return;
             Debug.Log("hit enemy");

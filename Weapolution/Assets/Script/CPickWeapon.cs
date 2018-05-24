@@ -70,7 +70,7 @@ public class CPickWeapon : MonoBehaviour {
         if (canPick && Player.weapon.id == 0) {
             if (useControll)
             {
-                if (Input.GetButtonDown(whichPlayer + "LB"))
+                if (Input.GetButtonDown(whichPlayer + "ButtonX"))
                 {
                     pickWeapon = lastPick;
                     Player.weapon = CItemDataBase.items[pickWeapon.id];

@@ -41,7 +41,7 @@ public class EnemyBullet : MonoBehaviour {
                     system.AddFree(this);
                 } 
                 else {
-                    Debug.Log(endAniID + "     " + endAni.Length);
+                    //Debug.Log(endAniID + "     " + endAni.Length);
                     endAniID++;
                     Img.sprite = endAni[endAniID];
                     aniTime = 0.0f;

@@ -27,6 +27,8 @@ public class CanonSystem : MonoBehaviour {
     GameObject Explosion;
     public List<bool> IsHitted;
 
+    CharacterVoice characterVoice;
+
     private void Awake() 
     {
         RightAim.SetActive(false);
@@ -39,6 +41,9 @@ public class CanonSystem : MonoBehaviour {
         Rayway[1] = new Vector2(0, -1f);
         Rayway[2] = new Vector2(-1f, 0);
         Rayway[3] = new Vector2(1f, 0);
+
+        characterVoice = GameObject.Find("CharacterAudio").GetComponent<CharacterVoice>();
+
     }
     private void Start()
     {
@@ -92,6 +97,7 @@ public class CanonSystem : MonoBehaviour {
         Explosion.transform.position = RightAim.transform.position;
         CanonAnimator.SetTrigger("Shoot");
         CanonScript.CanonPowderNum--;
+        characterVoice.SetAudio(5);    
     }
     void OutOfBullet()
     {

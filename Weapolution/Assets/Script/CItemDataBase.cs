@@ -31,9 +31,9 @@ public class CItemDataBase {
         {
             
             data.Add(st[i].Split(','));
-            Debug.Log(data[i][0]);
+            //Debug.Log(data[i][0]);
             items[i] = new CItem(data[i][0], data[i][1], data[i][2], data[i][3], data[i][4], data[i][5], data[i][6], data[i][7], data[i][8]);
-            Debug.Log(items[i].name);
+            //Debug.Log(items[i].name);
         }
 
     }
@@ -44,7 +44,7 @@ public class CItemDataBase {
         for (int id = 0; id < items.Length; id++)
         {
             spriteList.Add(Resources.Load<Sprite>("image/Stage/" + Stage + "/CraftElement/" + items[id].image));
-            Debug.Log(items[id].image);
+            //Debug.Log(items[id].image);
         }
     }
 

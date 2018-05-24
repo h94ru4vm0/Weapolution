@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour {
     public int StageNum;
     // Use this for initializatio
     void Start () {
-        Debug.Log("projectile start");
+        //Debug.Log("projectile start");
         Speed = 20;
         projectile_img = transform.GetChild(0).GetComponent<SpriteRenderer>();
         weapon = GameObject.Find("weaponImg");
@@ -104,6 +104,17 @@ public class Projectile : MonoBehaviour {
         }
         else if (collision.collider.tag == "Wall")
         {
+            flight_way = -1;
+            gameObject.SetActive(false);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Enemy")
+        {
+            collision.transform.GetComponent<CEnemy>().SetHurtValue(Player.weapon.attack, flight_way);
+            if (test) tutorialRequest.DoneHitEnemy();
             flight_way = -1;
             gameObject.SetActive(false);
         }
