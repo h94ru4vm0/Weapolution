@@ -27,6 +27,9 @@ public class Player : MonoBehaviour {
     //mode 0 == can't walk
     //mode 1 == can walk
 
+    bool WhichCharacter, WhichController;
+    string WhichJoy;
+
     static public int face_way;
     static public int last_way; //上一個面向
 
@@ -74,6 +77,8 @@ public class Player : MonoBehaviour {
     public bool test;
 
     LayerMask unWalkable;
+
+    
 
     void Awake()
     {
@@ -286,6 +291,7 @@ public class Player : MonoBehaviour {
         CheckAP();
 
     }
+
 
     void Movement( bool move , bool ctrlmode , string Joystick_num)
     {
@@ -514,6 +520,10 @@ public class Player : MonoBehaviour {
             if (hitWall1 && L_JoyY < 0.0f) L_JoyY = 0.0f;
             if (hitWall2 && L_JoyX < 0.0f) L_JoyX = 0.0f;
             if (hitWall3 && L_JoyX > 0.0f) L_JoyX = 0.0f;
+            if (hitWall0 && hitWall1 && hitWall2 && hitWall3)
+            {
+
+            }
         }
     }
 
@@ -546,7 +556,7 @@ public class Player : MonoBehaviour {
             roll_time += Time.deltaTime;
 
             RaycastHit2D hitWall = Physics2D.Raycast(transform.position, rollWay,
-                                                    0.8f, unWalkable);
+                                                    1.2f, unWalkable);
             if (!hitWall) Debug.Log("rollrollroll" + rollWay + "   " + roll_time);
             if (!hitWall) transform.position += roll_time * Time.deltaTime * rollWay;
         }
