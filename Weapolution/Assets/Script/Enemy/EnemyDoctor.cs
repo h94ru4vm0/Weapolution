@@ -15,6 +15,7 @@ public class EnemyDoctor : CEnemy
     Path path;
     CChildProjectSystem poisonAlerts;
     LevelHeight levelHieght;
+    GetHurtEffect getHurtEffect;
 
     public float stoppingDis, turnDis, turnSpeed;
     public LayerMask obstacleMask;
@@ -32,6 +33,7 @@ public class EnemyDoctor : CEnemy
         rambleLayer = 1 << LayerMask.NameToLayer("Obstacle")
                         | 1 << LayerMask.NameToLayer("ObstacleForIn");
         levelHieght = GetComponent<LevelHeight>();
+        getHurtEffect = GetComponent<GetHurtEffect>();
     }
 
     // Use this for initialization
@@ -112,6 +114,9 @@ public class EnemyDoctor : CEnemy
                 break;
             case 4:
                 PoisonAttack();
+                break;
+            case 5:
+                Die();
                 break;
             
         }
@@ -390,11 +395,28 @@ public class EnemyDoctor : CEnemy
         //getHurtEffect.SetEffectOn();
         hurtValue = _value;
         hp -= hurtValue;
+
+        Vector3 effectPos = new Vector3(0, 0, 0);
+        if (_HitDir == 0) effectPos = new Vector3(new_pos.x, new_pos.y - 1.5f, -200.0f);
+        else if (_HitDir == 1) effectPos = new Vector3(new_pos.x, new_pos.y + 1.5f, -200.0f);
+        else if (_HitDir == 2) effectPos = new Vector3(new_pos.x + 1.5f, new_pos.y, -200.0f);
+        else if (_HitDir == 3) effectPos = new Vector3(new_pos.x - 1.5f, new_pos.y, -200.0f);
+        getHurtEffect.SetEffect(effectPos, 1.2f);
+
         if (hp <= 0)
         {
-            //animator.Play("EnemyBearDie");
-            SetState(5, true);
+            if (hp <= 0)
+            {
+                animator.Play("EnemyDoctorDie");
+                SetState(5, true);
+                enemySystem.NextStage();
+            }
         }
+    }
+
+    public override void Die()
+    {
+        
     }
 
     public override void SetAnimator()
