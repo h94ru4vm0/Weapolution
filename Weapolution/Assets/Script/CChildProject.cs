@@ -23,6 +23,14 @@ public class CChildProject : MonoBehaviour {
     public virtual void SetOn() {
     }
 
+    public virtual void SetOn(float _float)
+    {
+    }
+
+    public virtual void SetOn(Transform _parent, float _float)
+    {
+    }
+
     public virtual void SetOn(bool _bool, Action _callBack) {
 
     }

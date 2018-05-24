@@ -9,6 +9,7 @@ public class EnemyMouse : CEnemy {
     Vector3 keepAway, shootPos;
     Path path;
     EnemyBulletSystem bullets;
+    GetHurtEffect getHurtEffect;
 
     public float stoppingDis, turnDis, turnSpeed;
     public LayerMask obstacleMask;
@@ -20,7 +21,8 @@ public class EnemyMouse : CEnemy {
                         1 << LayerMask.NameToLayer("ObstacleForIn");
         state = 0;
         bullets = GameObject.Find("EnemyMouseBullets").GetComponent<EnemyBulletSystem>();
-        hp = 1;
+        hp = 5;
+        getHurtEffect = GetComponent<GetHurtEffect>();
     }
     
     // Update is called once per frame
@@ -370,6 +372,12 @@ public class EnemyMouse : CEnemy {
 
     public override void SetHurtValue(int _value, int _HitDir)
     {
+        Vector3 effectPos = new Vector3(0, 0, 0);
+        if (_HitDir == 0) effectPos = new Vector3(new_pos.x, new_pos.y + 1.7f, -200.0f);
+        else if (_HitDir == 1) effectPos = new Vector3(new_pos.x, new_pos.y - 1.7f, -200.0f);
+        else if (_HitDir == 2) effectPos = new Vector3(new_pos.x - 1.7f, new_pos.y, -200.0f);
+        else if (_HitDir == 3) effectPos = new Vector3(new_pos.x + 1.7f, new_pos.y, -200.0f);
+        getHurtEffect.SetEffect(effectPos, 0.5f);
         hurtValue = _value;
         hitDir = _HitDir;
         SetState(6, true);

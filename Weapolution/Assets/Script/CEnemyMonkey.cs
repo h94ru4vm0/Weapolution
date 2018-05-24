@@ -5,6 +5,7 @@ using UnityEngine;
 public class CEnemyMonkey : CEnemy {
 
     float bananaTime = 0.0f;
+    GetHurtEffect getHurtEffect;
     Transform bananas;
     CChildProjectSystem childProjectSystem;
     
@@ -12,8 +13,9 @@ public class CEnemyMonkey : CEnemy {
     public override void Awake () {
         base.Awake();
         if(IsOut)childProjectSystem = transform.parent.parent.Find("Bananas").GetComponent<CChildProjectSystem>();
-        
-	}
+        getHurtEffect = GetComponent<GetHurtEffect>();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -199,6 +201,13 @@ public class CEnemyMonkey : CEnemy {
     {
         //base.SetHurtValue(_value, _HitDir); 
         if (getHurtOnce) return;
+        Vector3 effectPos = new Vector3(0, 0, 0);
+        if (_HitDir == 0) effectPos = new Vector3(new_pos.x, new_pos.y + 1.7f, -200.0f);
+        else if (_HitDir == 1) effectPos = new Vector3(new_pos.x, new_pos.y - 1.7f, -200.0f);
+        else if (_HitDir == 2) effectPos = new Vector3(new_pos.x - 1.7f, new_pos.y, -200.0f);
+        else if (_HitDir == 3) effectPos = new Vector3(new_pos.x + 1.7f, new_pos.y, -200.0f);
+        getHurtEffect.SetEffect(effectPos, 0.4f);
+
         enemySystem.PlaySound(0, 1.0f);
         hurtValue = _value;
         SetState(4, true);

@@ -479,7 +479,7 @@ public class CEnemyBear : CEnemy {
         else if (_HitDir == 1) effectPos = new Vector3(new_pos.x, new_pos.y + 1.5f, -200.0f);
         else if(_HitDir == 2) effectPos = new Vector3(new_pos.x + 1.5f, new_pos.y , -200.0f);
         else if (_HitDir == 3) effectPos = new Vector3(new_pos.x - 1.5f, new_pos.y, -200.0f);
-        getHurtEffect.SetEffect(effectPos);
+        getHurtEffect.SetEffect(effectPos,0.8f);
         enemySystem.PlaySound(7, 1.0f);
         hurtValue = _value;
         hp -= hurtValue;
