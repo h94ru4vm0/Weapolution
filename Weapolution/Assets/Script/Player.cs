@@ -202,16 +202,19 @@ public class Player : MonoBehaviour {
                     if (Mathf.Abs(K_JoyY) < 0.1f && Mathf.Abs(K_JoyX) < 0.1f) return;
                     clickTime = Time.time;
                     animation_type = 1;
+                    invincible = true;
 
                 }
             }
             else
             {
-                if (p2moveAble && Input.GetAxis(p2joystick + "LT") > 0.5f && Time.time - clickTime > rollCDtime)
+                if (p2moveAble && Input.GetAxis(p1joystick + "LT") > 0.5f && Time.time - clickTime > rollCDtime)
                 {
                     if (Mathf.Abs(L_JoyY) < 0.1f && Mathf.Abs(L_JoyX) < 0.1f) return;
                     clickTime = Time.time;
                     animation_type = 1;
+                    invincible = true;
+                    Debug.Log("enter roll");
 
                 }
             }
@@ -553,7 +556,6 @@ public class Player : MonoBehaviour {
         if (inFuntionTime == 0)
         {
             Debug.Log("123543645747");
-            animator.SetTrigger("is_die");
             p1moveAble = false;
             inFuntionTime++;
         }
@@ -633,10 +635,7 @@ public class Player : MonoBehaviour {
             inFuntionTime++;
             EffectAudio.SetAudio(1);
         }
-        if (beingHurt_time - Time.time > unbeatable_time )
-        {
-            TeamHp.teamHp -= 0.05f;
-        }
+
         
     }
 
@@ -685,6 +684,8 @@ public class Player : MonoBehaviour {
         inFuntionTime = 0;
         beingHurt_time = 0;
         invincible = false;
+        TeamHp.checkGameOver = true;
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

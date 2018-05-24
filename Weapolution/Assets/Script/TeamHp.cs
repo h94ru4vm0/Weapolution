@@ -16,6 +16,7 @@ public class TeamHp : MonoBehaviour {
     bool changeColor01;
     bool changeColor02;
     static public float teamHp = 1; //滿血是1
+    static public bool checkGameOver;
     int inFuctionTime = 0;
 
     void Awake () {
@@ -37,7 +38,7 @@ public class TeamHp : MonoBehaviour {
     private void Update()
     {
         RenderUI();
-        CheckHp();
+        if(checkGameOver)CheckHp();
     }
 
     void RenderUI()
@@ -70,10 +71,11 @@ public class TeamHp : MonoBehaviour {
         }
 
     }
-    void CheckHp()
+    public void CheckHp()
     {
         if (teamHp<0 && inFuctionTime ==0)
         {
+            checkGameOver = false;
             Debug.Log(inFuctionTime + "///" + this.gameObject.name);
             PlayerScript.Gameover();
             CrafterScript.Gameover();      

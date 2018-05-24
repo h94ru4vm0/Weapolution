@@ -252,7 +252,7 @@ public class SelectStage : MonoBehaviour {
             if (!startChange) {
                 isLocked = true;
                 startChange = true;
-                StageManager.currentStage = stageNum + 3;
+                StageManager.nextStage = stageNum + 3;
                 Canvas.SetActive(false);
                 stageManager.ChangeSceneBlackOut();
                 StartCoroutine(stageManager.OnChangingScene(1f));
@@ -264,7 +264,7 @@ public class SelectStage : MonoBehaviour {
             {
                 isLocked = true;
                 startChange = true;
-                StageManager.currentStage = stageNum + 3;
+                StageManager.nextStage = stageNum + 3;
                 Canvas.SetActive(false);
                 stageManager.ChangeSceneBlackOut();
                 StartCoroutine(stageManager.OnChangingScene(1f));
@@ -276,7 +276,7 @@ public class SelectStage : MonoBehaviour {
             {
                 isLocked = true;
                 startChange = true;
-                StageManager.currentStage = stageNum + 3;
+                StageManager.nextStage = stageNum + 3;
                 Canvas.SetActive(false);
                 stageManager.ChangeSceneBlackOut();
                 StartCoroutine(stageManager.OnChangingScene(1f));
