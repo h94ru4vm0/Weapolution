@@ -146,16 +146,31 @@ public class Player : MonoBehaviour {
             }
             else
             {
-                
-                if (p1moveAble && Input.GetAxis(p1joystick + "LT") > 0.5f && Time.time - clickTime > rollCDtime)
+                if(p1joystick == "p1")
                 {
-                    if (Mathf.Abs(L_JoyY) < 0.1f && Mathf.Abs(L_JoyX) < 0.1f) return;
-                    clickTime = Time.time;
-                    animation_type = 1;
-                    invincible = true;
-                    Debug.Log("enter roll");
+                    if (p1moveAble && Input.GetAxis(p1joystick + "LT") > 0.5f && Time.time - clickTime > rollCDtime)
+                    {
+                        if (Mathf.Abs(L_JoyY) < 0.1f && Mathf.Abs(L_JoyX) < 0.1f) return;
+                        clickTime = Time.time;
+                        animation_type = 1;
+                        invincible = true;
+                        Debug.Log("enter roll");
 
+                    }
                 }
+                else
+                {
+                    if (p1moveAble && Input.GetAxis(p1joystick + "LT") > 0.5f && Time.time - clickTime > rollCDtime)
+                    {
+                        if (Mathf.Abs(L_JoyY) < 0.1f && Mathf.Abs(L_JoyX) < 0.1f) return;
+                        clickTime = Time.time;
+                        animation_type = 1;
+                        invincible = true;
+                        Debug.Log("enter roll");
+
+                    }
+                }
+                
             }
 
             #endregion
@@ -208,14 +223,29 @@ public class Player : MonoBehaviour {
             }
             else
             {
-                if (p2moveAble && Input.GetAxis(p1joystick + "LT") > 0.5f && Time.time - clickTime > rollCDtime)
+                if (p2joystick == "p1")
                 {
-                    if (Mathf.Abs(L_JoyY) < 0.1f && Mathf.Abs(L_JoyX) < 0.1f) return;
-                    clickTime = Time.time;
-                    animation_type = 1;
-                    invincible = true;
-                    Debug.Log("enter roll");
+                    if (p2moveAble && Input.GetAxis(p2joystick + "LT") > 0.5f && Time.time - clickTime > rollCDtime)
+                    {
+                        if (Mathf.Abs(L_JoyY) < 0.1f && Mathf.Abs(L_JoyX) < 0.1f) return;
+                        clickTime = Time.time;
+                        animation_type = 1;
+                        invincible = true;
+                        Debug.Log("enter roll");
 
+                    }
+                }
+                else
+                {
+                    if (p2moveAble && Input.GetAxis(p2joystick + "LT") > 0.5f && Time.time - clickTime > rollCDtime)
+                    {
+                        if (Mathf.Abs(L_JoyY) < 0.1f && Mathf.Abs(L_JoyX) < 0.1f) return;
+                        clickTime = Time.time;
+                        animation_type = 1;
+                        invincible = true;
+                        Debug.Log("enter roll");
+
+                    }
                 }
             }
 

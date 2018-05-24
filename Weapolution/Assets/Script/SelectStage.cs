@@ -26,8 +26,10 @@ public class SelectStage : MonoBehaviour {
     bool isGoingRight;
     bool isMoving = false;
     bool isLocked = false;
+    bool TargetMoveOnce = false;
     bool p1MoveOnlyOnce = false;
     bool p2MoveOnlyOnce = false;
+    bool readyToChoose = false;
     StageManager stageManager;
     GameObject Canvas;
     // Use this for initialization
@@ -56,7 +58,12 @@ public class SelectStage : MonoBehaviour {
         if (isChoosed || Player.isMapped)
         {          
             if (isChoosed) MoveCamera();
-            else if (Player.isMapped) Camera.transform.position = new Vector3(27f, 0, -500f);
+            else if (Player.isMapped)
+            {
+                Camera.transform.position = new Vector3(27f, 0, -500f);
+                readyToChoose = true;
+
+            }
             LeftListener();
             Canvas.SetActive(true);                    
             ChoosingStage();
@@ -64,12 +71,13 @@ public class SelectStage : MonoBehaviour {
             {
                 PictureControll(CenterNum ,isGoingRight);
                 if (isControl) OverMovig();
+                LockChoice();
             }
             else
             {
                 MovingPicture();          
             }
-            LockChoice();
+            
         }
         
     }
@@ -86,6 +94,7 @@ public class SelectStage : MonoBehaviour {
         }
         else if (Camera.transform.position.x == 27)
         {
+            readyToChoose = true;
             return;
         }
     }
@@ -247,6 +256,8 @@ public class SelectStage : MonoBehaviour {
 
     void LockChoice()
     {
+        if (!readyToChoose) return;
+
         if (Input.GetKeyDown(KeyCode.Return))
         {
             if (!startChange) {
@@ -255,7 +266,7 @@ public class SelectStage : MonoBehaviour {
                 StageManager.nextStage = stageNum + 3;
                 Canvas.SetActive(false);
                 stageManager.ChangeSceneBlackOut();
-                StartCoroutine(stageManager.OnChangingScene(1f));
+                //StartCoroutine(stageManager.OnChangingScene(1f));
             }
         }
         else if (Input.GetButtonDown("p1ButtonA"))
@@ -267,7 +278,7 @@ public class SelectStage : MonoBehaviour {
                 StageManager.nextStage = stageNum + 3;
                 Canvas.SetActive(false);
                 stageManager.ChangeSceneBlackOut();
-                StartCoroutine(stageManager.OnChangingScene(1f));
+                //StartCoroutine(stageManager.OnChangingScene(1f));
             }
         }
         else if (Input.GetButtonDown("p2ButtonA"))
@@ -279,7 +290,7 @@ public class SelectStage : MonoBehaviour {
                 StageManager.nextStage = stageNum + 3;
                 Canvas.SetActive(false);
                 stageManager.ChangeSceneBlackOut();
-                StartCoroutine(stageManager.OnChangingScene(1f));
+                //StartCoroutine(stageManager.OnChangingScene(1f));
             }
         }
     }

@@ -140,17 +140,15 @@ public class PauseMenu : MonoBehaviour {
 			StageManagerscript.inMenuState = false;
 			break;
 		case 1:
-                StartCoroutine(StageManagerscript.OnChangingScene(1f));
+                StageManagerscript.ChangeSceneBlackOut();
                 break;
 		case 2:
                 StageManager.nextStage = StageManager.currentStage+1;
-			    //StageManager.currentStage++;
-                StartCoroutine(StageManagerscript.OnChangingScene(1f));
+                StageManagerscript.ChangeSceneBlackOut();
                 break;
 		case 3:
-                //StageManager.currentStage = 2;
                 StageManager.nextStage = 2;
-                StartCoroutine(StageManagerscript.OnChangingScene(1f));
+                StageManagerscript.ChangeSceneBlackOut();
                 break;
 		}
 	}
@@ -163,15 +161,15 @@ public class PauseMenu : MonoBehaviour {
 				    break;
 			case 1:
                     StageManager.nextStage = StageManager.currentStage;
-                    StartCoroutine(StageManagerscript.OnChangingScene(1f));                
+                    StageManagerscript.ChangeSceneBlackOut();
                     break;
 			case 2:
                     StageManager.nextStage = StageManager.currentStage+1;
-                    StartCoroutine(StageManagerscript.OnChangingScene(1f));
+                    StageManagerscript.ChangeSceneBlackOut();
                     break;
 			case 3:
 				    StageManager.nextStage = 2;
-                    StartCoroutine(StageManagerscript.OnChangingScene(1f));
+                    StageManagerscript.ChangeSceneBlackOut();
                     break;
 			}
 		}
