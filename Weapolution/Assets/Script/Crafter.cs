@@ -41,7 +41,7 @@ public class Crafter : MonoBehaviour {
         animator.SetInteger("face_way", 5);
         //animator.SetInteger("animation_state", 0);
         PlayerScript = GameObject.Find("character1").GetComponent<Player>();
-        if(StageManager.currentStage == 5)CanonScript = GameObject.Find("Canon").GetComponent<Canon>();
+        if(StageManager.currentStage == 5) CanonScript = GameObject.Find("Canon").GetComponent<Canon>();
     }
 	
 	// Update is called once per frame

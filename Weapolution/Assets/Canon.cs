@@ -116,6 +116,7 @@ public class Canon : MonoBehaviour {
         CanonTriigerIN = true;
         if (collision.tag == "Player")
         {
+            Debug.Log("1111111111111111111111111111111111111");
             if (CraftSystemScript.CheckHandle().id == 3)
             {
                 outLine.SetOutLine(true);
