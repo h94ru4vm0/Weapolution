@@ -11,7 +11,7 @@ public class PauseMenu : MonoBehaviour {
     public List<Image> MenuButton;
     public List<Sprite> Stage01ButtonState;
     public List<Sprite> Stage02ButtonState;
-
+    bool SetReady = false;
     int SelectNum = 0;
     int MaxNum = 4, MinNum = 0;
     int InFuntionTime = 0;
@@ -20,6 +20,8 @@ public class PauseMenu : MonoBehaviour {
     public bool MouseHover = false;
     StageManager StageManagerscript;
     public Image PauseMenuImage;
+    List<Sprite> WhichStage;
+    public List<Button> PauseMenuButton;
     // Use this for initialization
     void Awake () {
         PauseMenuSystem = GameObject.Find("PauseMenu");
@@ -27,37 +29,48 @@ public class PauseMenu : MonoBehaviour {
 		StageManagerscript = GameObject.Find ("StageManager").GetComponent<StageManager>();
         BlackScene = GameObject.Find ("PauseBlackScene");
 		BlackScene.SetActive(false);
-    }
-    private void Start()
-    {
-        SetMenuPic();
+        if (StageManager.currentStage < 5)
+            WhichStage = Stage01ButtonState;
+        else
+            WhichStage = Stage02ButtonState;
+
     }
     // Update is called once per frame=
     void Update () {
-
-		ShowMenu ();
-		if(showMenu){
-			OnControlMenu ();
-			MouseControl ();
-			LockOption ();
-		}
+        if (!SetReady)
+        {
+            SetMenuPic();
+        }
+        else
+        {
+            ShowMenu();
+            if (showMenu)
+            {
+                OnControlMenu();
+                MouseControl();
+                LockOption();
+            }
+        }
+		
 	}
 
     void SetMenuPic()
     {
-        if (StageManager.currentStage < 5)
+        PauseMenuImage.sprite = WhichStage[2];
+        for (int i = 0; i < 5; i++)
         {
-            PauseMenuImage.sprite = Stage01ButtonState[2];
-            for (int i = 0; i >5 ; i++)
-            {
-                MenuButton[i].sprite = Stage01ButtonState[0];
-            }
-            
-        }
-        else
-        {
+            MenuButton[i].sprite = WhichStage[0];
+            PauseMenuButton[i].targetGraphic.GetComponent<Image>().sprite = WhichStage[0];
 
+            SpriteState PauseMenuButtonState = new SpriteState();
+            PauseMenuButtonState = PauseMenuButton[i].spriteState;
+
+            PauseMenuButtonState.highlightedSprite = WhichStage[1];
+            PauseMenuButtonState.pressedSprite = WhichStage[1];
+            PauseMenuButton[i].spriteState = PauseMenuButtonState;
         }
+       
+        SetReady = true;
     }
 
     void ShowMenu()
@@ -81,12 +94,15 @@ public class PauseMenu : MonoBehaviour {
 
     }
 
+
 	void MouseControl(){
 		if(MouseHover && InFuntionTime == 0){
-			for(int i = 0; i < 5; i++){
-				MenuButton[i].sprite = Stage01ButtonState[0];
-			}
-			SelectNum = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                MenuButton[i].sprite = WhichStage[0];
+            }
+            
+            SelectNum = 0;
 			InFuntionTime++;
 		}
 		else if(!MouseHover){
@@ -99,19 +115,19 @@ public class PauseMenu : MonoBehaviour {
         if (Time.time - clickTime > 0.1f)
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                MenuButton[SelectNum].sprite = Stage01ButtonState[0]; //idleButton               
+            {            
+                MenuButton[SelectNum].sprite = WhichStage[0]; //idleButton    
                 if (SelectNum == MinNum) SelectNum = MaxNum;
                 else SelectNum--;
-                MenuButton[SelectNum].sprite = Stage01ButtonState[1];
+                MenuButton[SelectNum].sprite = WhichStage[1];
                 clickTime = Time.time;
             }
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                MenuButton[SelectNum].sprite = Stage01ButtonState[0];        
+                MenuButton[SelectNum].sprite = WhichStage[0];        
                 if (SelectNum == MaxNum) SelectNum = MinNum;
                 else SelectNum++;
-                MenuButton[SelectNum].sprite = Stage01ButtonState[1];
+                MenuButton[SelectNum].sprite = WhichStage[1];
                 clickTime = Time.time;
             }
         }
