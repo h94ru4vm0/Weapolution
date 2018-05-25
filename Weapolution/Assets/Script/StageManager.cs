@@ -7,7 +7,7 @@ public class StageManager : MonoBehaviour {
 
 
     public static bool timeUp;
-    public static  int currentStage = 5, nextStage = 5;
+    public static  int currentStage = 0, nextStage = 0;
 
 	public bool inMenuState;
     public bool stageBegin;
@@ -42,6 +42,7 @@ public class StageManager : MonoBehaviour {
                 teamHP = GameObject.Find("TeamHp").GetComponent<TeamHp>();
                 dialog.gameObject.SetActive(false);
             }
+            if (!timeUp) timeUp = true;
 
         }
  
@@ -63,10 +64,6 @@ public class StageManager : MonoBehaviour {
         if (currentStage < 3)  return;
         if (!stageBegin)
         {
-            
-            if (!timeUp) {
-                timeUp = true;
-            }
             if (!inChanging)
             {
 

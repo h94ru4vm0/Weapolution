@@ -6,6 +6,7 @@ public class CanonSystem : MonoBehaviour {
 
     GameObject RightCanon;
     public GameObject RightAim;
+    bool showUp;
     string whichPlayer = "p1";
     int CanonNum;
     float p1_L_JoyX;
@@ -28,12 +29,13 @@ public class CanonSystem : MonoBehaviour {
     public List<bool> IsHitted;
 
     CharacterVoice characterVoice;
+    CEnemySystem enemySystem;
 
     private void Awake() 
     {
         RightAim.SetActive(false);
-        CanonScript = GameObject.Find("Canon").GetComponent<Canon>();
-        CanonAnimator = transform.GetComponent<Animator>();
+        CanonScript = transform.Find("Canon").GetComponent<Canon>();
+        CanonAnimator = GameObject.Find("CanonSystem").GetComponent<Animator>();
         RightCanon = GameObject.Find("Canon");
         Explosion = GameObject.Find("Explosion");
         Explosion.SetActive(false);
@@ -43,7 +45,7 @@ public class CanonSystem : MonoBehaviour {
         Rayway[3] = new Vector2(1f, 0);
 
         characterVoice = GameObject.Find("CharacterAudio").GetComponent<CharacterVoice>();
-
+        enemySystem = GameObject.Find("EnemySystem").GetComponent<CEnemySystem>();
     }
     private void Start()
     {
@@ -57,31 +59,40 @@ public class CanonSystem : MonoBehaviour {
     }
     void Update()
     {
-        CanonAnimtion();
-        LeftListener();
-        OutOfBullet();
-        if (CanonScript.CanonisfillingPowder)
+        if (!showUp)
         {
-            if (ShowRightAim)
+            if (enemySystem.GetDeathNumber() >= 4)
             {
-                if (Input.GetButtonDown(whichPlayer + "ButtonA")) ShootAndExplosion();
-                RaycastHitWall();
-                AimControl(RightAim);
-
-                if (Input.GetButtonDown(whichPlayer + "ButtonB")) CancelShoot();               
+                showUp = true;
+                CanonAnimator.SetBool("CanonDisable", false);
             }
-            if (Input.GetButtonDown(whichPlayer + "ButtonA") && CanonScript.CanonTriigerIN && !ShowRightAim && CanonScript.CanonPowderNum !=0)
-            {
-                ReadyToShoot(true);
-            }
-                 
         }
-       
+        else {
+            CanonAnimtion();
+            LeftListener();
+            OutOfBullet();
+            if (CanonScript.CanonisfillingPowder)
+            {
+                if (ShowRightAim)
+                {
+                    if (Input.GetButtonDown(whichPlayer + "ButtonA")) ShootAndExplosion();
+                    RaycastHitWall();
+                    AimControl(RightAim);
+
+                    if (Input.GetButtonDown(whichPlayer + "ButtonB")) CancelShoot();
+                }
+                if (Input.GetButtonDown(whichPlayer + "ButtonA") && CanonScript.CanonTriigerIN && !ShowRightAim && CanonScript.CanonPowderNum != 0)
+                {
+                    ReadyToShoot(true);
+                }
+
+            }
+        }
     }
 
     void CanonAnimtion()
     {
-        
+        Debug.Log(CanonScript + "   " + CanonAnimator);
         if (CanonScript.CanonPowderNum == 0) CanonAnimator.SetBool("HavePowder", false);
         else CanonAnimator.SetBool("HavePowder", true);
       

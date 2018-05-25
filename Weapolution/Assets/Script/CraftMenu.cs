@@ -87,7 +87,16 @@ public class CraftMenu : MonoBehaviour {
         GetInput();
         OnMoving();
         OnScrolling();
-	}
+
+        if (Player.p1charaType)
+        {
+            if (showUp) Player.p1moveAble = false;
+        }
+        else
+        {
+            if (showUp) Player.p2moveAble = false;
+        }
+    }
 
     void GetInput() {
         if (useController)

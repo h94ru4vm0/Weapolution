@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyMouse : CEnemy {
-    bool pathFind;
+    bool pathFind, forceIdle;
     int rangeAttackNum, pathIndex;
     float rangeDetectTime, lastAwayDst, attackTime, traceTotalTime;
-    Vector3 keepAway, shootPos;
+    Vector3 keepAway, shootPos, shootWay;
     Path path;
     EnemyBulletSystem bullets;
     GetHurtEffect getHurtEffect;
@@ -28,6 +28,7 @@ public class EnemyMouse : CEnemy {
     // Update is called once per frame
     void Update () {
         if (StageManager.timeUp) return;
+        if (Input.GetKeyDown(KeyCode.J)) SetHurtValue(1,0);
         UpdatePos();
         if (!isShowUp)
         {
@@ -76,7 +77,7 @@ public class EnemyMouse : CEnemy {
     }
     public override void DetectPlayer()
     {
-        if (isForceState) return;
+        if (isForceState || forceIdle) return;
         //float offset = 0.0f;
         //float rangeAtkOffset = 0.0f;
         //if (state == 2 || state == 3) offset = 1.5f * f_sight_dis;
@@ -101,7 +102,6 @@ public class EnemyMouse : CEnemy {
         else if (CouculatePlayerDis(false, f_sight_dis))
         {
             if (state < 2) { //在idle和閒晃才會由這進trace狀態
-                Debug.Log("to trace state ");
                 SetState(2, false);
             }
             
@@ -129,6 +129,22 @@ public class EnemyMouse : CEnemy {
             if (Vector2.SqrMagnitude(dst) < compare * compare) return true;
             else return false;
         }
+    }
+
+    public override void Idle()
+    {
+        //Debug.Log("idle" + state_time);
+        inState_time += Time.deltaTime;
+        if (state_time < 0.1f) state_time = Random.Range(1.5f, 2.0f);
+
+        if (inState_time > state_time) {
+            SetState(-1, false);
+            if (forceIdle)
+            {
+                forceIdle = false;
+            }
+        }
+
     }
 
     public override void Trace()
@@ -177,6 +193,7 @@ public class EnemyMouse : CEnemy {
                         if (bullets.GetFreeNum() > 0)
                         {
                             SetState(3, true); //range attack
+                            
                             traceTotalTime = 0.0f;
                             //Debug.Log("start shoot");
                             pathFind = false;
@@ -220,14 +237,6 @@ public class EnemyMouse : CEnemy {
         }
     }
 
-    void RangeAttack() {
-        if (state_time < 0.1f) {
-            rangeAttackNum++;
-            state_time = 1.0f;
-            
-        }
-        inState_time += Time.deltaTime;
-    }
 
     public override void ShowUp(float _time)
     {
@@ -241,11 +250,22 @@ public class EnemyMouse : CEnemy {
         isShowUp = true;
     }
 
+    void RangeAttack()
+    {
+        if (state_time < 0.1f)
+        {
+            rangeAttackNum++;
+            state_time = 1.0f;
+            shootWay = new Vector3(playerPos.x - self_pos.x, playerPos.y - self_pos.y, 0.0f);
+        }
+        inState_time += Time.deltaTime;
+    }
+
     public void OnRangeAttacking() {
+        
         Vector3 shootOutPos = new Vector3(self_pos.x - Mathf.Sign(transform.localScale.x) * 0.5f , self_pos.y + 0.65f, self_pos.z);
-        Vector3 shootWay = new Vector3(playerPos.x - self_pos.x, playerPos.y - self_pos.y, 0.0f);
-        float offset = Random.Range(-10.0f, 10.0f);
-        shootWay = Quaternion.AngleAxis(offset, Vector3.forward) * shootWay;
+        //float offset = Random.Range(-10.0f, 10.0f);
+        //shootWay = Quaternion.AngleAxis(offset, Vector3.forward) * shootWay;
         bullets.AddUsed(shootOutPos, shootWay);
     }
 
@@ -257,8 +277,6 @@ public class EnemyMouse : CEnemy {
     }
 
     void KeepRangeDst() {
-        bool goKeepAway = false;
-
         if (rangeDetectTime > 1.0f) {
             if (CouculatePlayerDis(true, 8.0f))  //閃避過程距離拉太大，重新追逐
             {
@@ -267,22 +285,31 @@ public class EnemyMouse : CEnemy {
                 rangeDetectTime = 0.0f;
                 return;
             }
-            //閃避一段時間，遠距離攻擊
-            Vector3 playerNewPos = playerPos += new Vector3(0.0f, 0.4f, 0.0f);
-            //shootPos = self_pos + new Vector3();
-            detect_ray = Physics2D.Linecast(new_pos, playerPos, obstacleMask);
-            if (!detect_ray && bullets.GetFreeNum() > 0) SetState(3, true);
-            else {
-                Debug.Log("shoot but obstacle");
-                SetState(2, false);
-            } 
-            rangeDetectTime = 0.0f;
-            return;
+            ////閃避一段時間，遠距離攻擊
+            //Vector3 playerNewPos = playerPos += new Vector3(0.0f, 0.4f, 0.0f);
+            ////shootPos = self_pos + new Vector3();
+            //detect_ray = Physics2D.Linecast(new_pos, playerPos, obstacleMask);
+            //if (!detect_ray && bullets.GetFreeNum() > 0) SetState(3, true);
+            //else {
+            //    Debug.Log("shoot but obstacle");
+            //    SetState(2, false);
+            //} 
+            //rangeDetectTime = 0.0f;
+            //return;
         }
         if (state_time < 0.1f)
         {
+            if (Random.Range(0.0f, 1.0f) > 0.5f)
+            {
+                state_time = 2.5f;
+            }
+            else {
+                forceIdle = true;
+                SetState(0, false);
+                return;
+            }
+            rangeDetectTime = 0.0f;
             attackTime = 0.0f;
-            state_time = 1.0f;
             keepAway = new Vector3(self_pos.x - playerPos.x, self_pos.y - playerPos.y, 0.0f).V3NormalizedtoV2();
             //Vector2 lastPlayer = new Vector2(self_pos.x - keepAway.x, self_pos.y - keepAway.y);
             //Vector2 currentPlayer = new Vector2(self_pos.x - playerPos.x, self_pos.y - playerPos.y);
@@ -315,9 +342,11 @@ public class EnemyMouse : CEnemy {
                 if(i >= 340)keepAway = new Vector3(0, 0, 0);
             }
         }
+        
         transform.position += keepAway * f_speed * 1.7f * Time.deltaTime;
         inState_time += Time.deltaTime;
         rangeDetectTime += Time.deltaTime;
+        if (inState_time >= state_time) SetState(-1, false);
     }
 
     void NormalAttack() {

@@ -19,7 +19,9 @@ public class Crafter : MonoBehaviour {
     float gatherStartTime;
     float gatherTime = 1f;
 
-    Canon CanonScript;
+    bool isSticked;
+
+    public Canon CanonScript;
 
     public Animator animator;
     SpriteRenderer img;
@@ -41,7 +43,8 @@ public class Crafter : MonoBehaviour {
         animator.SetInteger("face_way", 5);
         //animator.SetInteger("animation_state", 0);
         PlayerScript = GameObject.Find("character1").GetComponent<Player>();
-        if(StageManager.currentStage == 5) CanonScript = GameObject.Find("Canon").GetComponent<Canon>();
+        
+       
     }
 	
 	// Update is called once per frame
@@ -99,6 +102,7 @@ public class Crafter : MonoBehaviour {
     {
         if (Player.p2charaType) Player.p2moveAble = true;
         else Player.p1moveAble = true;
+        isSticked = false;
         web.RecycleSelf();
     }
 
@@ -334,13 +338,13 @@ public class Crafter : MonoBehaviour {
         Vector2 pos = new Vector2(transform.position.x, transform.position.y);
 
         RaycastHit2D hitWall0 = Physics2D.Raycast(pos, new Vector3(0, 1, 0),
-                                        1.2f, unWalkable);
+                                        1.1f, unWalkable);
         RaycastHit2D hitWall1 = Physics2D.Raycast(pos, new Vector3(0, -1, 0),
                                         0.15f, unWalkable);
         RaycastHit2D hitWall2 = Physics2D.Raycast(pos, new Vector3(-1, 0, 0),
-                                        0.4f, unWalkable);
+                                        0.5f, unWalkable);
         RaycastHit2D hitWall3 = Physics2D.Raycast(pos, new Vector3(1, 0, 0),
-                                        0.4f, unWalkable);
+                                        0.5f, unWalkable);
 
         if (isKey)
         {
@@ -367,9 +371,10 @@ public class Crafter : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "Web")
+        if (collision.tag == "Web" && !isSticked)
         {
             web = collision.GetComponent<Web>();
+            isSticked = true;
             BeSticked();
         }
     }

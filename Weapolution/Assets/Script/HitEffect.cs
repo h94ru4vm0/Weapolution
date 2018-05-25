@@ -34,7 +34,6 @@ public class HitEffect : CChildProject {
             }
             else
             {
-                Debug.Log("asdadasdadadasdasd" + scale);
                 transform.localScale = new Vector3(scale, scale, 1);
                 aniID = 0;
                 fadeOut = false;

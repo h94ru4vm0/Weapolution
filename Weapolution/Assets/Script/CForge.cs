@@ -41,10 +41,10 @@ public class CForge : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-        if (!showUp && enemySystem.GetDeathNumber() >= 5) {
+        if (!showUp && enemySystem.GetDeathNumber() >= 3) {
             ShowUp();
         }
-        if (Input.GetKeyDown(KeyCode.Z)) ShowUp();
+        //if (Input.GetKeyDown(KeyCode.Z)) ShowUp();
         //if (heatPower > 0) {
         //    if (heatTime < 30.0f) heatTime += Time.deltaTime;
         //    else {

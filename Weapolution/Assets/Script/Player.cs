@@ -103,7 +103,7 @@ public class Player : MonoBehaviour {
     {
         pickWeaponScript = transform.Find("PickWeapon").GetComponent<CPickWeapon>();    
         animator = transform.GetComponent<Animator>();
-        Debug.Log("animator" + animator);
+        //Debug.Log("animator" + animator);
         animator.SetInteger("face_way", 5);
         animator.SetInteger("weapon_type", 0);
         animation_type = 0;

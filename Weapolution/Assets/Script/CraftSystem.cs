@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class CraftSystem : MonoBehaviour {
     int final_id;
-    float throwDegree = 0.0f;
-    bool can_pick = false, b_handling, can_collect = false;
+    float throwDegree = 0.0f, LBFixedTime;
+    bool can_pick = false, b_handling, can_collect = false, LBFixed = true;
     bool[] craft_records;
     Vector3 throwVec3;
     Transform Arrow,collectBarBk, collectBar;
@@ -97,6 +97,7 @@ public class CraftSystem : MonoBehaviour {
             ThrowItem();
             PickItem();
             Collect();
+            InputFixed();
         } 
         //是否靠近鍛造爐
         //if (forge.showUp && Vector2.Distance(this.transform.position, forge.fixed_pos) < forge_dis)
@@ -122,6 +123,16 @@ public class CraftSystem : MonoBehaviour {
 
     }
 
+    void InputFixed() {
+        if (!LBFixed) {
+            if (LBFixedTime > 0.2f) {
+                LBFixed = true;
+                LBFixedTime = 0.0f;
+            }
+            LBFixedTime += Time.deltaTime;
+        }
+    }
+
     void CheckPickItem() {
         if (picking_item != null) {
             if (!picking_item.gameObject.activeSelf) {
@@ -139,6 +150,8 @@ public class CraftSystem : MonoBehaviour {
         {
             if (Input.GetButtonDown(whichPlayer + "LB"))
             {
+                if (!LBFixed) return;
+                LBFixed = false;
                 handle.enabled = true;
                 can_pick = false;
                 //if (picking_item == null) return;
@@ -207,7 +220,6 @@ public class CraftSystem : MonoBehaviour {
         {
             if (final_id == items[i].craftingID)
             {
-                Debug.Log("final_id" + final_id);
                 if (craft_records[i]) ChangeSlot(false, i);
                 else ChangeSlot(false, 0);
                 Debug.Log("craft final" + final_id);
@@ -358,6 +370,8 @@ public class CraftSystem : MonoBehaviour {
         {
             
             if (Input.GetButtonDown(whichPlayer + "LB")) {
+                if (!LBFixed) return;
+                LBFixed = false;
                 Debug.Log("CONTROLLER" + whichPlayer);
                 switchMove(false);
                 StartCoroutine("OnCollecting");
@@ -432,7 +446,7 @@ public class CraftSystem : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("enter");
+        //Debug.Log("enter");
         if (collision.tag == "PickItem") {
             if (!can_pick && !can_collect && craftFunc) {
                 picking_item = collision.gameObject.GetComponent<CPickItem>();

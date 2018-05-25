@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CPickWeapon : MonoBehaviour {
-    bool canPick = false, ishold = false;
+    bool canPick = false, ishold = false, ButtonXFixed = true;
     bool useControll = true;
     int lastID = -1;
+    float ButtonXTime;
     string whichPlayer = "p1";//Player.p1joystick;
     CPickItem pickWeapon, tempPick, lastPick;
     List<CPickItem> pickUsed;
@@ -61,17 +62,30 @@ public class CPickWeapon : MonoBehaviour {
         IsNearWeapon();
         OnPickWeapon();
         ThrowWeapon();
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButton("p1ButtonY")) ThrowWeapon();
+        FixedInput();
+        //if (Input.GetKeyDown(KeyCode.Space) || Input.GetButton("p1ButtonY")) ThrowWeapon();
 
 
+    }
+
+    void FixedInput() {
+        if (!ButtonXFixed) {
+            ButtonXTime += Time.deltaTime;
+            if (ButtonXTime > 0.2f) {
+                ButtonXFixed = true;
+                ButtonXTime = 0.0f;
+            }
+        }
     }
 
     void OnPickWeapon() {
         if (canPick && Player.weapon.id == 0) {
             if (useControll)
             {
-                if (Input.GetButtonDown(whichPlayer + "LB"))
+                if (Input.GetButtonDown(whichPlayer + "ButtonX"))
                 {
+                    if (!ButtonXFixed) return;
+                    ButtonXFixed = false;
                     pickWeapon = lastPick;
                     Player.weapon = CItemDataBase.items[pickWeapon.id];
                     pickWeapon.transform.parent = this.transform;
@@ -105,8 +119,12 @@ public class CPickWeapon : MonoBehaviour {
             Vector3 fallWay = new Vector3(0,0,0);
             if (useControll)
             {
-                if (Input.GetButtonDown(whichPlayer + "ButtonX"))
+                if (Input.GetButtonDown(whichPlayer + "ButtonX")) {
+                    if (!ButtonXFixed) return;
+                    ButtonXFixed = false;
                     goThrow = true;
+                }
+                    
             }
             else
             {

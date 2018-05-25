@@ -31,8 +31,8 @@ public class Canon : MonoBehaviour {
         LeftCanon = GameObject.Find("Canon (1)");
         outLine = transform.GetComponent<COutLine>();
         //CraftSystemScript = GameObject.Find("CraftSystem").GetComponent<CraftSystem>();
-        Debug.Log(GameObject.Find("CraftSystem").GetComponent<CraftSystem>());
-        Debug.Log("CraftSystemScript：  " + CraftSystemScript);
+        //Debug.Log(GameObject.Find("CraftSystem").GetComponent<CraftSystem>());
+        //Debug.Log("CraftSystemScript：  " + CraftSystemScript);
     }
     private void Start()
     {

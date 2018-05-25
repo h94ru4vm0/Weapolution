@@ -57,9 +57,11 @@ public class TutorialDialog : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (StageManager.timeUp) return;
         GetInput();
         OnSpawnNeed();
         if (progress >= 0) TutorialDialogAnimate();
+        if (Input.GetKeyDown(KeyCode.Z)) SkipRequest();
     }
     void OnNext() {
         //Debug.Log("on next" + progress);
@@ -73,16 +75,20 @@ public class TutorialDialog : MonoBehaviour {
             }
             else
             {
-                if (progress < -1) {
+                if (progress < -1)
+                {
                     StageManager.nextStage = 4;
                     stageManager.ChangeSceneBlackOut();
-                } 
-                progress++;
-                //BKImage.enabled = false;
-                Tutorialtext.enabled = false;
-                requestImage.enabled = true;
-                StopCoroutine(RequestImgFade());
-                StartCoroutine(RequestImgFade());
+                }
+                else {
+                    progress++;
+                    //BKImage.enabled = false;
+                    Tutorialtext.enabled = false;
+                    requestImage.enabled = true;
+                    StopCoroutine(RequestImgFade());
+                    StartCoroutine(RequestImgFade());
+                }
+                
             }
         }
     }
@@ -149,7 +155,7 @@ public class TutorialDialog : MonoBehaviour {
         {
             pickItemSystem.SpawnPickCollect(new Vector3(-13.0f, -9.0f, 0.0f), 0, 1);
             pickItemSystem.SpawnPickCollect(new Vector3(14.5f, -3.0f, 0.0f), 0, 1);
-            pickItemSystem.SpawnPickCollect(new Vector3(-12.7f, 2.3f, 0.0f), 2, 2);
+            pickItemSystem.SpawnPickCollect(new Vector3(-12.7f, 2.3f, 0.0f), 1, 2);
             needNumber = 3;
             enemySystem.AddUsedList(new Vector3(0.0f, 10.3f, 0.0f));
         }
@@ -209,6 +215,17 @@ public class TutorialDialog : MonoBehaviour {
                 OnNext();
             }
         }
+    }
+
+    void SkipRequest() {
+        if (progress > -2) {
+            attackComplete = true;
+            attackerConfirm.enabled = true;
+            craftComplete = true;
+            crafterConfirm.enabled = true;
+            OnNextTutorial();
+        }
+        
     }
 
     public void AttackCompleteRequest() {
