@@ -31,6 +31,6 @@ public class BlackScene : MonoBehaviour {
     {
         StageManagerScript.stageBegin = true;
         StageManager.timeUp = false;
-        Player.isMapped = false;
+        //Player.isMapped = false;
     }
 }

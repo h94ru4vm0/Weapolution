@@ -81,6 +81,7 @@ public class CanonSystem : MonoBehaviour {
 
     void CanonAnimtion()
     {
+        
         if (CanonScript.CanonPowderNum == 0) CanonAnimator.SetBool("HavePowder", false);
         else CanonAnimator.SetBool("HavePowder", true);
       

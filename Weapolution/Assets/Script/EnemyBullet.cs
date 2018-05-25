@@ -32,7 +32,7 @@ public class EnemyBullet : MonoBehaviour {
         }
         if (isEndAni) {
             aniTime += Time.deltaTime;
-            if (aniTime > 0.15f) {
+            if (aniTime > 0.07f) {
                 if (endAniID > 1) {
                     isEndAni = false;
                     aniTime = 0.0f;

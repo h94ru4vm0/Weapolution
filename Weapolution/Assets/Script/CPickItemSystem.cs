@@ -72,9 +72,10 @@ public class CPickItemSystem : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        if (Input.GetKeyDown(KeyCode.H)) SpawnPickCollectInMap();
         if (test) return;
         if (Input.GetKeyDown(KeyCode.L)) SetThunderLoc() ;
-        if (Input.GetKeyDown(KeyCode.H)) SpawnPickCollectInMap();
+        
         spawnTime += Time.deltaTime;
         if (spawnTime > 12.0f) {
             spawnTime = 0.0f;
@@ -83,7 +84,8 @@ public class CPickItemSystem : MonoBehaviour {
 	}
 
     void SpawnPickCollectInMap() {
-        if (totalNum >= locations.Length) return;
+
+        if (totalNum >= locations.Length) ;
         float opturity = Random.Range(0.0f, 1.0f);
         //Debug.Log(tree_num + "   " + rock_num +"   " + mush_num + "   " + locations.Length);
 

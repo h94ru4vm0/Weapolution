@@ -7,7 +7,7 @@ public class StageManager : MonoBehaviour {
 
 
     public static bool timeUp;
-    public static  int currentStage = 0, nextStage = 0;
+    public static  int currentStage = 5, nextStage = 5;
 
 	public bool inMenuState;
     public bool stageBegin;
@@ -87,7 +87,7 @@ public class StageManager : MonoBehaviour {
     public void ToStageBegin() {
         stageBegin = true;
         timeUp = false;
-        Player.isMapped = false;
+        //Player.isMapped = false;
     }
 
 

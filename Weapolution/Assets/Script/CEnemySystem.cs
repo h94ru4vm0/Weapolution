@@ -76,15 +76,7 @@ public class CEnemySystem : MonoBehaviour {
 
         //if (StageManager.currentStage == 4)
         //{
-        //    if (deathNumber <= 2)
-        //    {
-        //        if (enemyNumber < 3)
-        //        {
-        //            AddUsedList(new Vector3(Random.Range(-7.0f, 8.0f), spawnLocY, 0));
-        //            //AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
-        //        }
-        //    }
-        //    else if (deathNumber >= 5)
+        //    if (deathNumber >= 3)
         //    {
         //        if (!bossAppear)
         //        {
@@ -93,23 +85,39 @@ public class CEnemySystem : MonoBehaviour {
         //        }
 
         //    }
+        //    //if (deathNumber <= 1)
+        //    //{
+        //    //    if (enemyNumber < 3)
+        //    //    {
+        //    //        AddUsedList(new Vector3(Random.Range(-7.0f, 8.0f), spawnLocY, 0));
+        //    //        //AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
+        //    //    }
+        //    //}
+        //    //else if (deathNumber >= 3)
+        //    //{
+        //    //    if (!bossAppear)
+        //    //    {
+        //    //        bossAppear = true;
+        //    //        boss.gameObject.SetActive(true);
+        //    //    }
+
+        //    //}
         //}
 
         //else if (StageManager.currentStage == 5)
         //{
-        //    if (deathNumber <= 3)
+        //    if (deathNumber <= 1)
         //    {
         //        if (enemyNumber < 2)
         //        {
-        //            if (StageManager.currentStage == 4)
-        //                AddUsedList(new Vector3(Random.Range(-7.0f, 8.0f), spawnLocY, 0));
+                  
         //            //AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
-        //            else if (StageManager.currentStage == 5)
+                    
         //                AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
         //            //AddUsedList(new Vector3(Random.Range(-7.0f, 8.0f), spawnLocY, 0));
         //        }
         //    }
-        //    else if (deathNumber >= 5)
+        //    else if (deathNumber >= 3)
         //    {
         //        if (!bossAppear)
         //        {
@@ -219,7 +227,7 @@ public class CEnemySystem : MonoBehaviour {
     public void RespawnEnemy() {
         if (StageManager.currentStage == 4)
         {
-            if (deathNumber >= 5)
+            if (deathNumber >= 3)
             {
                 if (!bossAppear)
                 {
@@ -227,14 +235,14 @@ public class CEnemySystem : MonoBehaviour {
                     boss.gameObject.SetActive(true);
                 }
             }
-            else {
-                if (deathNumber <= 2)
-                    AddUsedList(new Vector3(Random.Range(-7.0f, 8.0f), spawnLocY, 0));
-            }
+            //else {
+            //    if (deathNumber <= 0)
+            //        AddUsedList(new Vector3(Random.Range(-7.0f, 8.0f), spawnLocY, 0));
+            //}
         }
 
         else if (StageManager.currentStage == 5) {
-            if (deathNumber >= 5)
+            if (deathNumber >= 3)
             {
                 if (!bossAppear)
                 {
@@ -243,7 +251,7 @@ public class CEnemySystem : MonoBehaviour {
                 }
             }
             else {
-                if (deathNumber <= 3)
+                if (deathNumber <= 1)
                     AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
             } 
         } 

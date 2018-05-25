@@ -27,7 +27,7 @@ public class TutorialDialog : MonoBehaviour {
 
     private void Awake()
     {
-        stageManager = GameObject.Find("stageManager").GetComponent<StageManager>();
+        stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
     }
 
     void Start() {
@@ -173,8 +173,19 @@ public class TutorialDialog : MonoBehaviour {
 
             }
         }
-        else if (progress == 3) {
+        else if (progress == 5) {
+            requestTime += Time.deltaTime;
+            if (!craftComplete && requestTime > 8.0f)
+            {
+                Vector2 loc = new Vector2(-14.0f, -1.0f);
+                Collider2D temp = Physics2D.OverlapCircle(loc, -1.0f);
+                if (temp == null)
+                {
+                    pickItemSystem.SpawnInUsed(new Vector3(-14.0f, -1.0f, 0.0f), 1);
+                    requestTime = 8.0f;
+                }
 
+            }
         }
     }
 

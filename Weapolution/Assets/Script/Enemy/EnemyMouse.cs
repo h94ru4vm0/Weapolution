@@ -177,6 +177,7 @@ public class EnemyMouse : CEnemy {
                         if (bullets.GetFreeNum() > 0)
                         {
                             SetState(3, true); //range attack
+                            traceTotalTime = 0.0f;
                             //Debug.Log("start shoot");
                             pathFind = false;
                             //if (state == 3) animator.SetTrigger("exist");

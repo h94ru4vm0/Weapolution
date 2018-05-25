@@ -8,17 +8,17 @@ public class Player : MonoBehaviour {
     static public bool gamemode;
     //mode 0 == PvE
     //mode 1 == PvP
-    static public bool p1controller;
+    static public bool p1controller = false;
     //mode 0 == 鍵盤
     //mode 1 == 搖桿
-    static public bool p2controller;
+    static public bool p2controller = false;
     //mode 0 == 鍵盤
     //mode 1 == 搖桿
-    static public string p1joystick;
-    static public string p2joystick;
+    static public string p1joystick = "p1";
+    static public string p2joystick = "p2";
 
-    static public bool p1charaType = true;
-    static public bool p2charaType;
+    static public bool p1charaType = false;
+    static public bool p2charaType = true;
     //mode 0 == Attacker
     //mode 1 == Crafter
 
@@ -33,7 +33,7 @@ public class Player : MonoBehaviour {
     static public int face_way;
     static public int last_way; //上一個面向
 
-    static public bool isMapped = false;
+    public static bool isMapped;
 
     string which_player;
 
@@ -84,14 +84,7 @@ public class Player : MonoBehaviour {
     {
         if (!isMapped)
         {
-            //p1charaType = false;
-            //p2charaType = true;
-
-            //p1controller = false; //預設鍵盤
-            //p1joystick = null;
-            //p2controller = true; //預設手把
-            //p2joystick = "p1";
-
+            Debug.Log("dsdasdsadasdsadasdasd"+ isMapped);
             p1charaType = false;
             p2charaType = true;
 
