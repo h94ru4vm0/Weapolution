@@ -47,6 +47,7 @@ public class EnemyDoctor : CEnemy
     {
         if (StageManager.timeUp) return;
         UpdatePos();
+        if (Input.GetKeyDown(KeyCode.J)) SetHurtValue(1,0);
         if (!isShowUp)
         {
             state = -1;
@@ -409,12 +410,9 @@ public class EnemyDoctor : CEnemy
 
         if (hp <= 0)
         {
-            if (hp <= 0)
-            {
-                animator.Play("EnemyDoctorDie");
-                SetState(5, true);
-                enemySystem.NextStage();
-            }
+            animator.Play("EnemyDoctorDie");
+            SetState(5, true);
+            enemySystem.NextStage();
         }
     }
 

@@ -613,16 +613,20 @@ public class Player : MonoBehaviour {
     public void ShootProjectile()
     {
         Debug.Log(projectileSystem.transform.GetChild(projectile_num).gameObject.name);
+        projectileSystem.transform.GetChild(projectile_num).position = transform.GetChild(1).GetChild(0).position;
         projectileSystem.transform.GetChild(projectile_num).gameObject.SetActive(true);
         projectileSystem.transform.GetChild(projectile_num).GetComponent<Projectile>().SetProjectileImg(face_way);
         projectile_num++;
-        if (projectile_num >= weapon.durability) //大於武器耐久
-        {
+        if (projectile_num >= projectileSystem.transform.childCount) {
             projectile_num = 0;
-            outOfProjectile = true;
-            pickWeaponScript.ThrowWeapon();
-            //GameObject.Find("PickWeapon").GetComponent<CPickWeapon>().ThrowWeapon();
         }
+        //if (projectile_num >= weapon.durability) //大於武器耐久
+        //{
+        //    projectile_num = 0;
+        //    outOfProjectile = true;
+        //    pickWeaponScript.ThrowWeapon();
+        //    //GameObject.Find("PickWeapon").GetComponent<CPickWeapon>().ThrowWeapon();
+        //}
     }
 
     public void RollStart() {

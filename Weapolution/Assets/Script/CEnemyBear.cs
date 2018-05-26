@@ -485,6 +485,7 @@ public class CEnemyBear : CEnemy {
         hp -= hurtValue;
         if (hp <= 0) {
             animator.Play("EnemyBearDie");
+            enemySystem.NextStage();
             SetState(5, true);
             
         }
@@ -492,11 +493,12 @@ public class CEnemyBear : CEnemy {
 
     public override void Die()
     {
+        
     }
 
     public void DieOver() {
         this.gameObject.SetActive(false);
-        enemySystem.NextStage();
+        
     }
 
     public void TakeBreak(float total_time) {

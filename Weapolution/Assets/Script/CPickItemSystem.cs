@@ -18,6 +18,7 @@ public class CPickItemSystem : MonoBehaviour {
     public float[] typeOppunity;
     public Vector3[] locations;
     public string stage;
+    public LayerMask mask;
     void Awake () {
         Debug.Log("adsadasdasdsadsadsad" + (StageManager.nextStage - 3));
         CItemDataBase.SetItemDataBase(stage);
@@ -118,12 +119,12 @@ public class CPickItemSystem : MonoBehaviour {
         {
             locationID += i;
             locationID = locationID % (locations.Length);
-            detect = Physics2D.OverlapCircle(locations[locationID], 0.5f);
+            detect = Physics2D.OverlapCircle(locations[locationID], 0.2f, mask);
             if (detect == null)
             {
                 return true;
             }
-            //else Debug.Log(locations[i]);
+            else Debug.Log(locations[i]);
         }
         return false;
     }

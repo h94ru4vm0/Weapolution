@@ -41,6 +41,7 @@ public class LevelHeight : MonoBehaviour {
                 zArrange.f_base = -100.0f;
             }
         }
+        else zArrange.f_base = -100.0f;
     }
 
     public void isOnGround() {

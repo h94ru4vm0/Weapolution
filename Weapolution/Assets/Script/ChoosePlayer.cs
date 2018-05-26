@@ -63,7 +63,7 @@ public class ChoosePlayer : MonoBehaviour {
             SelectStageScript.isChoosed = true;
 
         }
-        Debug.Log("Player.p2controller" + Player.p2controller);
+        //Debug.Log("Player.p2controller" + Player.p2controller);
         //if (Input.GetMouseButtonDown(0)){
         //    SelectStageScript.isChoosed = true;
         //}

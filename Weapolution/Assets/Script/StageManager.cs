@@ -59,7 +59,14 @@ public class StageManager : MonoBehaviour {
         
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.S)) {
             nextStage = 0;
+            Player.isMapped = false;
             StartCoroutine(OnChangingScene(0.0f));
+        }
+        if (currentStage == 1) {
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                nextStage = 2;
+                StartCoroutine(OnChangingScene(0.0f));
+            }
         }
         if (currentStage < 3)  return;
         if (!stageBegin)

@@ -206,7 +206,7 @@ public class CEnemyMonkey : CEnemy {
         else if (_HitDir == 1) effectPos = new Vector3(new_pos.x, new_pos.y - 1.7f, -200.0f);
         else if (_HitDir == 2) effectPos = new Vector3(new_pos.x - 1.7f, new_pos.y, -200.0f);
         else if (_HitDir == 3) effectPos = new Vector3(new_pos.x + 1.7f, new_pos.y, -200.0f);
-        getHurtEffect.SetEffect(effectPos, 0.4f);
+        if(!IsOut)getHurtEffect.SetEffect(effectPos, 0.4f);
 
         enemySystem.PlaySound(0, 1.0f);
         hurtValue = _value;

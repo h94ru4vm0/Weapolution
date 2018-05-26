@@ -160,7 +160,7 @@ public class CEnemySystem : MonoBehaviour {
         trans.parent = freeEnemyIn;
         trans.gameObject.SetActive(false);
         enemyNumber--;
-        deathNumber++;
+        //deathNumber++;
         if (StageManager.currentStage < 5) {
             if (Mathf.Abs(side) > 0.5f)
             {    //如果回收的敵人有占住一個攻擊位置，把位置給其他人
@@ -225,6 +225,7 @@ public class CEnemySystem : MonoBehaviour {
     }
 
     public void RespawnEnemy() {
+        deathNumber++;
         if (StageManager.currentStage == 4)
         {
             if (deathNumber >= 3)
@@ -242,7 +243,7 @@ public class CEnemySystem : MonoBehaviour {
         }
 
         else if (StageManager.currentStage == 5) {
-            if (deathNumber >= 3)
+            if (deathNumber >= 4)
             {
                 if (!bossAppear)
                 {
@@ -251,10 +252,11 @@ public class CEnemySystem : MonoBehaviour {
                 }
             }
             else {
-                if (deathNumber <= 1)
+                if (deathNumber <= 2)
                     AddUsedList(new Vector3(Random.Range(-12.0f, 12.0f), spawnLocY, 0));
             } 
-        } 
+        }
+        
     }
 
     public void NextStage() {

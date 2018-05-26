@@ -51,19 +51,19 @@ public class Projectile : MonoBehaviour {
         switch (flight_way)
         {
             case 0:
-                transform.position = weapon.transform.position;
+                //transform.position = weapon.transform.position;
                 transform.rotation = Quaternion.Euler(0 , 0, -90);
                 break;
             case 1:
-                transform.position = weapon.transform.position;
+                //transform.position = weapon.transform.position;
                 transform.rotation = Quaternion.Euler(0, 0, 90);
                 break;
             case 2:
-                transform.position = weapon.transform.position;
+                //transform.position = weapon.transform.position;
                 transform.rotation = Quaternion.Euler(0, 0, 0);
                 break;
             case 3:
-                transform.position = weapon.transform.position;
+                //transform.position = weapon.transform.position;
                 transform.rotation = Quaternion.Euler(0, 0, -180);
                 break;
         }
@@ -115,6 +115,11 @@ public class Projectile : MonoBehaviour {
         {
             collision.transform.GetComponent<CEnemy>().SetHurtValue(Player.weapon.attack, flight_way);
             if (test) tutorialRequest.DoneHitEnemy();
+            flight_way = -1;
+            gameObject.SetActive(false);
+        }
+        else if (collision.tag == "Wall")
+        {
             flight_way = -1;
             gameObject.SetActive(false);
         }
