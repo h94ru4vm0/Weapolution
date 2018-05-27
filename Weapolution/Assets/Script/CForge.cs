@@ -113,7 +113,7 @@ public class CForge : MonoBehaviour {
 
     public bool ThrowElementIn(int id) {
         if (onForging) return false;
-        if (current_num < total_num && isHeat)
+        if (current_num < total_num && id > 0)
         {
             if (id == 2) rockNum++;
             items[current_num] = CItemDataBase.items[id];

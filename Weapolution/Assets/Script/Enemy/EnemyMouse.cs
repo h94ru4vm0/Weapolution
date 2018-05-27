@@ -411,6 +411,7 @@ public class EnemyMouse : CEnemy {
         hurtValue = _value;
         hitDir = _HitDir;
         SetState(6, true);
+        enemySystem.PlaySound(1, 1.0f);
     }
 
     public override void GetHurtOver()
@@ -485,6 +486,7 @@ public class EnemyMouse : CEnemy {
         }
         else if (collision.tag == "Trap") {
             SetState(7, true);
+            enemySystem.PlaySound(0, 1.0f);
             collision.GetComponent<Trape>().ResetChild();
         }
     }

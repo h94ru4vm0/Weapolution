@@ -288,6 +288,7 @@ public class EnemyDoctor : CEnemy
             totalAtkNum++;
             sprintAtks.SetSprintWay(playerPos, SprintAtkOver);
             enemySystem.PlaySound(3,1.0f);
+            transform.localScale = new Vector3(-Mathf.Sign(playerPos.x - self_pos.x),1,1);
             //Vector3 sprintWay = (playerPos - self_pos).V3NormalizedtoV2();
 
         }
@@ -407,7 +408,7 @@ public class EnemyDoctor : CEnemy
         else if (_HitDir == 2) effectPos = new Vector3(new_pos.x + 1.5f, new_pos.y, -200.0f);
         else if (_HitDir == 3) effectPos = new Vector3(new_pos.x - 1.5f, new_pos.y, -200.0f);
         getHurtEffect.SetEffect(effectPos, 1.2f);
-
+        enemySystem.PlaySound(1,1.0f);
         if (hp <= 0)
         {
             animator.Play("EnemyDoctorDie");

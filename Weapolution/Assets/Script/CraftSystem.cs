@@ -7,7 +7,7 @@ public class CraftSystem : MonoBehaviour {
     int final_id;
     float throwDegree = 0.0f, LBFixedTime;
     bool can_pick = false, b_handling, can_collect = false, LBFixed = true;
-    bool[] craft_records;
+    //bool[] craft_records;
     Vector3 throwVec3;
     Transform Arrow,collectBarBk, collectBar;
     GameObject handling_item;
@@ -49,7 +49,7 @@ public class CraftSystem : MonoBehaviour {
         slot_item_img.enabled = true;
         //craftReslut = Slot.GetComponent<CCraftItem>();
         ChangeSlot(true, 0);
-        craft_records = new bool[items.Length];
+        //craft_records = new bool[items.Length];
         Arrow = this.transform.Find("Arrow");
         //craftMenu = GameObject.Find("CraftMenu").GetComponent<CraftMenu>();
         //Crafteranimator = GameObject.Find("character2").GetComponent<Animator>();
@@ -220,15 +220,17 @@ public class CraftSystem : MonoBehaviour {
         {
             if (final_id == items[i].craftingID)
             {
-                if (craft_records[i]) ChangeSlot(false, i);
-                else ChangeSlot(false, 0);
-                Debug.Log("craft final" + final_id);
+                ChangeSlot(false, i);
+                //if (craft_records[i]) ChangeSlot(false, i);
+                //else ChangeSlot(false, 0);
+                Debug.Log("craft final" + final_id + items[i].image);
                 craftC = items[i];
                 return;
             }
         }
         //Debug.Log();
-        ChangeSlot(false, 0);
+        ChangeSlot(false, -1);
+        //ChangeSlot(false, 0);
         craftC = items[items.Length - 1];
     }
 
@@ -242,11 +244,11 @@ public class CraftSystem : MonoBehaviour {
         {
             handle.sprite = CItemDataBase.spriteList[craftA.id];
             handling_item.GetComponent<CPickItem>().SetPickItem(craftA.id);
-            if (!craft_records[craftA.id])
-            {
-                craft_records[craftA.id] = true;
-                //craftMenu.UpdateMenuInfo(craftA.id);
-            }
+            //if (!craft_records[craftA.id])
+            //{
+            //    craft_records[craftA.id] = true;
+            //    //craftMenu.UpdateMenuInfo(craftA.id);
+            //}
             if (test) tutorialRequest.DoneCraft();
         }
         else {
@@ -269,6 +271,7 @@ public class CraftSystem : MonoBehaviour {
                 return;
             } 
             slot_item_img.sprite = CItemDataBase.spriteList[id];
+            Debug.Log("craft final" + id+ CItemDataBase.spriteList[id].name);
         }
 
     }

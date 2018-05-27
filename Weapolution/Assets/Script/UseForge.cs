@@ -26,23 +26,28 @@ public class UseForge : MonoBehaviour {
             {
                 if (!craftSystem.CheckIsFree()) return;
                 if (Vector2.Distance(this.transform.position, forge.fixed_pos) < forge_dis) {
-                    if (!forge.isHeat)
-                    {
-                        if (craftSystem.CheckHandle().id == 3)
-                        {
-                            closeEnough = true;
-                            craftSystem.ArrowEnable(false);
-                            craftSystem.craftFunc = false;
-                            forge.transform.GetComponent<COutLine>().SetOutLine(true);
-                        }
 
-                    }
-                    else {
-                        closeEnough = true;
-                        craftSystem.ArrowEnable(false);
-                        craftSystem.craftFunc = false;
-                        forge.transform.GetComponent<COutLine>().SetOutLine(true);
-                    }
+                    closeEnough = true;
+                    craftSystem.ArrowEnable(false);
+                    craftSystem.craftFunc = false;
+                    forge.transform.GetComponent<COutLine>().SetOutLine(true);
+                    //if (!forge.isHeat)
+                    //{
+                    //    if (craftSystem.CheckHandle().id == 3)
+                    //    {
+                    //        closeEnough = true;
+                    //        craftSystem.ArrowEnable(false);
+                    //        craftSystem.craftFunc = false;
+                    //        forge.transform.GetComponent<COutLine>().SetOutLine(true);
+                    //    }
+
+                    //}
+                    //else {
+                    //    closeEnough = true;
+                    //    craftSystem.ArrowEnable(false);
+                    //    craftSystem.craftFunc = false;
+                    //    forge.transform.GetComponent<COutLine>().SetOutLine(true);
+                    //}
 
                 }
             }
@@ -73,6 +78,7 @@ public class UseForge : MonoBehaviour {
                     }
                     else
                     {
+                        //Debug.Log("aaaaaaaaaaaaaaaaaaaaaa" + forge.ThrowElementIn(craftSystem.CheckHandle().id));
                         if (forge.ThrowElementIn(craftSystem.CheckHandle().id)) {
                             craftSystem.ThrowOut();
                         }

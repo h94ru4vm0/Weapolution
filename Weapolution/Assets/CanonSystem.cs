@@ -111,6 +111,11 @@ public class CanonSystem : MonoBehaviour {
         CanonScript.CanonPowderNum--;
         characterVoice.SetAudio(5);    
     }
+
+    public void ExplosionOver() {
+        Explosion.SetActive(false);
+    }
+
     void OutOfBullet()
     {
         if (CanonScript.CanonPowderNum == 0)

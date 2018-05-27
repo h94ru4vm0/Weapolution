@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class TeamHp : MonoBehaviour {
     StageManager stageManager;
+    Image teamHPImg;
+
 
     public GameObject TeamHpLine;
     public Player PlayerScript;
@@ -22,6 +24,7 @@ public class TeamHp : MonoBehaviour {
     void Awake () {
         teamHp = 1;
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
+        
     }
     void Start()
      {
@@ -30,6 +33,7 @@ public class TeamHp : MonoBehaviour {
         CrafterScript = GameObject.Find("character2").GetComponent<Crafter>();
         PuaseScript = GameObject.Find("map").GetComponent<PuaseOnCanvas>();
         HpBoarder = GameObject.Find("bloodImage").GetComponent<Image>();
+        teamHPImg = TeamHpLine.GetComponent<Image>();
         changeColor01 = false;
         changeColor02 = false;
 
@@ -39,17 +43,18 @@ public class TeamHp : MonoBehaviour {
     {
         RenderUI();
         if(checkGameOver)CheckHp();
+        if (Input.GetKeyDown(KeyCode.G) && teamHp < 1.0f) teamHp += 0.05f;
     }
 
     void RenderUI()
      {
-        TeamHpLine.GetComponent<Image>().fillAmount = teamHp; //render
+        teamHPImg.fillAmount = teamHp; //render
 
         if (teamHp > 0.2f && teamHp <= 0.5f) //hp 30%~50%
         {
             if (!changeColor01)
             {
-                TeamHpLine.GetComponent<Image>().color = new Color32(255, 176, 92, 255);
+                teamHPImg.color = new Color32(255, 176, 92, 255);
                 HpBoarder.sprite = Resources.Load<Sprite>("image/Stage/1/HpImage/blood50_");
                 changeColor01 = true;
             }
@@ -59,7 +64,7 @@ public class TeamHp : MonoBehaviour {
         {
             if (!changeColor02)
             {
-                TeamHpLine.GetComponent<Image>().color = new Color32(249, 79, 68, 255);
+                teamHPImg.color = new Color32(249, 79, 68, 255);
                 HpBoarder.sprite = Resources.Load<Sprite>("image/Stage/1/HpImage/blood20_");
                 changeColor02 = true;
             }

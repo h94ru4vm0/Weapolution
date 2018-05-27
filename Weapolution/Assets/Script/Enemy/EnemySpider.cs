@@ -93,6 +93,18 @@ public class EnemySpider : CEnemy
         isForceState = false;
     }
 
+    public virtual void BeTrapped(float trapTime)
+    {
+        inState_time += Time.deltaTime;
+        if (state_time < 0.1f)
+        {
+            state_time = trapTime;
+            enemySystem.PlaySound(0,1.0f);
+        }
+
+        if (inState_time >= state_time) isForceState = false;
+    }
+
     public void BeTrapedOver() {
         inState_time = 5.0f;
         isForceState = false;

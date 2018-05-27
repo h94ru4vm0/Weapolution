@@ -119,7 +119,7 @@ public class CPickItemSystem : MonoBehaviour {
         {
             locationID += i;
             locationID = locationID % (locations.Length);
-            detect = Physics2D.OverlapCircle(locations[locationID], 0.2f, mask);
+            detect = Physics2D.OverlapCircle(locations[locationID], 0.4f,mask);
             if (detect == null)
             {
                 return true;

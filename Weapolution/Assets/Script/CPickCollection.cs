@@ -8,6 +8,7 @@ public class CPickCollection : MonoBehaviour {
     float fireTime = 0.0f;
     SpriteRenderer img;
     Animator animator;
+    LevelHeight levelHieght;
     public float throwSpeed, throwHeight;
     public CPickItemSystem pickitem_system = null;
     public int[] colliderType;
@@ -20,6 +21,7 @@ public class CPickCollection : MonoBehaviour {
         img = transform.GetChild(0).GetComponent<SpriteRenderer>();
         colliders = transform.GetComponents<BoxCollider2D>();
         animator = this.GetComponent<Animator>();
+        levelHieght = GetComponent<LevelHeight>();
     }
 	
 	// Update is called once per frame
@@ -32,6 +34,7 @@ public class CPickCollection : MonoBehaviour {
 
     public void InitCollects(int _type, int _itemType) {
         //bool checkCollider = false; //確認下面for迴圈是第一次遇到碰撞器，id比較小
+        if(StageManager.currentStage ==5)levelHieght.SetHeight();
         type = _type;
         itemTypes = _itemType;
         img.sprite = appearences[type];

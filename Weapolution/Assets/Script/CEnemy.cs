@@ -282,6 +282,7 @@ public class CEnemy : MonoBehaviour {
 
     public virtual void SetHurtValue(int _value, int _HitDir) {
         if (getHurtOnce) return;
+        
         hurtValue = _value;
         SetState(4,true);
         hitDir = _HitDir;
@@ -327,7 +328,11 @@ public class CEnemy : MonoBehaviour {
     public virtual void BeTrapped(float trapTime)
     {
         inState_time += Time.deltaTime;
-        if (state_time < 0.1f)state_time = trapTime;
+        if (state_time < 0.1f) {
+            state_time = trapTime;
+            //enemySystem.PlaySound(0,1.0f);
+        }
+        
         if (inState_time >= state_time) isForceState = false;
     }
 

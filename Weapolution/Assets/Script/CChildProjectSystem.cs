@@ -61,6 +61,7 @@ public class CChildProjectSystem : MonoBehaviour {
         int tempNum = UsedList.childCount;
         for (int i = 0; i < tempNum; i++) {
             Transform temp = UsedList.GetChild(0);
+            temp.GetComponent<CChildProject>().ResetChild();
             temp.parent = FreeList;
             temp.gameObject.SetActive(false);
             freeNum++;
